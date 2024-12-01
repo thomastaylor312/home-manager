@@ -16,6 +16,7 @@
     pkgs._1password-cli
     pkgs.nixfmt-classic
     pkgs.nil
+    pkgs.rustup
   ];
 
   # This value determines the Home Manager release that your
