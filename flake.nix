@@ -1,5 +1,5 @@
 {
-  description = "Home Manager configuration of oftaylor";
+  description = "Home Manager configuration";
 
   inputs = {
     # Specify the source of Home Manager and Nixpkgs.
@@ -27,10 +27,32 @@
 
           # Specify your home configuration modules here, for example,
           # the path to your home.nix.
-          modules = [ ./home.nix ];
+          modules = [
+            (import ./home.nix {
+              inherit pkgs;
+              importPath = ./personal;
+            })
+          ];
 
           # Optionally use extraSpecialArgs
           # to pass through arguments to home.nix
         };
+      # TODO: Figure this out so I can pass some sort of variable called "work" and then do it that
+      # way
+      homeConfigurations."taylor" = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+
+        # Specify your home configuration modules here, for example,
+        # the path to your home.nix.
+        modules = [
+          (import ./home.nix {
+            inherit pkgs;
+            importPath = ./work;
+          })
+        ];
+
+        # Optionally use extraSpecialArgs
+        # to pass through arguments to home.nix
+      };
     };
 }

@@ -1,15 +1,11 @@
-{ config, pkgs, ... }:
+{ pkgs, importPath, ... }:
 
 {
-  # Home Manager needs a bit of information about you and the
-  # paths it should manage.
-  home.username = "oftaylor";
-  home.homeDirectory = "/Users/oftaylor";
+  imports = [ importPath ];
 
   home.packages = [
     pkgs.bat
     pkgs.cloc
-    pkgs.doctl
     pkgs.mtr
     pkgs.ripgrep
     pkgs.iperf3
@@ -17,9 +13,9 @@
     pkgs.wget
     pkgs.nmap
     pkgs.zig
-    pkgs.rclone
     pkgs._1password-cli
     pkgs.nixfmt-classic
+    pkgs.nil
   ];
 
   # This value determines the Home Manager release that your
@@ -76,14 +72,7 @@
         hyperlinks = true;
       };
     };
-    userEmail = "taylor@oftaylor.com";
     userName = "Taylor Thomas";
-
-    extraConfig = {
-      init = { defaultBranch = "master"; };
-      merge = { conflictstyle = "zdiff3"; };
-      core = { blame = "delta"; };
-    };
   };
 
   programs.gh = {
