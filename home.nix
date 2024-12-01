@@ -73,6 +73,10 @@
       };
     };
     userName = "Taylor Thomas";
+    extraConfig = {
+      merge = { conflictstyle = "zdiff3"; };
+      core = { blame = "delta"; };
+    };
   };
 
   programs.gh = {

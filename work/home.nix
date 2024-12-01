@@ -5,14 +5,6 @@
 
     home.packages = [ ];
 
-    programs.git = {
-      userEmail = "taylor@cosmonic.com";
-
-      extraConfig = {
-        init = { defaultBranch = "master"; };
-        merge = { conflictstyle = "zdiff3"; };
-        core = { blame = "delta"; };
-      };
-    };
+    programs.git = { userEmail = "taylor@cosmonic.com"; };
   };
 }

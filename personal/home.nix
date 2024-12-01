@@ -9,11 +9,7 @@
       userEmail = "taylor@oftaylor.com";
       userName = "Taylor Thomas";
 
-      extraConfig = {
-        init = { defaultBranch = "master"; };
-        merge = { conflictstyle = "zdiff3"; };
-        core = { blame = "delta"; };
-      };
+      extraConfig = { init = { defaultBranch = "master"; }; };
     };
   };
 }
