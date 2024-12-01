@@ -17,7 +17,10 @@
     pkgs.wget
     pkgs.nmap
     pkgs.zig
- ];
+    pkgs.rclone
+    pkgs._1password-cli
+    pkgs.nixfmt-classic
+  ];
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
@@ -31,7 +34,7 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-  
+
   programs.helix = {
     enable = true;
     defaultEditor = true;
@@ -48,9 +51,7 @@
     envExtra = ''
       . "$HOME/.cargo/env"
     '';
-    sessionVariables = {
-      MANPAGER = "sh -c 'col -bx | bat -l man -p'";
-    };
+    sessionVariables = { MANPAGER = "sh -c 'col -bx | bat -l man -p'"; };
 
     shellAliases = {
       tree = "eza --tree";
@@ -61,9 +62,7 @@
 
     oh-my-zsh = {
       enable = true;
-      plugins = [
-        "git"
-      ];
+      plugins = [ "git" ];
     };
   };
 
@@ -81,23 +80,15 @@
     userName = "Taylor Thomas";
 
     extraConfig = {
-      init = {
-        defaultBranch = "master";
-      };
-      merge = {
-        conflictstyle = "zdiff3"; 
-      };
-      core = {
-        blame = "delta";
-      };
+      init = { defaultBranch = "master"; };
+      merge = { conflictstyle = "zdiff3"; };
+      core = { blame = "delta"; };
     };
   };
-  
+
   programs.gh = {
     enable = true;
-    settings = {
-      git_protocol = "ssh";
-    };
+    settings = { git_protocol = "ssh"; };
   };
 
   programs.gh-dash.enable = true;
