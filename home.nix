@@ -17,6 +17,7 @@
     pkgs.nixfmt-classic
     pkgs.nil
     pkgs.rustup
+    pkgs.tailscale
   ];
 
   # This value determines the Home Manager release that your
