@@ -18,6 +18,7 @@
     pkgs.nil
     pkgs.rustup
     pkgs.tailscale
+    pkgs.jq
   ];
 
   # This value determines the Home Manager release that your
