@@ -8,9 +8,13 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-vscode-extensions = {
+      url = "github:nix-community/nix-vscode-extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { nixpkgs, home-manager, ... }:
+  outputs = { nixpkgs, home-manager, nix-vscode-extensions, ... }:
     let
       system = "aarch64-darwin";
       pkgs = import nixpkgs {
@@ -19,6 +23,7 @@
           allowUnfree = true;
           allowUnfreePredicate = _: true;
         };
+        overlays = [ nix-vscode-extensions.overlays.default ];
       };
     in {
       homeConfigurations."oftaylor" =

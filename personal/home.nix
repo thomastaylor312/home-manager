@@ -11,5 +11,15 @@
 
       extraConfig = { init = { defaultBranch = "master"; }; };
     };
+    programs.vscode = {
+      extensions = with pkgs.vscode-extensions; [
+        ms-python.python
+        ms-python.vscode-pylance
+        ms-python.debugpy
+        sswg.swift-lang
+        pkgs.vscode-marketplace.mtxr.sqltools
+        bradlc.vscode-tailwindcss
+      ];
+    };
   };
 }
