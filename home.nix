@@ -56,7 +56,6 @@
     shellAliases = {
       tree = "eza --tree";
       cat = "bat";
-      brewup = "brew update && brew upgrade && brew cleanup";
       vi = "hx";
     };
 
