@@ -12,9 +12,13 @@
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    attic = {
+      url = "github:zhaofengli/attic";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { nixpkgs, home-manager, nix-vscode-extensions, ... }:
+  outputs = { nixpkgs, home-manager, nix-vscode-extensions, attic, ... }:
     let
       system = "aarch64-darwin";
       pkgs = import nixpkgs {
@@ -24,6 +28,8 @@
           allowUnfreePredicate = _: true;
         };
         overlays = [ nix-vscode-extensions.overlays.default ];
+      } // {
+        attic = attic.packages.${system}.attic;
       };
     in {
       homeConfigurations."oftaylor" =

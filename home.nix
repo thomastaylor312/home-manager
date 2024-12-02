@@ -19,6 +19,7 @@
     pkgs.rustup
     pkgs.tailscale
     pkgs.jq
+    pkgs.attic
   ];
 
   # This value determines the Home Manager release that your
@@ -143,5 +144,12 @@
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
+  };
+
+  # I might just move this to work
+  programs.zed-editor = {
+    enable = true;
+    extensions = [ "nix" "golangci-lint" "gosum" ];
+    userSettings = { telemetry = { metrics = false; }; };
   };
 }
