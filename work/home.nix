@@ -3,7 +3,7 @@
     home.username = "taylor";
     home.homeDirectory = "/Users/${home.username}";
 
-    home.packages = [ pkgs.kubectl pkgs.kind pkgs.redis pkgs.oras pkgs.zstd ];
+    home.packages = [ pkgs.kubectl pkgs.kind pkgs.redis pkgs.oras pkgs.zstd pkgs.natscli pkgs.nats-server ];
 
     programs.git = { userEmail = "taylor@cosmonic.com"; };
 
