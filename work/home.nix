@@ -3,7 +3,17 @@
     home.username = "taylor";
     home.homeDirectory = "/Users/${home.username}";
 
-    home.packages = [ pkgs.kubectl pkgs.kind pkgs.redis pkgs.oras pkgs.zstd pkgs.natscli pkgs.nats-server ];
+    home.packages = [
+      pkgs.kubectl
+      pkgs.kind
+      pkgs.redis
+      pkgs.oras
+      pkgs.zstd
+      pkgs.natscli
+      pkgs.nats-server
+      pkgs.k6
+      pkgs.k9s
+    ];
 
     programs.git = { userEmail = "taylor@cosmonic.com"; };
 
@@ -18,6 +28,11 @@
         pkgs.vscode-marketplace.redhat.vscode-yaml
         ms-vscode-remote.remote-ssh
       ];
+    };
+
+    programs.kubecolor = {
+      enable = true;
+      enableAlias = true;
     };
   };
 }
