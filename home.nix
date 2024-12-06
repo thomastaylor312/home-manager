@@ -57,6 +57,11 @@
       tree = "eza --tree";
       cat = "bat";
       vi = "hx";
+      cache-build =
+        "nix build --json | jq -r '.[].outputs | to_entries[].value' | attic push --stdin oftaylor";
+      cache-inputs =
+        "nix flake archive --json | jq -r '.path,(.inputs|to_entries[].value.path)' | attic push --stdin oftaylor";
+      cache-all = "cache-build && cache-inputs";
     };
 
     oh-my-zsh = {
