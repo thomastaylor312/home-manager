@@ -20,6 +20,7 @@
     pkgs.tailscale
     pkgs.jq
     pkgs.attic
+    pkgs.just
   ];
 
   # This value determines the Home Manager release that your
