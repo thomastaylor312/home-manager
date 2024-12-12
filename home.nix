@@ -21,6 +21,7 @@
     pkgs.jq
     pkgs.attic
     pkgs.just
+    pkgs.cachix
   ];
 
   # This value determines the Home Manager release that your
