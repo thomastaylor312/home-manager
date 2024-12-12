@@ -99,6 +99,7 @@
     enable = true;
     enableZshIntegration = true;
     config.global.load_dotenv = true;
+    nix-direnv.enable = true;
   };
 
   programs.eza = {
