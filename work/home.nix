@@ -1,31 +1,34 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+let packages = (pkgs // import ./pkgs pkgs);
+in {
   config = rec {
     home.username = "taylor";
     home.homeDirectory = "/Users/${home.username}";
 
     home.packages = [
-      pkgs.kubectl
-      pkgs.kind
-      pkgs.redis
-      pkgs.oras
-      pkgs.zstd
-      pkgs.natscli
-      pkgs.nats-server
-      pkgs.k6
-      pkgs.k9s
+      packages.kubectl
+      packages.kind
+      packages.redis
+      packages.oras
+      packages.zstd
+      packages.natscli
+      packages.nats-server
+      packages.k6
+      packages.k9s
+      packages.otel-tui
     ];
 
     programs.git = { userEmail = "taylor@cosmonic.com"; };
 
     programs.vscode = {
-      extensions = with pkgs.vscode-extensions; [
-        pkgs.vscode-marketplace.adpyke.codesnap
-        pkgs.vscode-marketplace.dracula-theme.theme-dracula
+      extensions = with packages.vscode-extensions; [
+        packages.vscode-marketplace.adpyke.codesnap
+        packages.vscode-marketplace.dracula-theme.theme-dracula
         github.vscode-github-actions
-        pkgs.vscode-marketplace-release.eamodio.gitlens
+        packages.vscode-marketplace-release.eamodio.gitlens
         ms-kubernetes-tools.vscode-kubernetes-tools
-        pkgs.vscode-marketplace.bytecodealliance.wit-idl
-        pkgs.vscode-marketplace.redhat.vscode-yaml
+        packages.vscode-marketplace.bytecodealliance.wit-idl
+        packages.vscode-marketplace.redhat.vscode-yaml
         ms-vscode-remote.remote-ssh
       ];
     };
