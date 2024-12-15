@@ -123,6 +123,7 @@
       zhuangtongfa.material-theme
       stkb.rewrap
       rust-lang.rust-analyzer
+      golang.go
     ];
     userSettings = {
       "editor.inlineSuggest.enabled" = true;
