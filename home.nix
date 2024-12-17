@@ -103,6 +103,9 @@
       merge = { conflictstyle = "zdiff3"; };
       core = { blame = "delta"; };
     };
+    ignores = [
+      ".direnv/"
+    ];
   };
 
   programs.gh = {
