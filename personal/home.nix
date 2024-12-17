@@ -5,6 +5,10 @@ in {
     home.username = "oftaylor";
     home.homeDirectory = "/Users/${home.username}";
 
+    nix.settings = {
+      netrc-file = "/Users/${home.username}/.config/nix/netrc";
+    };
+
     home.packages = [ packages.rclone packages.doctl ];
 
     programs.git = {

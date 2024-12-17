@@ -48,7 +48,6 @@
       "nixbuild.net/XZJQX6-1:hWCLZuADr7SgY3NwS2kMPHcnjAgYtRSFDh8O0Qm4nko="
       "crane.cachix.org-1:8Scfpmn9w+hGdXH/Q9tTLiYAE/2dnJYRJP7kl80GuRk="
     ];
-    netrc-file = /Users/oftaylor/.config/nix/netrc;
   };
 
   # Let Home Manager install and manage itself.
