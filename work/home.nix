@@ -16,6 +16,7 @@ in {
       packages.k6
       packages.k9s
       packages.otel-tui
+      packages.wasm-tools
     ];
 
     nix.settings = {
