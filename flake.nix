@@ -16,9 +16,14 @@
       url = "github:zhaofengli/attic";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    determinatenix = {
+      url = "https://flakehub.com/f/DeterminateSystems/nix/2.25.3";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { nixpkgs, home-manager, nix-vscode-extensions, attic, ... }:
+  outputs = { nixpkgs, home-manager, nix-vscode-extensions, attic
+    , determinatenix, ... }:
     let
       system = "aarch64-darwin";
       pkgs = import nixpkgs {
@@ -30,6 +35,7 @@
         overlays = [ nix-vscode-extensions.overlays.default ];
       } // {
         attic = attic.packages.${system}.attic;
+        nix = determinatenix.packages.${system}.default;
       };
     in {
       homeConfigurations."oftaylor" =
