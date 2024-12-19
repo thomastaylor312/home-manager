@@ -172,7 +172,7 @@
   # I might just move this to work
   programs.zed-editor = {
     enable = true;
-    extensions = [ "nix" "golangci-lint" "gosum" ];
+    extensions = [ "nix" "golangci-lint" "gosum" "one-dark-pro" ];
     userSettings = { telemetry = { metrics = false; }; };
   };
 }
