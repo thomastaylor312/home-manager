@@ -172,7 +172,20 @@
   # I might just move this to work
   programs.zed-editor = {
     enable = true;
-    extensions = [ "nix" "golangci-lint" "gosum" "one-dark-pro" ];
-    userSettings = { telemetry = { metrics = false; }; };
+    extensions =
+      [ "nix" "golangci-lint" "gosum" "one-dark-pro" "cargo-tom" "toml" ];
+    userSettings = {
+      telemetry = { metrics = false; };
+      features = { inline_completion_provider = "copilot"; };
+      theme = {
+        mode = "dark";
+        dark = "One Dark Pro";
+        light = "One Dark Pro";
+      };
+      languages = { Nix = { language_servers = [ "nil" "!nixd" ]; }; };
+      lsp = {
+        nil = { settings = { formatting = { command = [ "nixfmt" ]; }; }; };
+      };
+    };
   };
 }
