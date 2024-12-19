@@ -22,6 +22,7 @@
     pkgs.attic
     pkgs.just
     pkgs.cachix
+    pkgs.hack-font
   ];
 
   # This value determines the Home Manager release that your
@@ -50,6 +51,8 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  fonts.fontconfig.enable = true;
 
   programs.helix = {
     enable = true;
@@ -186,6 +189,8 @@
       lsp = {
         nil = { settings = { formatting = { command = [ "nixfmt" ]; }; }; };
       };
+      buffer_font_features = { calt = false; };
+      buffer_font_family = "Hack";
     };
   };
 }
