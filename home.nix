@@ -39,13 +39,11 @@
     substituters = [
       "https://imperial-archives.dojo-nominal.ts.net/oftaylor"
       "https://cache.nixos.org"
-      "ssh://eu.nixbuild.net"
       "https://crane.cachix.org"
     ];
     trusted-public-keys = [
       "oftaylor:/F+43JMUT9r7G5lKdvvIDoF+KBNdGR6ZWevakY0BjZo="
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-      "nixbuild.net/XZJQX6-1:hWCLZuADr7SgY3NwS2kMPHcnjAgYtRSFDh8O0Qm4nko="
       "crane.cachix.org-1:8Scfpmn9w+hGdXH/Q9tTLiYAE/2dnJYRJP7kl80GuRk="
     ];
   };
@@ -103,9 +101,7 @@
       merge = { conflictstyle = "zdiff3"; };
       core = { blame = "delta"; };
     };
-    ignores = [
-      ".direnv/"
-    ];
+    ignores = [ ".direnv/" ];
   };
 
   programs.gh = {
