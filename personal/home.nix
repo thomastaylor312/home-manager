@@ -19,6 +19,7 @@ in {
     };
 
     programs.vscode = {
+      userSettings = { "svelte.enable-ts-plugin" = true; };
       extensions = with packages.vscode-extensions; [
         ms-python.python
         ms-python.vscode-pylance
@@ -26,6 +27,7 @@ in {
         sswg.swift-lang
         packages.vscode-marketplace.mtxr.sqltools
         bradlc.vscode-tailwindcss
+        svelte.svelte-vscode
       ];
     };
   };
