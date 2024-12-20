@@ -190,6 +190,10 @@
       };
       buffer_font_features = { calt = false; };
       buffer_font_family = "Hack";
+      assistant = {
+        version = "2";
+        default_model = { provider = "copilot"; };
+      };
     };
   };
 }
