@@ -172,7 +172,7 @@
   programs.zed-editor = {
     enable = true;
     extensions =
-      [ "nix" "golangci-lint" "gosum" "one-dark-pro" "cargo-tom" "toml" ];
+      [ "nix" "golangci-lint" "gosum" "one-dark-pro" "cargo-tom" "toml" "wit" ];
     userSettings = {
       telemetry = { metrics = false; };
       features = { inline_completion_provider = "copilot"; };
