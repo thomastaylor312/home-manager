@@ -183,12 +183,7 @@
       };
       languages = { Nix = { language_servers = [ "nil" "!nixd" ]; }; };
       lsp = {
-        nil = {
-          settings = {
-            formatting = { command = [ "nixfmt" ]; };
-            nix = { flake = { autoArchive = true; }; };
-          };
-        };
+        nil = { settings = { formatting = { command = [ "nixfmt" ]; }; }; };
         rust-analyzer = {
           initialization_options = { check = { command = "clippy"; }; };
         };
