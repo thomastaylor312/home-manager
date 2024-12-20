@@ -7,6 +7,10 @@ in {
 
     nix.settings = {
       netrc-file = "/Users/${home.username}/.config/nix/netrc";
+      substituters =
+        [ "https://imperial-archives.dojo-nominal.ts.net/oftaylor" ];
+      trusted-public-keys =
+        [ "oftaylor:/F+43JMUT9r7G5lKdvvIDoF+KBNdGR6ZWevakY0BjZo=" ];
     };
 
     home.packages = [ packages.rclone packages.doctl ];

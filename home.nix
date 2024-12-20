@@ -37,13 +37,8 @@
 
   nix.package = pkgs.nix;
   nix.settings = {
-    substituters = [
-      "https://imperial-archives.dojo-nominal.ts.net/oftaylor"
-      "https://cache.nixos.org"
-      "https://crane.cachix.org"
-    ];
+    substituters = [ "https://cache.nixos.org" "https://crane.cachix.org" ];
     trusted-public-keys = [
-      "oftaylor:/F+43JMUT9r7G5lKdvvIDoF+KBNdGR6ZWevakY0BjZo="
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       "crane.cachix.org-1:8Scfpmn9w+hGdXH/Q9tTLiYAE/2dnJYRJP7kl80GuRk="
     ];
@@ -188,7 +183,15 @@
       };
       languages = { Nix = { language_servers = [ "nil" "!nixd" ]; }; };
       lsp = {
-        nil = { settings = { formatting = { command = [ "nixfmt" ]; }; }; };
+        nil = {
+          settings = {
+            formatting = { command = [ "nixfmt" ]; };
+            nix = { flake = { autoArchive = true; }; };
+          };
+        };
+        rust-analyzer = {
+          initialization_options = { check = { command = "clippy"; }; };
+        };
       };
       buffer_font_features = { calt = false; };
       buffer_font_family = "Hack";
