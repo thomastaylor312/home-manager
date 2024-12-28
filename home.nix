@@ -125,7 +125,7 @@
   programs.vscode = {
     enable = true;
     extensions = with pkgs.vscode-extensions; [
-      vadimcn.vscode-lldb
+      #vadimcn.vscode-lldb
       pkgs.vscode-marketplace.sourcegraph.cody-ai
       fill-labs.dependi
       mkhl.direnv
