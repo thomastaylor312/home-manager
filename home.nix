@@ -23,6 +23,7 @@
     pkgs.just
     pkgs.cachix
     pkgs.hack-font
+    pkgs.zls
   ];
 
   # This value determines the Home Manager release that your
@@ -137,6 +138,7 @@
       stkb.rewrap
       rust-lang.rust-analyzer
       golang.go
+      ziglang.vscode-zig
     ];
     userSettings = {
       "editor.inlineSuggest.enabled" = true;
@@ -150,6 +152,8 @@
       "cody.commandCodeLenses" = true;
       "update.showReleaseNotes" = false;
       "zig.path" = "zig";
+      "zig.zls.enabled" = "on";
+      "zig.zls.path" = "zls";
       "lldb.library" =
         "/Library/Developer/CommandLineTools/Library/PrivateFrameworks/LLDB.framework/Versions/A/LLDB";
       "lldb.launch.expressions" = "native";
@@ -159,7 +163,7 @@
       "nix.serverSettings" = {
         "nil" = { "formatting" = { "command" = [ "nixfmt" ]; }; };
       };
-      "go.toolsManagement.autoUpdate" = true;
+      "go.toolsManagement.autoUpdate" = true;  
     };
   };
 
