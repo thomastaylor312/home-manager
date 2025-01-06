@@ -163,7 +163,7 @@
       "nix.serverSettings" = {
         "nil" = { "formatting" = { "command" = [ "nixfmt" ]; }; };
       };
-      "go.toolsManagement.autoUpdate" = true;  
+      "go.toolsManagement.autoUpdate" = true;
     };
   };
 
