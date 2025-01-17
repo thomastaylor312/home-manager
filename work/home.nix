@@ -31,6 +31,11 @@ in {
 
     programs.git = { userEmail = "taylor@cosmonic.com"; };
 
+    programs.zsh.shellAliases = {
+      cache-home-manager =
+        "nix build .#homeConfigurations.${home.username}.activationPackage --json | jq -r '.[].outputs | to_entries[].value' | attic push --stdin oftaylor";
+    };
+
     programs.vscode = {
       extensions = with packages.vscode-extensions; [
         packages.vscode-marketplace.adpyke.codesnap

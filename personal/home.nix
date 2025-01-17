@@ -7,10 +7,6 @@ in {
 
     nix.settings = {
       netrc-file = "/Users/${home.username}/.config/nix/netrc";
-      substituters =
-        [ "https://imperial-archives.dojo-nominal.ts.net/oftaylor" ];
-      trusted-public-keys =
-        [ "oftaylor:/F+43JMUT9r7G5lKdvvIDoF+KBNdGR6ZWevakY0BjZo=" ];
     };
 
     home.packages = [ packages.rclone packages.doctl ];
@@ -20,6 +16,11 @@ in {
       userName = "Taylor Thomas";
 
       extraConfig = { init = { defaultBranch = "master"; }; };
+    };
+
+    programs.zsh.shellAliases = {
+      cache-home-manager =
+        "nix build .#homeConfigurations.${home.username}.activationPackage --json | jq -r '.[].outputs | to_entries[].value' | attic push --stdin oftaylor";
     };
 
     programs.vscode = {

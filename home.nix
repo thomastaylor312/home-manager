@@ -38,10 +38,15 @@
 
   nix.package = pkgs.nix;
   nix.settings = {
-    substituters = [ "https://cache.nixos.org" "https://crane.cachix.org" ];
+    substituters = [
+      "https://cache.nixos.org"
+      "https://crane.cachix.org"
+      "https://imperial-archives.dojo-nominal.ts.net/oftaylor"
+    ];
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       "crane.cachix.org-1:8Scfpmn9w+hGdXH/Q9tTLiYAE/2dnJYRJP7kl80GuRk="
+      "oftaylor:/F+43JMUT9r7G5lKdvvIDoF+KBNdGR6ZWevakY0BjZo="
     ];
   };
 
