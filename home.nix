@@ -7,7 +7,6 @@
     pkgs.bat
     pkgs.cloc
     pkgs.mtr
-    pkgs.ripgrep
     pkgs.iperf3
     pkgs.delta
     pkgs.wget
@@ -111,6 +110,11 @@
   programs.gh = {
     enable = true;
     settings = { git_protocol = "ssh"; };
+  };
+
+  programs.ripgrep = {
+    enable = true;
+    arguments = [ "--hidden" ];
   };
 
   programs.gh-dash.enable = true;
