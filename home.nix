@@ -23,6 +23,7 @@
     pkgs.cachix
     pkgs.hack-font
     pkgs.zls
+    pkgs.uv
   ];
 
   # This value determines the Home Manager release that your
