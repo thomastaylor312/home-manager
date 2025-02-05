@@ -18,6 +18,7 @@ in {
       packages.otel-tui
       packages.wasm-tools
       packages.act
+      packages.oci-cli
       (packages.azure-cli.withExtensions
         [ packages.azure-cli.extensions.aks-preview ])
     ];
