@@ -19,6 +19,7 @@ in {
       packages.wasm-tools
       packages.act
       packages.oci-cli
+      packages.shellcheck
       (packages.azure-cli.withExtensions
         [ packages.azure-cli.extensions.aks-preview ])
     ];
