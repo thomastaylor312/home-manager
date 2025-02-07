@@ -20,6 +20,7 @@ in {
       packages.act
       packages.oci-cli
       packages.shellcheck
+      packages.clusterctl
       (packages.azure-cli.withExtensions
         [ packages.azure-cli.extensions.aks-preview ])
     ];
