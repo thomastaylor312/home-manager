@@ -2,7 +2,7 @@
 
 buildGoModule rec {
   pname = "otel-tui";
-  version = "0.3.8";
+  version = "0.4.1";
 
   env.GOWORK = "off";
 
@@ -12,10 +12,10 @@ buildGoModule rec {
     owner = "ymtdzzz";
     repo = "otel-tui";
     rev = "refs/tags/v${version}";
-    hash = "sha256-cZWKzXx42U4ouHl6+1SdD7WDD72v70AQW2aU7weUHWw=";
+    hash = "sha256-oe0V/iTo7LPbajLVRbjQTTqDaht/SnONAaaKwrMWRKI=";
   };
 
-  vendorHash = "sha256-D78I5/Hdgk6Ol1UTwp+IQi/+tkcYBacw9kNMNEkaWaU=";
+  vendorHash = "sha256-yUD+9tvBr2U1U7+WXqz6sKt9EBXGQCWVyYRYCDRENf4=";
 
   ldflags = [ "-X main.version=${version}" ];
 

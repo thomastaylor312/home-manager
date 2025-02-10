@@ -24,6 +24,7 @@
     pkgs.hack-font
     pkgs.zls
     pkgs.uv
+    pkgs.docker
   ];
 
   # This value determines the Home Manager release that your
