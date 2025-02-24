@@ -24,8 +24,8 @@ in {
     };
 
     programs.vscode = {
-      userSettings = { "svelte.enable-ts-plugin" = true; };
-      extensions = with packages.vscode-extensions; [
+      profiles.default.userSettings = { "svelte.enable-ts-plugin" = true; };
+      profiles.default.extensions = with packages.vscode-extensions; [
         ms-python.python
         ms-python.vscode-pylance
         ms-python.debugpy

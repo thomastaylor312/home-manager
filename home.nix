@@ -138,7 +138,7 @@
 
   programs.vscode = {
     enable = true;
-    extensions = with pkgs.vscode-extensions; [
+    profiles.default.extensions = with pkgs.vscode-extensions; [
       #vadimcn.vscode-lldb
       pkgs.vscode-marketplace.sourcegraph.cody-ai
       fill-labs.dependi
@@ -153,7 +153,7 @@
       golang.go
       ziglang.vscode-zig
     ];
-    userSettings = {
+    profiles.default.userSettings = {
       "editor.inlineSuggest.enabled" = true;
       "workbench.colorTheme" = "One Dark Pro";
       "editor.formatOnSave" = true;
