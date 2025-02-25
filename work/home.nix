@@ -42,7 +42,7 @@ in {
     };
 
     programs.vscode = {
-      extensions = with packages.vscode-extensions; [
+      profiles.default.extensions = with packages.vscode-extensions; [
         packages.vscode-marketplace.adpyke.codesnap
         packages.vscode-marketplace.dracula-theme.theme-dracula
         github.vscode-github-actions
