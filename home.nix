@@ -25,6 +25,7 @@
     pkgs.zls
     pkgs.uv
     pkgs.docker
+    pkgs.nodejs_22
   ];
 
   # This value determines the Home Manager release that your
@@ -152,6 +153,7 @@
       rust-lang.rust-analyzer
       golang.go
       ziglang.vscode-zig
+      pkgs.vscode-marketplace.saoudrizwan.claude-dev
     ];
     profiles.default.userSettings = {
       "editor.inlineSuggest.enabled" = true;
