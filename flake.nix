@@ -48,6 +48,7 @@
             (import ./home.nix {
               inherit pkgs;
               importPath = ./personal;
+              lib = home-manager.lib;
             })
           ];
 
@@ -65,6 +66,7 @@
           (import ./home.nix {
             inherit pkgs;
             importPath = ./work;
+            lib = home-manager.lib;
           })
         ];
 

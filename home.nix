@@ -1,4 +1,4 @@
-{ pkgs, importPath, ... }:
+{ pkgs, importPath, lib, ... }:
 
 {
   imports = [ importPath ];
@@ -26,6 +26,8 @@
     pkgs.uv
     pkgs.docker
     pkgs.nodejs_22
+    pkgs.aichat
+    pkgs.argc
   ];
 
   # This value determines the Home Manager release that your
@@ -186,6 +188,67 @@
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
+  };
+
+  home.file = {
+    "Library/Application Support/aichat/functions" = {
+      source = pkgs.fetchFromGitHub {
+        owner = "sigoden";
+        repo = "llm-functions";
+        rev = "main";
+        sha256 = "sha256-4Gmuu32m0NrjtgejH8bdh6t2KQ5/gwnAT7Eg8/1nhk4=";
+      };
+      recursive = true;
+    };
+    "Library/Application Support/aichat/functions/tools.txt".text = ''
+      execute_command.sh
+      fs_cat.sh
+      fs_ls.sh
+      fs_mkdir.sh
+      fs_patch.sh
+      fs_rm.sh
+      fs_write.sh
+      get_current_time.sh
+      get_current_weather.sh
+      search_arxiv.sh
+      search_wikipedia.sh
+    '';
+    "Library/Application Support/aichat/functions/agents.txt".text = ''
+      coder
+    '';
+  };
+
+  # Setup aichat configuration with 1Password integration
+  home.activation = {
+    setupAichatConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+            $DRY_RUN_CMD mkdir -p "$HOME/Library/Application Support/aichat"
+            $DRY_RUN_CMD cat > "$HOME/Library/Application Support/aichat/config.yaml" << 'EOF'
+      model: openrouter:openai/gpt-4o
+      function_calling: true
+      clients:
+      - type: openai-compatible
+        name: openrouter
+        api_base: https://openrouter.ai/api/v1
+        api_key: <REPLACE ME>
+      EOF
+            # On macOS, sed -i requires an extension argument but we need to avoid escaping issues
+            $DRY_RUN_CMD ${pkgs._1password-cli}/bin/op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ "op://Private/aichat-openrouter-token/credential" | $DRY_RUN_CMD xargs -I{} sed -i"" 's/<REPLACE ME>/{}/g' "$HOME/Library/Application Support/aichat/config.yaml"
+    '';
+
+    # Setup llm-functions for aichat
+    setupLlmFunctions = let
+      # Create a wrapper script that sets up the PATH correctly
+      buildScript = pkgs.writeShellScriptBin "build-llm-functions" ''
+        #!/usr/bin/env bash
+        export PATH="${pkgs.argc}/bin:${pkgs.nodejs_22}/bin:${pkgs.uv}/bin:$PATH"
+        cd "$HOME/Library/Application Support/aichat/functions"
+        argc build
+        argc check
+      '';
+    in lib.hm.dag.entryAfter [ "writeBoundary" "installPackages" ] ''
+      # Run the wrapper script
+      $DRY_RUN_CMD ${buildScript}/bin/build-llm-functions
+    '';
   };
 
   # I might just move this to work
