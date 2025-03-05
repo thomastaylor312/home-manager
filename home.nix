@@ -235,6 +235,29 @@
             $DRY_RUN_CMD ${pkgs._1password-cli}/bin/op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ "op://Private/aichat-openrouter-token/credential" | $DRY_RUN_CMD xargs -I{} sed -i"" 's/<REPLACE ME>/{}/g' "$HOME/Library/Application Support/aichat/config.yaml"
     '';
 
+    setupClineMcp = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+            $DRY_RUN_CMD mkdir -p "$HOME/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings"
+            $DRY_RUN_CMD cat > "$HOME/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json" << 'EOF'
+      {
+        "mcpServers": {
+          "github.com/modelcontextprotocol/servers/tree/main/src/github": {
+            "command": "npx",
+            "args": [
+              "-y",
+              "@modelcontextprotocol/server-github"
+            ],
+            "env": {
+              "GITHUB_PERSONAL_ACCESS_TOKEN": "<REPLACE ME>"
+            },
+            "disabled": false,
+            "autoApprove": []
+          }
+        }
+      }
+      EOF
+      $DRY_RUN_CMD ${pkgs._1password-cli}/bin/op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ "op://Private/mcp-github-token/credential" | $DRY_RUN_CMD xargs -I{} sed -i"" 's/<REPLACE ME>/{}/g' "$HOME/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json"
+    '';
+
     # Setup llm-functions for aichat
     setupLlmFunctions = let
       # Create a wrapper script that sets up the PATH correctly
