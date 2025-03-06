@@ -77,6 +77,7 @@
     envExtra = ''
       . "$HOME/.cargo/env"
     '';
+
     sessionVariables = { MANPAGER = "sh -c 'col -bx | bat -l man -p'"; };
 
     shellAliases = {
@@ -88,6 +89,7 @@
       cache-inputs =
         "nix flake archive --json | jq -r '.path,(.inputs|to_entries[].value.path)' | attic push --stdin oftaylor";
       cache-all = "cache-build && cache-inputs";
+      aichat = "$HOME/aichat.sh";
     };
 
     oh-my-zsh = {
@@ -216,6 +218,13 @@
     "Library/Application Support/aichat/functions/agents.txt".text = ''
       coder
     '';
+    "aichat.sh" = {
+      executable = true;
+      text = ''
+        #!/usr/bin/env bash
+        pushd $HOME/Library/Application\ Support/aichat/functions && argc mcp start && popd && command aichat
+      '';
+    };
   };
 
   # Setup aichat configuration with 1Password integration
@@ -240,7 +249,7 @@
             $DRY_RUN_CMD cat > "$HOME/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json" << 'EOF'
       {
         "mcpServers": {
-          "github.com/modelcontextprotocol/servers/tree/main/src/github": {
+          "github": {
             "command": "npx",
             "args": [
               "-y",
@@ -264,12 +273,71 @@
       buildScript = pkgs.writeShellScriptBin "build-llm-functions" ''
         #!/usr/bin/env bash
         export PATH="${pkgs.argc}/bin:${pkgs.nodejs_22}/bin:${pkgs.uv}/bin:$PATH"
-        cd "$HOME/Library/Application Support/aichat/functions"
+
+        FUNCTIONS_DIR="$HOME/Library/Application Support/aichat/functions"
+
+        # First, let's make actual copies of the symlinked files
+        echo "Creating real copies of symlinked files..."
+        cd "$FUNCTIONS_DIR/mcp/bridge"
+
+        # Replace symlinks with actual copies. This funky thing is to avoid issues with finding the
+        # installed packages because the file exists in nix
+        for file in index.js package.json README.md; do
+          if [ -L "$file" ]; then
+            # Get the target of the symlink
+            target=$(readlink "$file")
+            # Remove the symlink
+            rm "$file"
+            # Copy the actual file
+            cp "$target" "$file"
+          fi
+        done
+
+        # Now we can run npm install
+        npm install
+
+        # Return to the main directory and continue with build
+        cd "$FUNCTIONS_DIR"
         argc build
         argc check
       '';
     in lib.hm.dag.entryAfter [ "writeBoundary" "installPackages" ] ''
       # Run the wrapper script
+      json_file="$HOME/Library/Application Support/aichat/functions/mcp.json"
+      export PATH="${pkgs.argc}/bin:${pkgs.nodejs_22}/bin:${pkgs.uv}/bin:$PATH"
+      cat > "$json_file" << 'EOF'
+        {
+          "mcpServers": {
+            "github": {
+              "command": "npx",
+              "args": [
+                "-y",
+                "@modelcontextprotocol/server-github"
+              ],
+              "env": {
+                "GITHUB_PERSONAL_ACCESS_TOKEN": "<REPLACE ME>",
+                "PATH": "<PATH>"
+              },
+              "disabled": false,
+              "autoApprove": []
+            },
+            "obsidian": {
+              "command": "uvx",
+              "args": [
+                "mcp-obsidian"
+              ],
+              "env": {
+                "OBSIDIAN_API_KEY":"<REPLACE ME2>",
+                "PATH": "<PATH>"
+              }
+            }
+          }
+        }
+      EOF
+      $DRY_RUN_CMD ${pkgs._1password-cli}/bin/op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ "op://Private/mcp-github-token/credential" | $DRY_RUN_CMD xargs -I{} sed -i"" 's/<REPLACE ME>/{}/g' "$json_file"
+      $DRY_RUN_CMD ${pkgs._1password-cli}/bin/op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ "op://Private/obsidian-rest-api/credential" | $DRY_RUN_CMD xargs -I{} sed -i"" 's/<REPLACE ME2>/{}/g' "$json_file"
+      $DRY_RUN_CMD sed -i"" "s|<PATH>|$PATH|g" "$json_file"
+
       $DRY_RUN_CMD ${buildScript}/bin/build-llm-functions
     '';
   };
