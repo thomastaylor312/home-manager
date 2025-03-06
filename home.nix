@@ -201,6 +201,7 @@
         sha256 = "sha256-4Gmuu32m0NrjtgejH8bdh6t2KQ5/gwnAT7Eg8/1nhk4=";
       };
       recursive = true;
+      force = true;
     };
     "Library/Application Support/aichat/functions/tools.txt".text = ''
       execute_command.sh
@@ -222,7 +223,7 @@
       executable = true;
       text = ''
         #!/usr/bin/env bash
-        pushd $HOME/Library/Application\ Support/aichat/functions && argc mcp start && popd && command aichat
+        pushd $HOME/Library/Application\ Support/aichat/functions && argc mcp start 1> /dev/null && popd && command aichat
       '';
     };
   };
@@ -230,8 +231,10 @@
   # Setup aichat configuration with 1Password integration
   home.activation = {
     setupAichatConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-            $DRY_RUN_CMD mkdir -p "$HOME/Library/Application Support/aichat"
-            $DRY_RUN_CMD cat > "$HOME/Library/Application Support/aichat/config.yaml" << 'EOF'
+            run mkdir -p "$HOME/Library/Application Support/aichat"
+            yaml_path="$HOME/Library/Application Support/aichat/config.yaml"
+            run rm -f "$yaml_path"
+            run cat > "$yaml_path" << 'EOF'
       model: openrouter:openai/gpt-4o
       function_calling: true
       clients:
@@ -241,12 +244,15 @@
         api_key: <REPLACE ME>
       EOF
             # On macOS, sed -i requires an extension argument but we need to avoid escaping issues
-            $DRY_RUN_CMD ${pkgs._1password-cli}/bin/op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ "op://Private/aichat-openrouter-token/credential" | $DRY_RUN_CMD xargs -I{} sed -i"" 's/<REPLACE ME>/{}/g' "$HOME/Library/Application Support/aichat/config.yaml"
+            run ${pkgs._1password-cli}/bin/op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ "op://Private/aichat-openrouter-token/credential" | run xargs -I{} sed -i"" 's/<REPLACE ME>/{}/g' "$yaml_path"
+            run chmod 400 "$yaml_path"
     '';
 
     setupClineMcp = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-            $DRY_RUN_CMD mkdir -p "$HOME/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings"
-            $DRY_RUN_CMD cat > "$HOME/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json" << 'EOF'
+            run mkdir -p "$HOME/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings"
+            json_path="$HOME/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json"
+            run rm -f "$json_path"
+            run cat > "$json_path" << 'EOF'
       {
         "mcpServers": {
           "github": {
@@ -256,7 +262,7 @@
               "@modelcontextprotocol/server-github"
             ],
             "env": {
-              "GITHUB_PERSONAL_ACCESS_TOKEN": "<REPLACE ME>"
+              "GITHUB_PERSONAL_ACCESS_TOKEN": "<REPLACE_GH_TOKEN>"
             },
             "disabled": false,
             "autoApprove": []
@@ -264,7 +270,8 @@
         }
       }
       EOF
-      $DRY_RUN_CMD ${pkgs._1password-cli}/bin/op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ "op://Private/mcp-github-token/credential" | $DRY_RUN_CMD xargs -I{} sed -i"" 's/<REPLACE ME>/{}/g' "$HOME/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json"
+      run ${pkgs._1password-cli}/bin/op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ "op://Private/mcp-github-token/credential" | run xargs -I{} sed -i"" 's/<REPLACE_GH_TOKEN>/{}/g' "$json_path"
+      run chmod 400 "$json_path"
     '';
 
     # Setup llm-functions for aichat
@@ -304,8 +311,9 @@
     in lib.hm.dag.entryAfter [ "writeBoundary" "installPackages" ] ''
       # Run the wrapper script
       json_file="$HOME/Library/Application Support/aichat/functions/mcp.json"
+      run rm -f "$json_file"
       export PATH="${pkgs.argc}/bin:${pkgs.nodejs_22}/bin:${pkgs.uv}/bin:$PATH"
-      cat > "$json_file" << 'EOF'
+      run cat > "$json_file" << 'EOF'
         {
           "mcpServers": {
             "github": {
@@ -334,11 +342,12 @@
           }
         }
       EOF
-      $DRY_RUN_CMD ${pkgs._1password-cli}/bin/op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ "op://Private/mcp-github-token/credential" | $DRY_RUN_CMD xargs -I{} sed -i"" 's/<REPLACE ME>/{}/g' "$json_file"
-      $DRY_RUN_CMD ${pkgs._1password-cli}/bin/op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ "op://Private/obsidian-rest-api/credential" | $DRY_RUN_CMD xargs -I{} sed -i"" 's/<REPLACE ME2>/{}/g' "$json_file"
-      $DRY_RUN_CMD sed -i"" "s|<PATH>|$PATH|g" "$json_file"
+      run ${pkgs._1password-cli}/bin/op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ "op://Private/mcp-github-token/credential" | run xargs -I{} sed -i"" 's/<REPLACE ME>/{}/g' "$json_file"
+      run ${pkgs._1password-cli}/bin/op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ "op://Private/obsidian-rest-api/credential" | run xargs -I{} sed -i"" 's/<REPLACE ME2>/{}/g' "$json_file"
+      run sed -i"" "s|<PATH>|$PATH|g" "$json_file"
+      run chmod 400 "$json_file"
 
-      $DRY_RUN_CMD ${buildScript}/bin/build-llm-functions
+      run ${buildScript}/bin/build-llm-functions
     '';
   };
 
