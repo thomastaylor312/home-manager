@@ -237,11 +237,18 @@
             run cat > "$yaml_path" << 'EOF'
       model: openrouter:openai/gpt-4o
       function_calling: true
+      rag_embedding_model: ollama:nomic-embed-text
       clients:
       - type: openai-compatible
         name: openrouter
         api_base: https://openrouter.ai/api/v1
         api_key: <REPLACE ME>
+      - type: openai-compatible
+        name: ollama
+        api_base: http://localhost:11434/v1
+        models:
+        - name: nomic-embed-text
+          type: embedding
       EOF
             # On macOS, sed -i requires an extension argument but we need to avoid escaping issues
             run ${pkgs._1password-cli}/bin/op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ "op://Private/aichat-openrouter-token/credential" | run xargs -I{} sed -i"" 's/<REPLACE ME>/{}/g' "$yaml_path"
