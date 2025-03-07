@@ -223,7 +223,7 @@
       executable = true;
       text = ''
         #!/usr/bin/env bash
-        pushd $HOME/Library/Application\ Support/aichat/functions && argc mcp start 1> /dev/null && popd && command aichat
+        pushd $HOME/Library/Application\ Support/aichat/functions && argc mcp start 1> /dev/null && popd && command aichat "$@" < /dev/stdin
       '';
     };
   };
