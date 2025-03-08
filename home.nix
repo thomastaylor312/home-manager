@@ -249,6 +249,8 @@
         models:
         - name: nomic-embed-text
           type: embedding
+        - name: phi4:14b-q8_0
+          max_input_tokens: 16000
       EOF
             # On macOS, sed -i requires an extension argument but we need to avoid escaping issues
             run ${pkgs._1password-cli}/bin/op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ "op://Private/aichat-openrouter-token/credential" | run xargs -I{} sed -i"" 's/<REPLACE ME>/{}/g' "$yaml_path"
