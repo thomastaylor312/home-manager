@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, otel-tui, ... }:
 let packages = (pkgs // import ./pkgs pkgs);
 in {
   config = rec {
@@ -15,7 +15,7 @@ in {
       packages.nats-server
       packages.k6
       packages.k9s
-      packages.otel-tui
+      otel-tui
       packages.wasm-tools
       packages.act
       packages.oci-cli

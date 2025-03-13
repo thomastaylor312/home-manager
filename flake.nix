@@ -20,10 +20,14 @@
       url = "https://flakehub.com/f/DeterminateSystems/nix/2.25.3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    otel-tui = {
+      url = "github:ymtdzzz/otel-tui/v0.4.3";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { nixpkgs, home-manager, nix-vscode-extensions, attic
-    , determinatenix, ... }:
+    , determinatenix, otel-tui, ... }:
     let
       system = "aarch64-darwin";
       pkgs = import nixpkgs {
@@ -72,6 +76,7 @@
 
         # Optionally use extraSpecialArgs
         # to pass through arguments to home.nix
+        extraSpecialArgs = { otel-tui = otel-tui.packages.${system}.otel-tui; };
       };
     };
 }
