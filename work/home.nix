@@ -21,6 +21,7 @@ in {
       packages.oci-cli
       packages.shellcheck
       packages.clusterctl
+      packages.go
       # Currently broken. See https://github.com/NixOS/nixpkgs/issues/380944
       # (packages.azure-cli.withExtensions
       #   [ packages.azure-cli.extensions.aks-preview ])
