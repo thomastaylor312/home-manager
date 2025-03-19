@@ -53,6 +53,10 @@ in {
         packages.vscode-marketplace.redhat.vscode-yaml
         ms-vscode-remote.remote-ssh
       ];
+      profiles.default.userSettings = {
+        "codesnap.containerPadding" = "0em";
+        "codesnap.showWindowControls" = false;
+      };
     };
 
     programs.kubecolor = {
