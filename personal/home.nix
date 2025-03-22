@@ -29,7 +29,6 @@ in {
         ms-python.python
         ms-python.vscode-pylance
         ms-python.debugpy
-        sswg.swift-lang
         packages.vscode-marketplace.mtxr.sqltools
         bradlc.vscode-tailwindcss
         svelte.svelte-vscode

@@ -28,6 +28,7 @@
     pkgs.nodejs_22
     pkgs.aichat
     pkgs.argc
+    pkgs.protobuf
   ];
 
   # This value determines the Home Manager release that your
@@ -157,7 +158,7 @@
       rust-lang.rust-analyzer
       golang.go
       ziglang.vscode-zig
-      pkgs.vscode-marketplace.saoudrizwan.claude-dev
+      pkgs.vscode-marketplace.rooveterinaryinc.roo-cline
     ];
     profiles.default.userSettings = {
       "editor.inlineSuggest.enabled" = true;
@@ -258,8 +259,8 @@
     '';
 
     setupClineMcp = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-            run mkdir -p "$HOME/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings"
-            json_path="$HOME/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json"
+            run mkdir -p "$HOME/Library/Application Support/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings"
+            json_path="$HOME/Library/Application Support/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/cline_mcp_settings.json"
             run rm -f "$json_path"
             run cat > "$json_path" << 'EOF'
       {
