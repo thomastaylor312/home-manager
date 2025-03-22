@@ -47,7 +47,6 @@ in {
         packages.vscode-marketplace.adpyke.codesnap
         packages.vscode-marketplace.dracula-theme.theme-dracula
         github.vscode-github-actions
-        packages.vscode-marketplace-release.eamodio.gitlens
         ms-kubernetes-tools.vscode-kubernetes-tools
         packages.vscode-marketplace.bytecodealliance.wit-idl
         packages.vscode-marketplace.redhat.vscode-yaml

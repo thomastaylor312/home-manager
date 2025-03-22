@@ -159,6 +159,7 @@
       golang.go
       ziglang.vscode-zig
       pkgs.vscode-marketplace.rooveterinaryinc.roo-cline
+      pkgs.vscode-marketplace-release.eamodio.gitlens
     ];
     profiles.default.userSettings = {
       "editor.inlineSuggest.enabled" = true;
