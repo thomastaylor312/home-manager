@@ -368,8 +368,9 @@
     extensions =
       [ "nix" "golangci-lint" "gosum" "one-dark-pro" "cargo-tom" "toml" "wit" ];
     userSettings = {
+      auto_update = false;
       telemetry = { metrics = false; };
-      features = { inline_completion_provider = "copilot"; };
+      features = { edit_prediction_provider = "copilot"; };
       theme = {
         mode = "dark";
         dark = "One Dark Pro";
@@ -384,9 +385,24 @@
       };
       buffer_font_features = { calt = false; };
       buffer_font_family = "Hack";
+      language_models = {
+        copilot_chat = { };
+        anthropic = {
+          version = 1;
+          api_url = "https://api.anthropic.com";
+        };
+      };
       assistant = {
         version = "2";
-        default_model = { provider = "copilot"; };
+        enabled = true;
+        default_model = {
+          provider = "anthropic";
+          model = "claude-3-7-sonnet-latest";
+        };
+        editor_model = {
+          provider = "anthropic";
+          model = "claude-3-7-sonnet-latest";
+        };
       };
     };
   };
