@@ -78,9 +78,7 @@
     envExtra = ''
       . "$HOME/.cargo/env"
     '';
-
-    sessionVariables = { MANPAGER = "sh -c 'col -bx | bat -l man -p'"; };
-
+    
     shellAliases = {
       tree = "eza --tree";
       cat = "bat";
@@ -91,6 +89,7 @@
         "nix flake archive --json | jq -r '.path,(.inputs|to_entries[].value.path)' | attic push --stdin oftaylor";
       cache-all = "cache-build && cache-inputs";
       aichat = "$HOME/aichat.sh";
+      cd = "z";
     };
 
     oh-my-zsh = {
@@ -140,6 +139,11 @@
     enable = true;
     enableZshIntegration = true;
     colors = "auto";
+  };
+
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
   };
 
   programs.vscode = {
