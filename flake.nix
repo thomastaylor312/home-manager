@@ -17,7 +17,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     determinatenix = {
-      url = "https://flakehub.com/f/DeterminateSystems/nix/2.25.3";
+      url = "https://flakehub.com/f/DeterminateSystems/nix/2.27.*";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     otel-tui = {
