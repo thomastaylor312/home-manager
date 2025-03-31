@@ -78,7 +78,7 @@
     envExtra = ''
       . "$HOME/.cargo/env"
     '';
-    
+
     shellAliases = {
       tree = "eza --tree";
       cat = "bat";
