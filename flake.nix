@@ -24,10 +24,14 @@
       url = "github:ymtdzzz/otel-tui/v0.4.3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    llm-functions = {
+      url = "github:sigoden/llm-functions/main";
+      flake = false;
+    };
   };
 
   outputs = { nixpkgs, home-manager, nix-vscode-extensions, attic
-    , determinatenix, otel-tui, ... }:
+    , determinatenix, otel-tui, llm-functions, ... }:
     let
       system = "aarch64-darwin";
       pkgs = import nixpkgs {
@@ -53,6 +57,7 @@
               inherit pkgs;
               importPath = ./personal;
               lib = home-manager.lib;
+              llmFunctionsPath = llm-functions;
             })
           ];
 
@@ -71,6 +76,7 @@
             inherit pkgs;
             importPath = ./work;
             lib = home-manager.lib;
+            llmFunctionsPath = llm-functions;
           })
         ];
 

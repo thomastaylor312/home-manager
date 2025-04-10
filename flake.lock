@@ -219,16 +219,33 @@
         ]
       },
       "locked": {
-        "lastModified": 1743869639,
-        "narHash": "sha256-Xhe3whfRW/Ay05z9m1EZ1/AkbV1yo0tm1CbgjtCi4rQ=",
+        "lastModified": 1744223888,
+        "narHash": "sha256-reYpe0J1J+wH34JFs7KKp0G5nP7+XSQ5z0ZLFJcfJr8=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "d094c6763c6ddb860580e7d3b4201f8f496a6836",
+        "rev": "79461936709b12e17adb9c91dd02d1c66d577f09",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
         "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "llm-functions": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1743508257,
+        "narHash": "sha256-orFuZvaddq1iTNFChgdk3B2cS8dZXmk6VOwR3f+0PUc=",
+        "owner": "sigoden",
+        "repo": "llm-functions",
+        "rev": "e5f9a9806cacd5795a25a80dac6150af818248eb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "sigoden",
+        "ref": "main",
+        "repo": "llm-functions",
         "type": "github"
       }
     },
@@ -283,11 +300,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1743817938,
-        "narHash": "sha256-4mqj8t6YBymdfORyGaYB1HwL2mxgCyuHp3U5RSHdC/Q=",
+        "lastModified": 1744251395,
+        "narHash": "sha256-M44pYhso6/I8ScfXFNA9cG8kZHrEXPNJTcdZO/563bE=",
         "owner": "nix-community",
         "repo": "nix-vscode-extensions",
-        "rev": "2a7a2b80740dd1dbb8b4e1d5b2ae6ad9b7fbd5e3",
+        "rev": "d316ccee4ce2bcabea44e04492b0a464e8919165",
         "type": "github"
       },
       "original": {
@@ -362,11 +379,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1743689281,
-        "narHash": "sha256-y7Hg5lwWhEOgflEHRfzSH96BOt26LaYfrYWzZ+VoVdg=",
+        "lastModified": 1744096231,
+        "narHash": "sha256-kUfx3FKU1Etnua3EaKvpeuXs7zoFiAcli1gBwkPvGSs=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "2bfc080955153be0be56724be6fa5477b4eefabb",
+        "rev": "b2b0718004cc9a5bca610326de0a82e6ea75920b",
         "type": "github"
       },
       "original": {
@@ -403,6 +420,7 @@
         "attic": "attic",
         "determinatenix": "determinatenix",
         "home-manager": "home-manager",
+        "llm-functions": "llm-functions",
         "nix-vscode-extensions": "nix-vscode-extensions",
         "nixpkgs": "nixpkgs_2",
         "otel-tui": "otel-tui"

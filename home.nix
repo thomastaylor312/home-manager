@@ -1,4 +1,4 @@
-{ pkgs, importPath, lib, ... }:
+{ pkgs, importPath, lib, llmFunctionsPath, ... }:
 
 {
   imports = [ importPath ];
@@ -29,6 +29,7 @@
     pkgs.aichat
     pkgs.argc
     pkgs.protobuf
+    pkgs.claude-code
   ];
 
   # This value determines the Home Manager release that your
@@ -200,12 +201,7 @@
 
   home.file = {
     "Library/Application Support/aichat/functions" = {
-      source = pkgs.fetchFromGitHub {
-        owner = "sigoden";
-        repo = "llm-functions";
-        rev = "main";
-        sha256 = "sha256-4Gmuu32m0NrjtgejH8bdh6t2KQ5/gwnAT7Eg8/1nhk4=";
-      };
+      source = llmFunctionsPath;
       recursive = true;
       force = true;
     };
