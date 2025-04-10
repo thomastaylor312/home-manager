@@ -30,6 +30,7 @@
     pkgs.argc
     pkgs.protobuf
     pkgs.claude-code
+    pkgs.aider-chat
   ];
 
   # This value determines the Home Manager release that your
@@ -90,6 +91,8 @@
         "nix flake archive --json | jq -r '.path,(.inputs|to_entries[].value.path)' | attic push --stdin oftaylor";
       cache-all = "cache-build && cache-inputs";
       aichat = "$HOME/aichat.sh";
+      aider =
+        "OPENROUTER_API_KEY=$(op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ 'op://Private/aider-openrouter-key/credential') aider";
       cd = "z";
     };
 
