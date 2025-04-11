@@ -85,6 +85,12 @@
     enable = true;
     enableZshIntegration = true;
     package = null;
+    settings = { window-save-state = "always"; };
+  };
+
+  programs.atuin = {
+    enable = true;
+    enableZshIntegration = true;
   };
 
   programs.zsh = {
@@ -92,6 +98,12 @@
     envExtra = ''
       . "$HOME/.cargo/env"
     '';
+
+    initExtra = ''
+      source $HOME/.config/zsh/aichat-integration.zsh
+    '';
+
+    autosuggestion.enable = true;
 
     shellAliases = {
       tree = "eza --tree";
@@ -104,7 +116,7 @@
       cache-all = "cache-build && cache-inputs";
       aichat = "$HOME/aichat.sh";
       aider =
-        "OPENROUTER_API_KEY=$(op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ 'op://Private/aider-openrouter-key/credential') aider";
+        "OPENROUTER_API_KEY=$(op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ 'op://Private/aider-openrouter-key/credential') aider --no-auto-commits";
       cd = "z";
     };
 
@@ -215,6 +227,10 @@
   };
 
   home.file = {
+    ".config/zsh/aichat-integration.zsh" = {
+      source = ./files/aichat-zsh-integration.zsh;
+      executable = true;
+    };
     "Library/Application Support/aichat/functions" = {
       source = llmFunctionsPath;
       recursive = true;
