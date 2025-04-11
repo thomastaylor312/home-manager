@@ -61,6 +61,7 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+  programs.fd.enable = true;
 
   fonts.fontconfig.enable = true;
 
@@ -73,6 +74,17 @@
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
+  };
+
+  programs.yazi = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
+  programs.ghostty = {
+    enable = true;
+    enableZshIntegration = true;
+    package = null;
   };
 
   programs.zsh = {
