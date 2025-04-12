@@ -79,6 +79,7 @@
   programs.yazi = {
     enable = true;
     enableZshIntegration = true;
+    settings = { manager = { show_hidden = true; }; };
   };
 
   programs.ghostty = {
@@ -91,6 +92,10 @@
   programs.atuin = {
     enable = true;
     enableZshIntegration = true;
+    settings = {
+      sync_address = "http://imperial-archives.dojo-nominal.ts.net:9999";
+      sync_frequency = "5m";
+    };
   };
 
   programs.zsh = {
