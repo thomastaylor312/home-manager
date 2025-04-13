@@ -86,7 +86,14 @@
     enable = true;
     enableZshIntegration = true;
     package = null;
-    settings = { window-save-state = "always"; };
+    settings = {
+      window-save-state = "always";
+      font-family = "Hack";
+      window-padding-x = 15;
+      window-padding-y = 15;
+      window-padding-balance = true;
+      theme = "GruvboxDarkHard"; # Sublette is another I like
+    };
   };
 
   programs.atuin = {
