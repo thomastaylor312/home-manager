@@ -405,7 +405,6 @@
     '';
   };
 
-  # I might just move this to work
   programs.zed-editor = {
     enable = true;
     extensions =
@@ -414,6 +413,7 @@
       auto_update = false;
       telemetry = { metrics = false; };
       features = { edit_prediction_provider = "copilot"; };
+      preferred_line_length = 100;
       theme = {
         mode = "dark";
         dark = "One Dark Pro";
