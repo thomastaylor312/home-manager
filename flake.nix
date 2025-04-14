@@ -4,6 +4,8 @@
   inputs = {
     # Specify the source of Home Manager and Nixpkgs.
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs-patch.url =
+      "github:nixos/nixpkgs/b2b0718004cc9a5bca610326de0a82e6ea75920b";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -14,7 +16,9 @@
     };
     attic = {
       url = "github:zhaofengli/attic";
-      inputs.nixpkgs.follows = "nixpkgs";
+      # For some reason some of the later versions of nixpkgs cause an issue where it says
+      # `fatal error: 'nix/config.h' file not found` so we pin it to a good commit for now
+      inputs.nixpkgs.follows = "nixpkgs-patch";
     };
     determinatenix = {
       url = "https://flakehub.com/f/DeterminateSystems/nix/2.27.*";
