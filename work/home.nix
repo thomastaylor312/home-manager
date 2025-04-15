@@ -6,22 +6,22 @@ in {
     home.homeDirectory = "/Users/${home.username}";
 
     home.packages = [
-      packages.kubectl
-      packages.kind
-      packages.redis
-      packages.oras
-      packages.zstd
-      packages.natscli
-      packages.nats-server
-      packages.k6
-      packages.k9s
-      otel-tui
-      packages.wasm-tools
       packages.act
-      packages.oci-cli
-      packages.shellcheck
       packages.clusterctl
       packages.go
+      packages.k6
+      packages.k9s
+      packages.kind
+      packages.kubectl
+      packages.nats-server
+      packages.natscli
+      packages.oci-cli
+      packages.oras
+      packages.redis
+      packages.shellcheck
+      packages.wasm-tools
+      packages.zstd
+      otel-tui
       (packages.azure-cli.withExtensions
         [ packages.azure-cli.extensions.aks-preview ])
     ];

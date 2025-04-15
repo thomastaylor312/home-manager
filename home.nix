@@ -4,33 +4,34 @@
   imports = [ importPath ];
 
   home.packages = [
-    pkgs.bat
-    pkgs.cloc
-    pkgs.mtr
-    pkgs.iperf3
-    pkgs.delta
-    pkgs.wget
-    pkgs.nmap
-    pkgs.zig
     pkgs._1password-cli
-    pkgs.nixfmt-classic
+    pkgs.aichat
+    pkgs.aider-chat
+    pkgs.argc
+    pkgs.attic
+    pkgs.bat
+    pkgs.cachix
+    pkgs.claude-code
+    pkgs.cloc
+    pkgs.dasel
+    pkgs.delta
+    pkgs.docker
+    pkgs.hack-font
+    pkgs.iperf3
+    pkgs.jq
+    pkgs.just
+    pkgs.mtr
     pkgs.nil
+    pkgs.nixfmt-classic
+    pkgs.nmap
+    pkgs.nodejs_22
+    pkgs.protobuf
     pkgs.rustup
     pkgs.tailscale
-    pkgs.jq
-    pkgs.attic
-    pkgs.just
-    pkgs.cachix
-    pkgs.hack-font
-    pkgs.zls
     pkgs.uv
-    pkgs.docker
-    pkgs.nodejs_22
-    pkgs.aichat
-    pkgs.argc
-    pkgs.protobuf
-    pkgs.claude-code
-    pkgs.aider-chat
+    pkgs.wget
+    pkgs.zig
+    pkgs.zls
   ];
 
   # This value determines the Home Manager release that your
@@ -93,6 +94,7 @@
       window-padding-y = 15;
       window-padding-balance = true;
       theme = "GruvboxDarkHard"; # Sublette is another I like
+      macos-icon = "glass";
     };
   };
 
@@ -363,7 +365,6 @@
         argc check
       '';
     in lib.hm.dag.entryAfter [ "writeBoundary" "installPackages" ] ''
-      # Run the wrapper script
       json_file="$HOME/Library/Application Support/aichat/functions/mcp.json"
       run rm -f "$json_file"
       export PATH="${pkgs.argc}/bin:${pkgs.nodejs_22}/bin:${pkgs.uv}/bin:$PATH"
@@ -401,6 +402,7 @@
       run sed -i"" "s|<PATH>|$PATH|g" "$json_file"
       run chmod 400 "$json_file"
 
+      # Run the wrapper script
       run ${buildScript}/bin/build-llm-functions
     '';
   };
