@@ -231,7 +231,7 @@
         "nil" = { "formatting" = { "command" = [ "nixfmt" ]; }; };
       };
       "go.toolsManagement.autoUpdate" = true;
-      "cody.suggestions.mode" = "auto-edit (Experimental)";
+      "cody.suggestions.mode" = "auto-edit";
     };
   };
 
