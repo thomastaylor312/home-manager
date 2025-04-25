@@ -113,7 +113,7 @@
       . "$HOME/.cargo/env"
     '';
 
-    initExtra = ''
+    initContent = ''
       source $HOME/.config/zsh/aichat-integration.zsh
     '';
 
