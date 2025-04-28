@@ -192,7 +192,7 @@
     enable = true;
     profiles.default.extensions = with pkgs.vscode-extensions; [
       #vadimcn.vscode-lldb
-      pkgs.vscode-marketplace.sourcegraph.cody-ai
+      # pkgs.vscode-marketplace.sourcegraph.cody-ai
       fill-labs.dependi
       mkhl.direnv
       tamasfe.even-better-toml
