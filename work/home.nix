@@ -34,7 +34,7 @@ in {
       netrc-file = "/Users/${home.username}/.config/nix/netrc";
     };
 
-    programs.git = { userEmail = "taylor@cosmonic.com"; };
+    programs.git = { userEmail = "taylor.thomas@akuity.io"; };
 
     programs.zsh.shellAliases = {
       cache-home-manager =
