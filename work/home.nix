@@ -15,7 +15,6 @@ in {
       packages.kubectl
       packages.nats-server
       packages.natscli
-      packages.oci-cli
       packages.oras
       packages.redis
       packages.shellcheck
@@ -27,10 +26,6 @@ in {
     ];
 
     nix.settings = {
-      substituters = [ "https://wasmcloud.cachix.org" ];
-      trusted-public-keys = [
-        "wasmcloud.cachix.org-1:9gRBzsKh+x2HbVVspreFg/6iFRiD4aOcUQfXVDl3hiM="
-      ];
       netrc-file = "/Users/${home.username}/.config/nix/netrc";
     };
 
