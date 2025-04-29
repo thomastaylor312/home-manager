@@ -111,9 +111,6 @@
 
   programs.zsh = {
     enable = true;
-    envExtra = ''
-      . "$HOME/.cargo/env"
-    '';
 
     initContent = ''
       source $HOME/.config/zsh/aichat-integration.zsh
