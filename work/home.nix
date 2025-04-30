@@ -20,6 +20,8 @@ in {
       packages.shellcheck
       packages.wasm-tools
       packages.zstd
+      packages.kargo
+      packages.awscli2
       otel-tui
       (packages.azure-cli.withExtensions
         [ packages.azure-cli.extensions.aks-preview ])
