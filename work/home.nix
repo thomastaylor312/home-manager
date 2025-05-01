@@ -22,6 +22,8 @@ in {
       packages.zstd
       packages.kargo
       packages.awscli2
+      packages.kubernetes-helm
+      packages.eksctl
       otel-tui
       (packages.azure-cli.withExtensions
         [ packages.azure-cli.extensions.aks-preview ])
