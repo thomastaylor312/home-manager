@@ -24,6 +24,7 @@ in {
       packages.awscli2
       packages.kubernetes-helm
       packages.eksctl
+      packages.kustomize
       otel-tui
       (packages.azure-cli.withExtensions
         [ packages.azure-cli.extensions.aks-preview ])

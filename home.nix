@@ -231,6 +231,7 @@
       };
       "go.toolsManagement.autoUpdate" = true;
       "cody.suggestions.mode" = "auto-edit";
+      "github.copilot.nextEditSuggestions.enabled" = true;
     };
   };
 
