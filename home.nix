@@ -232,6 +232,30 @@
       "go.toolsManagement.autoUpdate" = true;
       "cody.suggestions.mode" = "auto-edit";
       "github.copilot.nextEditSuggestions.enabled" = true;
+      "mcp" = {
+        "inputs" = [{
+          "type" = "promptString";
+          "id" = "github_token";
+          "description" = "GitHub Personal Access Token";
+          "password" = true;
+        }];
+        "servers" = {
+          "github" = {
+            "command" = "docker";
+            "args" = [
+              "run"
+              "-i"
+              "--rm"
+              "-e"
+              "GITHUB_PERSONAL_ACCESS_TOKEN"
+              "ghcr.io/github/github-mcp-server"
+            ];
+            "env" = {
+              "GITHUB_PERSONAL_ACCESS_TOKEN" = "\${input:github_token}";
+            };
+          };
+        };
+      };
     };
   };
 
@@ -312,17 +336,21 @@
       {
         "mcpServers": {
           "github": {
-            "command": "npx",
-            "args": [
-              "-y",
-              "@modelcontextprotocol/server-github"
-            ],
-            "env": {
-              "GITHUB_PERSONAL_ACCESS_TOKEN": "<REPLACE_GH_TOKEN>"
-            },
-            "disabled": false,
-            "autoApprove": []
-          }
+              "command": "docker",
+              "args": [
+                "run",
+                "-i",
+                "--rm",
+                "-e",
+                "GITHUB_PERSONAL_ACCESS_TOKEN",
+                "ghcr.io/github/github-mcp-server"
+              ],
+              "env": {
+                "GITHUB_PERSONAL_ACCESS_TOKEN": "<REPLACE_GH_TOKEN>"
+              },
+              "disabled": false,
+              "autoApprove": []
+            }
         }
       }
       EOF
@@ -335,7 +363,7 @@
       # Create a wrapper script that sets up the PATH correctly
       buildScript = pkgs.writeShellScriptBin "build-llm-functions" ''
         #!/usr/bin/env bash
-        export PATH="${pkgs.argc}/bin:${pkgs.nodejs_22}/bin:${pkgs.uv}/bin:$PATH"
+        export PATH="${pkgs.argc}/bin:${pkgs.nodejs_22}/bin:${pkgs.uv}/bin:${pkgs.docker}/bin:$PATH"
 
         FUNCTIONS_DIR="$HOME/Library/Application Support/aichat/functions"
 
@@ -367,15 +395,19 @@
     in lib.hm.dag.entryAfter [ "writeBoundary" "installPackages" ] ''
       json_file="$HOME/Library/Application Support/aichat/functions/mcp.json"
       run rm -f "$json_file"
-      export PATH="${pkgs.argc}/bin:${pkgs.nodejs_22}/bin:${pkgs.uv}/bin:$PATH"
+      export PATH="${pkgs.argc}/bin:${pkgs.nodejs_22}/bin:${pkgs.uv}/bin:${pkgs.docker}/bin:$PATH"
       run cat > "$json_file" << 'EOF'
         {
           "mcpServers": {
             "github": {
-              "command": "npx",
+              "command": "docker",
               "args": [
-                "-y",
-                "@modelcontextprotocol/server-github"
+                "run",
+                "-i",
+                "--rm",
+                "-e",
+                "GITHUB_PERSONAL_ACCESS_TOKEN",
+                "ghcr.io/github/github-mcp-server"
               ],
               "env": {
                 "GITHUB_PERSONAL_ACCESS_TOKEN": "<REPLACE ME>",
