@@ -232,6 +232,12 @@
       "go.toolsManagement.autoUpdate" = true;
       "cody.suggestions.mode" = "auto-edit";
       "github.copilot.nextEditSuggestions.enabled" = true;
+      "github.copilot.enable" = {
+        "*" = true;
+        "plaintext" = false;
+        "markdown" = true;
+        "scminput" = false;
+      };
       "mcp" = {
         "inputs" = [{
           "type" = "promptString";
