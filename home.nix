@@ -3,35 +3,37 @@
 {
   imports = [ importPath ];
 
-  home.packages = [
-    pkgs._1password-cli
-    pkgs.aichat
-    pkgs.aider-chat
-    pkgs.argc
-    pkgs.attic
-    pkgs.bat
-    pkgs.cachix
-    pkgs.claude-code
-    pkgs.cloc
-    pkgs.dasel
-    pkgs.delta
-    pkgs.docker
-    pkgs.hack-font
-    pkgs.iperf3
-    pkgs.jq
-    pkgs.just
-    pkgs.mtr
-    pkgs.nil
-    pkgs.nixfmt-classic
-    pkgs.nmap
-    pkgs.nodejs_22
-    pkgs.protobuf
-    pkgs.rustup
-    pkgs.tailscale
-    pkgs.uv
-    pkgs.wget
-    pkgs.zig
-    pkgs.zls
+  home.packages = with pkgs; [
+    _1password-cli
+    aichat
+    aider-chat
+    argc
+    attic
+    bat
+    cachix
+    claude-code
+    cloc
+    dasel
+    delta
+    docker
+    ffmpeg
+    hack-font
+    iperf3
+    jq
+    just
+    mtr
+    nil
+    nixfmt-classic
+    nmap
+    nodejs_22
+    openai-whisper
+    protobuf
+    rustup
+    tailscale
+    uv
+    wget
+    zig
+    zls
   ];
 
   # This value determines the Home Manager release that your
