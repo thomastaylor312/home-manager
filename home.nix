@@ -108,6 +108,8 @@
     settings = {
       sync_address = "http://imperial-archives.dojo-nominal.ts.net:9999";
       sync_frequency = "5m";
+      enter_accept = true;
+      store_failed = true;
     };
   };
 

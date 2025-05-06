@@ -5,29 +5,30 @@ in {
     home.username = "taylor";
     home.homeDirectory = "/Users/${home.username}";
 
-    home.packages = [
-      packages.act
-      packages.clusterctl
-      packages.go
-      packages.k6
-      packages.k9s
-      packages.kind
-      packages.kubectl
-      packages.nats-server
-      packages.natscli
-      packages.oras
-      packages.redis
-      packages.shellcheck
-      packages.wasm-tools
-      packages.zstd
-      packages.kargo
-      packages.awscli2
-      packages.kubernetes-helm
-      packages.eksctl
-      packages.kustomize
+    home.packages = with packages; [
+      act
+      clusterctl
+      go
+      k6
+      k9s
+      kind
+      kubectl
+      nats-server
+      natscli
+      oras
+      redis
+      shellcheck
+      wasm-tools
+      zstd
+      kargo
+      awscli2
+      kubernetes-helm
+      eksctl
+      kustomize
       otel-tui
-      (packages.azure-cli.withExtensions
-        [ packages.azure-cli.extensions.aks-preview ])
+      docker-credential-gcr
+      google-cloud-sdk
+      (azure-cli.withExtensions [ azure-cli.extensions.aks-preview ])
     ];
 
     nix.settings = {
