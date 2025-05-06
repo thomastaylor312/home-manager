@@ -314,7 +314,7 @@
             yaml_path="$HOME/Library/Application Support/aichat/config.yaml"
             run rm -f "$yaml_path"
             run cat > "$yaml_path" << 'EOF'
-      model: openrouter:openai/gpt-4o
+      model: openrouter:openai/o3-mini
       function_calling: true
       rag_embedding_model: ollama:nomic-embed-text
       clients:
