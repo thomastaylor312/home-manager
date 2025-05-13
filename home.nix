@@ -474,21 +474,23 @@
       buffer_font_family = "Hack";
       language_models = {
         copilot_chat = { };
-        anthropic = {
-          version = 1;
-          api_url = "https://api.anthropic.com";
+        openai = {
+          version = "1";
+          api_url = "https://openrouter.ai/api/v1";
+          available_models =
+            builtins.fromJSON (builtins.readFile ./files/available_models.json);
         };
       };
       assistant = {
         version = "2";
         enabled = true;
         default_model = {
-          provider = "anthropic";
-          model = "claude-3-7-sonnet-latest";
+          provider = "openai";
+          model = "anthropic/claude-3.7-sonnet";
         };
         editor_model = {
-          provider = "anthropic";
-          model = "claude-3-7-sonnet-latest";
+          provider = "openai";
+          model = "anthropic/claude-3.7-sonnet";
         };
       };
     };
