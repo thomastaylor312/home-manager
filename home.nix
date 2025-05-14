@@ -452,10 +452,22 @@
   programs.zed-editor = {
     enable = true;
     package = zed-editor.packages.${pkgs.system}.zed-editor;
-    extensions =
-      [ "nix" "golangci-lint" "gosum" "one-dark-pro" "cargo-tom" "toml" "wit" ];
+    extensions = [
+      "nix"
+      "golangci-lint"
+      "gosum"
+      "one-dark-pro"
+      "cargo-tom"
+      "toml"
+      "wit"
+      "make"
+      "dockerfile"
+      "docker-compose"
+      "terraform"
+    ];
     userSettings = {
       auto_update = false;
+      show_edit_predictions = true;
       telemetry = { metrics = false; };
       features = { edit_prediction_provider = "copilot"; };
       preferred_line_length = 100;
