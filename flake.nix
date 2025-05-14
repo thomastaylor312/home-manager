@@ -32,10 +32,14 @@
       url = "github:sigoden/llm-functions/main";
       flake = false;
     };
+    zed-editor = {
+      url = "github:HPsaucii/zed-editor-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { nixpkgs, home-manager, nix-vscode-extensions, attic
-    , determinatenix, otel-tui, llm-functions, ... }:
+    , determinatenix, otel-tui, llm-functions, zed-editor, ... }:
     let
       system = "aarch64-darwin";
       pkgs = import nixpkgs {
@@ -62,6 +66,7 @@
               importPath = ./personal;
               lib = home-manager.lib;
               llmFunctionsPath = llm-functions;
+              inherit zed-editor;
             })
           ];
 
@@ -81,6 +86,7 @@
             importPath = ./work;
             lib = home-manager.lib;
             llmFunctionsPath = llm-functions;
+            inherit zed-editor;
           })
         ];
 

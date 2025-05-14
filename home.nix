@@ -1,4 +1,4 @@
-{ pkgs, importPath, lib, llmFunctionsPath, ... }:
+{ pkgs, importPath, lib, llmFunctionsPath, zed-editor, ... }:
 
 {
   imports = [ importPath ];
@@ -451,6 +451,7 @@
 
   programs.zed-editor = {
     enable = true;
+    package = zed-editor.packages.${pkgs.system}.zed-editor;
     extensions =
       [ "nix" "golangci-lint" "gosum" "one-dark-pro" "cargo-tom" "toml" "wit" ];
     userSettings = {
