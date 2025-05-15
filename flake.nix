@@ -33,7 +33,7 @@
       flake = false;
     };
     zed-editor = {
-      url = "github:HPsaucii/zed-editor-flake";
+      url = "github:thomastaylor312/zed-editor-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
