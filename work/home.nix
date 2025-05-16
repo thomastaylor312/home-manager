@@ -62,5 +62,7 @@ in {
       enable = true;
       enableAlias = true;
     };
+
+    programs.pgcli.enabled = true;
   };
 }
