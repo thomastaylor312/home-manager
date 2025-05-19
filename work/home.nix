@@ -28,6 +28,8 @@ in {
       otel-tui
       docker-credential-gcr
       google-cloud-sdk
+      gofumpt
+      pgcli
       (azure-cli.withExtensions [ azure-cli.extensions.aks-preview ])
     ];
 
@@ -63,6 +65,19 @@ in {
       enableAlias = true;
     };
 
-    programs.pgcli.enabled = true;
+    programs.zed-editor = {
+      userSettings = {
+        languages = {
+          Go = {
+            formatter = {
+              external = {
+                command = "gofumpt";
+                args = [ "-w" ];
+              };
+            };
+          };
+        };
+      };
+    };
   };
 }

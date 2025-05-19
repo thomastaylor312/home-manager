@@ -494,7 +494,7 @@
             builtins.fromJSON (builtins.readFile ./files/available_models.json);
         };
       };
-      assistant = {
+      agent = {
         version = "2";
         enabled = true;
         default_model = {
