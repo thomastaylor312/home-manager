@@ -1,6 +1,6 @@
-{ pkgs, importPath, lib, llmFunctionsPath, zed-editor, ... }:
-
-{
+{ pkgs, importPath, lib, llmFunctionsPath, ... }:
+let packages = (import ./pkgs pkgs);
+in {
   imports = [ importPath ];
 
   home.packages = with pkgs; [
@@ -25,7 +25,7 @@
     nil
     nixfmt-classic
     nmap
-    nodejs_22
+    nodejs
     openai-whisper
     protobuf
     rustup
@@ -451,7 +451,7 @@
 
   programs.zed-editor = {
     enable = true;
-    package = zed-editor.packages.${pkgs.system}.zed-editor;
+    package = packages.recent-zed-editor;
     extensions = [
       "nix"
       "golangci-lint"
