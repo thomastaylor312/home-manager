@@ -499,11 +499,11 @@ in {
         enabled = true;
         default_model = {
           provider = "openai";
-          model = "anthropic/claude-3.7-sonnet";
+          model = "anthropic/claude-opus-4";
         };
         editor_model = {
           provider = "openai";
-          model = "anthropic/claude-3.7-sonnet";
+          model = "anthropic/claude-opus-4";
         };
       };
     };
