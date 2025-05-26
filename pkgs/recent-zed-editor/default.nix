@@ -55,7 +55,7 @@ let
   gpu-lib = if withGLES then libglvnd else vulkan-loader;
 in rustPlatform.buildRustPackage (finalAttrs: {
   pname = "zed-editor";
-  version = "0.187.5";
+  version = "0.187.8";
 
   outputs = [ "out" ] ++ lib.optionals buildRemoteServer [ "remote_server" ];
 
@@ -63,7 +63,7 @@ in rustPlatform.buildRustPackage (finalAttrs: {
     owner = "zed-industries";
     repo = "zed";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-hz6DhVqsbRuCUQIZKzNFez/37keIh9wgpwyx09rY1Y8=";
+    hash = "sha256-5bmE4QI3kmX/67O9jkEl2xstE3G+hsJ3H8gFkj146ao=";
   };
 
   cargoPatches = [ ./0002-fix-duplicate-reqwest.patch ];
@@ -81,7 +81,7 @@ in rustPlatform.buildRustPackage (finalAttrs: {
     '';
 
   useFetchCargoVendor = true;
-  cargoHash = "sha256-l3usjMrJRSFF0OgTC77Wj+9UhmGMTaVya+fo8o4zst8=";
+  cargoHash = "sha256-Sz1+aYjWBatmTASdf/yk9AJu0V/giJsujnffk9mZsgE=";
 
   nativeBuildInputs = [
     cmake
