@@ -38,6 +38,9 @@ in {
     };
 
     programs.git = { userEmail = "taylor.thomas@akuity.io"; };
+    programs.jujutsu = {
+      settings = { user = { email = "taylor.thomas@akuity.io"; }; };
+    };
 
     programs.zsh.shellAliases = {
       cache-home-manager =

@@ -18,6 +18,10 @@ in {
       extraConfig = { init = { defaultBranch = "master"; }; };
     };
 
+    programs.jujutsu = {
+      settings = { user = { email = "taylor@oftaylor.com"; }; };
+    };
+
     programs.zsh.shellAliases = {
       cache-home-manager =
         "nix build .#homeConfigurations.${home.username}.activationPackage --json | jq -r '.[].outputs | to_entries[].value' | attic push --stdin oftaylor";

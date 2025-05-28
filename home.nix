@@ -161,6 +161,17 @@ in {
     ignores = [ ".direnv/" ".aider*" ];
   };
 
+  programs.jujutsu = {
+    enable = true;
+    settings = {
+      user = { name = "Taylor Thomas"; };
+      ui = {
+        pager = "delta";
+        diff = { format = "git"; };
+      };
+    };
+  };
+
   programs.gh = {
     enable = true;
     settings = { git_protocol = "ssh"; };
@@ -207,6 +218,7 @@ in {
       rust-lang.rust-analyzer
       golang.go
       ziglang.vscode-zig
+      pkgs.vscode-marketplace.jjk.jjk
       pkgs.vscode-marketplace.rooveterinaryinc.roo-cline
       pkgs.vscode-marketplace-release.eamodio.gitlens
     ];
