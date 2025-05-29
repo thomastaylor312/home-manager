@@ -1,5 +1,33 @@
 [
   {
+    "display_name": "Google: Gemma 2 2B",
+    "name": "google/gemma-2b-it",
+    "max_tokens": 8192,
+    "max_output_tokens": null,
+    "max_completion_tokens": null
+  },
+  {
+    "display_name": "DeepSeek: R1 0528 (free)",
+    "name": "deepseek/deepseek-r1-0528:free",
+    "max_tokens": 163840,
+    "max_output_tokens": null,
+    "max_completion_tokens": null
+  },
+  {
+    "display_name": "DeepSeek: R1 0528",
+    "name": "deepseek/deepseek-r1-0528",
+    "max_tokens": 163840,
+    "max_output_tokens": null,
+    "max_completion_tokens": null
+  },
+  {
+    "display_name": "Sarvam AI: Sarvam-M (free)",
+    "name": "sarvamai/sarvam-m:free",
+    "max_tokens": 32768,
+    "max_output_tokens": null,
+    "max_completion_tokens": null
+  },
+  {
     "display_name": "Sarvam AI: Sarvam-M",
     "name": "sarvamai/sarvam-m",
     "max_tokens": 32768,
@@ -234,8 +262,8 @@
     "display_name": "Qwen: Qwen3 8B",
     "name": "qwen/qwen3-8b",
     "max_tokens": 128000,
-    "max_output_tokens": null,
-    "max_completion_tokens": null
+    "max_output_tokens": 20000,
+    "max_completion_tokens": 20000
   },
   {
     "display_name": "Qwen: Qwen3 14B (free)",
@@ -290,8 +318,8 @@
     "display_name": "THUDM: GLM Z1 Rumination 32B ",
     "name": "thudm/glm-z1-rumination-32b",
     "max_tokens": 32000,
-    "max_output_tokens": null,
-    "max_completion_tokens": null
+    "max_output_tokens": 32000,
+    "max_completion_tokens": 32000
   },
   {
     "display_name": "Microsoft: MAI DS R1 (free)",
@@ -311,8 +339,8 @@
     "display_name": "THUDM: GLM Z1 32B",
     "name": "thudm/glm-z1-32b",
     "max_tokens": 32000,
-    "max_output_tokens": null,
-    "max_completion_tokens": null
+    "max_output_tokens": 32000,
+    "max_completion_tokens": 32000
   },
   {
     "display_name": "THUDM: GLM 4 32B (free)",
@@ -325,8 +353,8 @@
     "display_name": "THUDM: GLM 4 32B",
     "name": "thudm/glm-4-32b",
     "max_tokens": 32000,
-    "max_output_tokens": null,
-    "max_completion_tokens": null
+    "max_output_tokens": 32000,
+    "max_completion_tokens": 32000
   },
   {
     "display_name": "Google: Gemini 2.5 Flash Preview 04-17",
@@ -366,13 +394,6 @@
   {
     "display_name": "Shisa AI: Shisa V2 Llama 3.3 70B  (free)",
     "name": "shisa-ai/shisa-v2-llama3.3-70b:free",
-    "max_tokens": 32768,
-    "max_output_tokens": null,
-    "max_completion_tokens": null
-  },
-  {
-    "display_name": "Qwen: Qwen2.5 Coder 7B Instruct",
-    "name": "qwen/qwen2.5-coder-7b-instruct",
     "max_tokens": 32768,
     "max_output_tokens": null,
     "max_completion_tokens": null
@@ -464,6 +485,13 @@
   {
     "display_name": "NVIDIA: Llama 3.1 Nemotron Ultra 253B v1 (free)",
     "name": "nvidia/llama-3.1-nemotron-ultra-253b-v1:free",
+    "max_tokens": 131072,
+    "max_output_tokens": null,
+    "max_completion_tokens": null
+  },
+  {
+    "display_name": "NVIDIA: Llama 3.1 Nemotron Ultra 253B v1",
+    "name": "nvidia/llama-3.1-nemotron-ultra-253b-v1",
     "max_tokens": 131072,
     "max_output_tokens": null,
     "max_completion_tokens": null
@@ -791,13 +819,6 @@
     "max_completion_tokens": 64000
   },
   {
-    "display_name": "Anthropic: Claude 3.7 Sonnet (thinking)",
-    "name": "anthropic/claude-3.7-sonnet:thinking",
-    "max_tokens": 200000,
-    "max_output_tokens": 64000,
-    "max_completion_tokens": 64000
-  },
-  {
     "display_name": "Anthropic: Claude 3.7 Sonnet (self-moderated)",
     "name": "anthropic/claude-3.7-sonnet:beta",
     "max_tokens": 200000,
@@ -983,8 +1004,8 @@
     "display_name": "DeepSeek: R1 Distill Qwen 14B",
     "name": "deepseek/deepseek-r1-distill-qwen-14b",
     "max_tokens": 64000,
-    "max_output_tokens": 64000,
-    "max_completion_tokens": 64000
+    "max_output_tokens": 32000,
+    "max_completion_tokens": 32000
   },
   {
     "display_name": "Perplexity: Sonar Reasoning",
@@ -1253,6 +1274,20 @@
     "max_completion_tokens": 16000
   },
   {
+    "display_name": "Anthropic: Claude 3.5 Haiku (2024-10-22) (self-moderated)",
+    "name": "anthropic/claude-3.5-haiku-20241022:beta",
+    "max_tokens": 200000,
+    "max_output_tokens": 8192,
+    "max_completion_tokens": 8192
+  },
+  {
+    "display_name": "Anthropic: Claude 3.5 Haiku (2024-10-22)",
+    "name": "anthropic/claude-3.5-haiku-20241022",
+    "max_tokens": 200000,
+    "max_output_tokens": 8192,
+    "max_completion_tokens": 8192
+  },
+  {
     "display_name": "Anthropic: Claude 3.5 Haiku (self-moderated)",
     "name": "anthropic/claude-3.5-haiku:beta",
     "max_tokens": 200000,
@@ -1267,15 +1302,15 @@
     "max_completion_tokens": 8192
   },
   {
-    "display_name": "Anthropic: Claude 3.5 Haiku (2024-10-22) (self-moderated)",
-    "name": "anthropic/claude-3.5-haiku-20241022:beta",
+    "display_name": "Anthropic: Claude 3.5 Sonnet (self-moderated)",
+    "name": "anthropic/claude-3.5-sonnet:beta",
     "max_tokens": 200000,
     "max_output_tokens": 8192,
     "max_completion_tokens": 8192
   },
   {
-    "display_name": "Anthropic: Claude 3.5 Haiku (2024-10-22)",
-    "name": "anthropic/claude-3.5-haiku-20241022",
+    "display_name": "Anthropic: Claude 3.5 Sonnet",
+    "name": "anthropic/claude-3.5-sonnet",
     "max_tokens": 200000,
     "max_output_tokens": 8192,
     "max_completion_tokens": 8192
@@ -1295,22 +1330,15 @@
     "max_completion_tokens": 1024
   },
   {
-    "display_name": "Anthropic: Claude 3.5 Sonnet (self-moderated)",
-    "name": "anthropic/claude-3.5-sonnet:beta",
-    "max_tokens": 200000,
-    "max_output_tokens": 8192,
-    "max_completion_tokens": 8192
-  },
-  {
-    "display_name": "Anthropic: Claude 3.5 Sonnet",
-    "name": "anthropic/claude-3.5-sonnet",
-    "max_tokens": 200000,
-    "max_output_tokens": 8192,
-    "max_completion_tokens": 8192
-  },
-  {
     "display_name": "xAI: Grok Beta",
     "name": "x-ai/grok-beta",
+    "max_tokens": 131072,
+    "max_output_tokens": null,
+    "max_completion_tokens": null
+  },
+  {
+    "display_name": "Mistral: Ministral 3B",
+    "name": "mistralai/ministral-3b",
     "max_tokens": 131072,
     "max_output_tokens": null,
     "max_completion_tokens": null
@@ -1319,13 +1347,6 @@
     "display_name": "Mistral: Ministral 8B",
     "name": "mistralai/ministral-8b",
     "max_tokens": 128000,
-    "max_output_tokens": null,
-    "max_completion_tokens": null
-  },
-  {
-    "display_name": "Mistral: Ministral 3B",
-    "name": "mistralai/ministral-3b",
-    "max_tokens": 131072,
     "max_output_tokens": null,
     "max_completion_tokens": null
   },
@@ -1351,15 +1372,15 @@
     "max_completion_tokens": 131072
   },
   {
-    "display_name": "Inflection: Inflection 3 Productivity",
-    "name": "inflection/inflection-3-productivity",
+    "display_name": "Inflection: Inflection 3 Pi",
+    "name": "inflection/inflection-3-pi",
     "max_tokens": 8000,
     "max_output_tokens": 1024,
     "max_completion_tokens": 1024
   },
   {
-    "display_name": "Inflection: Inflection 3 Pi",
-    "name": "inflection/inflection-3-pi",
+    "display_name": "Inflection: Inflection 3 Productivity",
+    "name": "inflection/inflection-3-productivity",
     "max_tokens": 8000,
     "max_output_tokens": 1024,
     "max_completion_tokens": 1024
@@ -1379,13 +1400,6 @@
     "max_completion_tokens": null
   },
   {
-    "display_name": "Magnum v2 72B",
-    "name": "anthracite-org/magnum-v2-72b",
-    "max_tokens": 32768,
-    "max_output_tokens": null,
-    "max_completion_tokens": null
-  },
-  {
     "display_name": "Liquid: LFM 40B MoE",
     "name": "liquid/lfm-40b",
     "max_tokens": 32768,
@@ -1393,18 +1407,32 @@
     "max_completion_tokens": null
   },
   {
-    "display_name": "Meta: Llama 3.2 3B Instruct (free)",
-    "name": "meta-llama/llama-3.2-3b-instruct:free",
-    "max_tokens": 20000,
-    "max_output_tokens": 20000,
-    "max_completion_tokens": 20000
+    "display_name": "Magnum v2 72B",
+    "name": "anthracite-org/magnum-v2-72b",
+    "max_tokens": 32768,
+    "max_output_tokens": null,
+    "max_completion_tokens": null
   },
   {
-    "display_name": "Meta: Llama 3.2 3B Instruct",
-    "name": "meta-llama/llama-3.2-3b-instruct",
+    "display_name": "Meta: Llama 3.2 11B Vision Instruct (free)",
+    "name": "meta-llama/llama-3.2-11b-vision-instruct:free",
+    "max_tokens": 131072,
+    "max_output_tokens": 2048,
+    "max_completion_tokens": 2048
+  },
+  {
+    "display_name": "Meta: Llama 3.2 11B Vision Instruct",
+    "name": "meta-llama/llama-3.2-11b-vision-instruct",
     "max_tokens": 131072,
     "max_output_tokens": 16384,
     "max_completion_tokens": 16384
+  },
+  {
+    "display_name": "Meta: Llama 3.2 90B Vision Instruct",
+    "name": "meta-llama/llama-3.2-90b-vision-instruct",
+    "max_tokens": 131072,
+    "max_output_tokens": 2048,
+    "max_completion_tokens": 2048
   },
   {
     "display_name": "Meta: Llama 3.2 1B Instruct (free)",
@@ -1421,22 +1449,15 @@
     "max_completion_tokens": 16384
   },
   {
-    "display_name": "Meta: Llama 3.2 90B Vision Instruct",
-    "name": "meta-llama/llama-3.2-90b-vision-instruct",
-    "max_tokens": 131072,
-    "max_output_tokens": 2048,
-    "max_completion_tokens": 2048
+    "display_name": "Meta: Llama 3.2 3B Instruct (free)",
+    "name": "meta-llama/llama-3.2-3b-instruct:free",
+    "max_tokens": 20000,
+    "max_output_tokens": 20000,
+    "max_completion_tokens": 20000
   },
   {
-    "display_name": "Meta: Llama 3.2 11B Vision Instruct (free)",
-    "name": "meta-llama/llama-3.2-11b-vision-instruct:free",
-    "max_tokens": 131072,
-    "max_output_tokens": 2048,
-    "max_completion_tokens": 2048
-  },
-  {
-    "display_name": "Meta: Llama 3.2 11B Vision Instruct",
-    "name": "meta-llama/llama-3.2-11b-vision-instruct",
+    "display_name": "Meta: Llama 3.2 3B Instruct",
+    "name": "meta-llama/llama-3.2-3b-instruct",
     "max_tokens": 131072,
     "max_output_tokens": 16384,
     "max_completion_tokens": 16384
@@ -1463,11 +1484,11 @@
     "max_completion_tokens": 2048
   },
   {
-    "display_name": "OpenAI: o1-preview",
-    "name": "openai/o1-preview",
+    "display_name": "OpenAI: o1-mini",
+    "name": "openai/o1-mini",
     "max_tokens": 128000,
-    "max_output_tokens": 32768,
-    "max_completion_tokens": 32768
+    "max_output_tokens": 65536,
+    "max_completion_tokens": 65536
   },
   {
     "display_name": "OpenAI: o1-preview (2024-09-12)",
@@ -1477,11 +1498,11 @@
     "max_completion_tokens": 32768
   },
   {
-    "display_name": "OpenAI: o1-mini",
-    "name": "openai/o1-mini",
+    "display_name": "OpenAI: o1-preview",
+    "name": "openai/o1-preview",
     "max_tokens": 128000,
-    "max_output_tokens": 65536,
-    "max_completion_tokens": 65536
+    "max_output_tokens": 32768,
+    "max_completion_tokens": 32768
   },
   {
     "display_name": "OpenAI: o1-mini (2024-09-12)",
@@ -1512,6 +1533,13 @@
     "max_completion_tokens": 4000
   },
   {
+    "display_name": "Sao10K: Llama 3.1 Euryale 70B v2.2",
+    "name": "sao10k/l3.1-euryale-70b",
+    "max_tokens": 131072,
+    "max_output_tokens": 16384,
+    "max_completion_tokens": 16384
+  },
+  {
     "display_name": "Qwen: Qwen2.5-VL 7B Instruct (free)",
     "name": "qwen/qwen-2.5-vl-7b-instruct:free",
     "max_tokens": 32768,
@@ -1526,16 +1554,9 @@
     "max_completion_tokens": null
   },
   {
-    "display_name": "Sao10K: Llama 3.1 Euryale 70B v2.2",
-    "name": "sao10k/l3.1-euryale-70b",
-    "max_tokens": 131072,
-    "max_output_tokens": 16384,
-    "max_completion_tokens": 16384
-  },
-  {
     "display_name": "Microsoft: Phi-3.5 Mini 128K Instruct",
     "name": "microsoft/phi-3.5-mini-128k-instruct",
-    "max_tokens": 131072,
+    "max_tokens": 128000,
     "max_output_tokens": null,
     "max_completion_tokens": null
   },
@@ -1631,13 +1652,6 @@
     "max_completion_tokens": 16384
   },
   {
-    "display_name": "Meta: Llama 3.1 405B Instruct",
-    "name": "meta-llama/llama-3.1-405b-instruct",
-    "max_tokens": 32768,
-    "max_output_tokens": 16384,
-    "max_completion_tokens": 16384
-  },
-  {
     "display_name": "Meta: Llama 3.1 70B Instruct",
     "name": "meta-llama/llama-3.1-70b-instruct",
     "max_tokens": 131072,
@@ -1645,11 +1659,11 @@
     "max_completion_tokens": 16384
   },
   {
-    "display_name": "Mistral: Codestral Mamba",
-    "name": "mistralai/codestral-mamba",
-    "max_tokens": 262144,
-    "max_output_tokens": null,
-    "max_completion_tokens": null
+    "display_name": "Meta: Llama 3.1 405B Instruct",
+    "name": "meta-llama/llama-3.1-405b-instruct",
+    "max_tokens": 32768,
+    "max_output_tokens": 16384,
+    "max_completion_tokens": 16384
   },
   {
     "display_name": "Mistral: Mistral Nemo (free)",
@@ -1662,15 +1676,15 @@
     "display_name": "Mistral: Mistral Nemo",
     "name": "mistralai/mistral-nemo",
     "max_tokens": 131072,
-    "max_output_tokens": 131072,
-    "max_completion_tokens": 131072
-  },
-  {
-    "display_name": "OpenAI: GPT-4o-mini",
-    "name": "openai/gpt-4o-mini",
-    "max_tokens": 128000,
     "max_output_tokens": 16384,
     "max_completion_tokens": 16384
+  },
+  {
+    "display_name": "Mistral: Codestral Mamba",
+    "name": "mistralai/codestral-mamba",
+    "max_tokens": 262144,
+    "max_output_tokens": null,
+    "max_completion_tokens": null
   },
   {
     "display_name": "OpenAI: GPT-4o-mini (2024-07-18)",
@@ -1680,11 +1694,18 @@
     "max_completion_tokens": 16384
   },
   {
+    "display_name": "OpenAI: GPT-4o-mini",
+    "name": "openai/gpt-4o-mini",
+    "max_tokens": 128000,
+    "max_output_tokens": 16384,
+    "max_completion_tokens": 16384
+  },
+  {
     "display_name": "Google: Gemma 2 27B",
     "name": "google/gemma-2-27b-it",
     "max_tokens": 8192,
-    "max_output_tokens": null,
-    "max_completion_tokens": null
+    "max_output_tokens": 2048,
+    "max_completion_tokens": 2048
   },
   {
     "display_name": "Magnum 72B",
@@ -1704,8 +1725,8 @@
     "display_name": "Google: Gemma 2 9B",
     "name": "google/gemma-2-9b-it",
     "max_tokens": 8192,
-    "max_output_tokens": null,
-    "max_completion_tokens": null
+    "max_output_tokens": 131072,
+    "max_completion_tokens": 131072
   },
   {
     "display_name": "01.AI: Yi Large",
@@ -1750,6 +1771,20 @@
     "max_completion_tokens": 4096
   },
   {
+    "display_name": "Mistral: Mistral 7B Instruct v0.3",
+    "name": "mistralai/mistral-7b-instruct-v0.3",
+    "max_tokens": 32768,
+    "max_output_tokens": 16384,
+    "max_completion_tokens": 16384
+  },
+  {
+    "display_name": "NousResearch: Hermes 2 Pro - Llama-3 8B",
+    "name": "nousresearch/hermes-2-pro-llama-3-8b",
+    "max_tokens": 131072,
+    "max_output_tokens": 131072,
+    "max_completion_tokens": 131072
+  },
+  {
     "display_name": "Mistral: Mistral 7B Instruct (free)",
     "name": "mistralai/mistral-7b-instruct:free",
     "max_tokens": 32768,
@@ -1764,20 +1799,6 @@
     "max_completion_tokens": 16384
   },
   {
-    "display_name": "NousResearch: Hermes 2 Pro - Llama-3 8B",
-    "name": "nousresearch/hermes-2-pro-llama-3-8b",
-    "max_tokens": 131072,
-    "max_output_tokens": 131072,
-    "max_completion_tokens": 131072
-  },
-  {
-    "display_name": "Mistral: Mistral 7B Instruct v0.3",
-    "name": "mistralai/mistral-7b-instruct-v0.3",
-    "max_tokens": 32768,
-    "max_output_tokens": 16384,
-    "max_completion_tokens": 16384
-  },
-  {
     "display_name": "Microsoft: Phi-3 Mini 128K Instruct",
     "name": "microsoft/phi-3-mini-128k-instruct",
     "max_tokens": 128000,
@@ -1787,7 +1808,7 @@
   {
     "display_name": "Microsoft: Phi-3 Medium 128K Instruct",
     "name": "microsoft/phi-3-medium-128k-instruct",
-    "max_tokens": 131072,
+    "max_tokens": 128000,
     "max_output_tokens": null,
     "max_completion_tokens": null
   },
@@ -1799,18 +1820,25 @@
     "max_completion_tokens": 4096
   },
   {
-    "display_name": "DeepSeek-Coder-V2",
-    "name": "deepseek/deepseek-coder",
-    "max_tokens": 128000,
-    "max_output_tokens": null,
-    "max_completion_tokens": null
-  },
-  {
     "display_name": "Google: Gemini 1.5 Flash ",
     "name": "google/gemini-flash-1.5",
     "max_tokens": 1000000,
     "max_output_tokens": 8192,
     "max_completion_tokens": 8192
+  },
+  {
+    "display_name": "OpenAI: GPT-4o (2024-05-13)",
+    "name": "openai/gpt-4o-2024-05-13",
+    "max_tokens": 128000,
+    "max_output_tokens": 4096,
+    "max_completion_tokens": 4096
+  },
+  {
+    "display_name": "Meta: LlamaGuard 2 8B",
+    "name": "meta-llama/llama-guard-2-8b",
+    "max_tokens": 8192,
+    "max_output_tokens": null,
+    "max_completion_tokens": null
   },
   {
     "display_name": "OpenAI: GPT-4o",
@@ -1827,27 +1855,6 @@
     "max_completion_tokens": 64000
   },
   {
-    "display_name": "Meta: LlamaGuard 2 8B",
-    "name": "meta-llama/llama-guard-2-8b",
-    "max_tokens": 8192,
-    "max_output_tokens": null,
-    "max_completion_tokens": null
-  },
-  {
-    "display_name": "OpenAI: GPT-4o (2024-05-13)",
-    "name": "openai/gpt-4o-2024-05-13",
-    "max_tokens": 128000,
-    "max_output_tokens": 4096,
-    "max_completion_tokens": 4096
-  },
-  {
-    "display_name": "OLMo 7B Instruct",
-    "name": "allenai/olmo-7b-instruct",
-    "max_tokens": 2048,
-    "max_output_tokens": null,
-    "max_completion_tokens": null
-  },
-  {
     "display_name": "NeverSleep: Llama 3 Lumimaid 8B",
     "name": "neversleep/llama-3-lumimaid-8b",
     "max_tokens": 24576,
@@ -1862,15 +1869,15 @@
     "max_completion_tokens": 4096
   },
   {
-    "display_name": "Meta: Llama 3 8B Instruct",
-    "name": "meta-llama/llama-3-8b-instruct",
+    "display_name": "Meta: Llama 3 70B Instruct",
+    "name": "meta-llama/llama-3-70b-instruct",
     "max_tokens": 8192,
     "max_output_tokens": 16384,
     "max_completion_tokens": 16384
   },
   {
-    "display_name": "Meta: Llama 3 70B Instruct",
-    "name": "meta-llama/llama-3-70b-instruct",
+    "display_name": "Meta: Llama 3 8B Instruct",
+    "name": "meta-llama/llama-3-8b-instruct",
     "max_tokens": 8192,
     "max_output_tokens": 16384,
     "max_completion_tokens": 16384
@@ -1890,18 +1897,18 @@
     "max_completion_tokens": 16384
   },
   {
-    "display_name": "Google: Gemini 1.5 Pro",
-    "name": "google/gemini-pro-1.5",
-    "max_tokens": 2000000,
-    "max_output_tokens": 8192,
-    "max_completion_tokens": 8192
-  },
-  {
     "display_name": "OpenAI: GPT-4 Turbo",
     "name": "openai/gpt-4-turbo",
     "max_tokens": 128000,
     "max_output_tokens": 4096,
     "max_completion_tokens": 4096
+  },
+  {
+    "display_name": "Google: Gemini 1.5 Pro",
+    "name": "google/gemini-pro-1.5",
+    "max_tokens": 2000000,
+    "max_output_tokens": 8192,
+    "max_completion_tokens": 8192
   },
   {
     "display_name": "Cohere: Command R+",
@@ -1921,20 +1928,20 @@
     "display_name": "Midnight Rose 70B",
     "name": "sophosympatheia/midnight-rose-70b",
     "max_tokens": 4096,
-    "max_output_tokens": null,
-    "max_completion_tokens": null
-  },
-  {
-    "display_name": "Cohere: Command",
-    "name": "cohere/command",
-    "max_tokens": 4096,
-    "max_output_tokens": 4000,
-    "max_completion_tokens": 4000
+    "max_output_tokens": 2048,
+    "max_completion_tokens": 2048
   },
   {
     "display_name": "Cohere: Command R",
     "name": "cohere/command-r",
     "max_tokens": 128000,
+    "max_output_tokens": 4000,
+    "max_completion_tokens": 4000
+  },
+  {
+    "display_name": "Cohere: Command",
+    "name": "cohere/command",
+    "max_tokens": 4096,
     "max_output_tokens": 4000,
     "max_completion_tokens": 4000
   },
@@ -1948,20 +1955,6 @@
   {
     "display_name": "Anthropic: Claude 3 Haiku",
     "name": "anthropic/claude-3-haiku",
-    "max_tokens": 200000,
-    "max_output_tokens": 4096,
-    "max_completion_tokens": 4096
-  },
-  {
-    "display_name": "Anthropic: Claude 3 Opus (self-moderated)",
-    "name": "anthropic/claude-3-opus:beta",
-    "max_tokens": 200000,
-    "max_output_tokens": 4096,
-    "max_completion_tokens": 4096
-  },
-  {
-    "display_name": "Anthropic: Claude 3 Opus",
-    "name": "anthropic/claude-3-opus",
     "max_tokens": 200000,
     "max_output_tokens": 4096,
     "max_completion_tokens": 4096
@@ -1981,6 +1974,20 @@
     "max_completion_tokens": 4096
   },
   {
+    "display_name": "Anthropic: Claude 3 Opus (self-moderated)",
+    "name": "anthropic/claude-3-opus:beta",
+    "max_tokens": 200000,
+    "max_output_tokens": 4096,
+    "max_completion_tokens": 4096
+  },
+  {
+    "display_name": "Anthropic: Claude 3 Opus",
+    "name": "anthropic/claude-3-opus",
+    "max_tokens": 200000,
+    "max_output_tokens": 4096,
+    "max_completion_tokens": 4096
+  },
+  {
     "display_name": "Cohere: Command R (03-2024)",
     "name": "cohere/command-r-03-2024",
     "max_tokens": 128000,
@@ -1995,16 +2002,16 @@
     "max_completion_tokens": null
   },
   {
-    "display_name": "OpenAI: GPT-3.5 Turbo (older v0613)",
-    "name": "openai/gpt-3.5-turbo-0613",
-    "max_tokens": 4095,
+    "display_name": "OpenAI: GPT-4 Turbo Preview",
+    "name": "openai/gpt-4-turbo-preview",
+    "max_tokens": 128000,
     "max_output_tokens": 4096,
     "max_completion_tokens": 4096
   },
   {
-    "display_name": "OpenAI: GPT-4 Turbo Preview",
-    "name": "openai/gpt-4-turbo-preview",
-    "max_tokens": 128000,
+    "display_name": "OpenAI: GPT-3.5 Turbo (older v0613)",
+    "name": "openai/gpt-3.5-turbo-0613",
+    "max_tokens": 4095,
     "max_output_tokens": 4096,
     "max_completion_tokens": 4096
   },
@@ -2016,8 +2023,8 @@
     "max_completion_tokens": 2048
   },
   {
-    "display_name": "Mistral Medium",
-    "name": "mistralai/mistral-medium",
+    "display_name": "Mistral Tiny",
+    "name": "mistralai/mistral-tiny",
     "max_tokens": 32768,
     "max_output_tokens": null,
     "max_completion_tokens": null
@@ -2030,8 +2037,8 @@
     "max_completion_tokens": null
   },
   {
-    "display_name": "Mistral Tiny",
-    "name": "mistralai/mistral-tiny",
+    "display_name": "Mistral Medium",
+    "name": "mistralai/mistral-medium",
     "max_tokens": 32768,
     "max_output_tokens": null,
     "max_completion_tokens": null
@@ -2086,18 +2093,18 @@
     "max_completion_tokens": 4096
   },
   {
-    "display_name": "Toppy M 7B",
-    "name": "undi95/toppy-m-7b",
-    "max_tokens": 4096,
-    "max_output_tokens": 4096,
-    "max_completion_tokens": 4096
-  },
-  {
     "display_name": "Goliath 120B",
     "name": "alpindale/goliath-120b",
     "max_tokens": 6144,
     "max_output_tokens": 512,
     "max_completion_tokens": 512
+  },
+  {
+    "display_name": "Toppy M 7B",
+    "name": "undi95/toppy-m-7b",
+    "max_tokens": 4096,
+    "max_output_tokens": 4096,
+    "max_completion_tokens": 4096
   },
   {
     "display_name": "Auto Router",
@@ -2149,15 +2156,15 @@
     "max_completion_tokens": 4096
   },
   {
-    "display_name": "OpenAI: GPT-4 32k",
-    "name": "openai/gpt-4-32k",
+    "display_name": "OpenAI: GPT-4 32k (older v0314)",
+    "name": "openai/gpt-4-32k-0314",
     "max_tokens": 32767,
     "max_output_tokens": 4096,
     "max_completion_tokens": 4096
   },
   {
-    "display_name": "OpenAI: GPT-4 32k (older v0314)",
-    "name": "openai/gpt-4-32k-0314",
+    "display_name": "OpenAI: GPT-4 32k",
+    "name": "openai/gpt-4-32k",
     "max_tokens": 32767,
     "max_output_tokens": 4096,
     "max_completion_tokens": 4096
@@ -2212,6 +2219,13 @@
     "max_completion_tokens": 4096
   },
   {
+    "display_name": "OpenAI: GPT-4 (older v0314)",
+    "name": "openai/gpt-4-0314",
+    "max_tokens": 8191,
+    "max_output_tokens": 4096,
+    "max_completion_tokens": 4096
+  },
+  {
     "display_name": "OpenAI: GPT-3.5 Turbo 16k",
     "name": "openai/gpt-3.5-turbo-0125",
     "max_tokens": 16385,
@@ -2221,13 +2235,6 @@
   {
     "display_name": "OpenAI: GPT-4",
     "name": "openai/gpt-4",
-    "max_tokens": 8191,
-    "max_output_tokens": 4096,
-    "max_completion_tokens": 4096
-  },
-  {
-    "display_name": "OpenAI: GPT-4 (older v0314)",
-    "name": "openai/gpt-4-0314",
     "max_tokens": 8191,
     "max_output_tokens": 4096,
     "max_completion_tokens": 4096

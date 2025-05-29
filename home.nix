@@ -79,6 +79,71 @@ in {
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
+    settings = {
+      custom = {
+        jj = {
+          ignore_timeout = true;
+          description = "The current jj status";
+          detect_folders = [ ".jj" ];
+          symbol = "🥋 ";
+          command = ''
+            jj log --revisions @ --no-graph --ignore-working-copy --color always --limit 1 --template '
+              separate(" ",
+                change_id.shortest(4),
+                bookmarks,
+                "|",
+                concat(
+                  if(conflict, "💥"),
+                  if(divergent, "🚧"),
+                  if(hidden, "👻"),
+                  if(immutable, "🔒"),
+                ),
+                raw_escape_sequence("\x1b[1;32m") ++ if(empty, "(empty)"),
+                raw_escape_sequence("\x1b[1;32m") ++ coalesce(
+                  truncate_end(29, description.first_line(), "…"),
+                  "(no description set)",
+                ) ++ raw_escape_sequence("\x1b[0m"),
+              )
+            '
+          '';
+        };
+        # re-enable git_branch as long as we're not in a jj repo
+        git_branch = {
+          when = true;
+          command =
+            "jj root --ignore-working-copy >/dev/null 2>&1 || starship module git_branch";
+          description = "Only show git_branch if we're not in a jj repo";
+        };
+
+        git_state = {
+          when = true;
+          command =
+            "jj root --ignore-working-copy >/dev/null 2>&1 || starship module git_state";
+          description = "Only show git_state if we're not in a jj repo";
+        };
+
+        git_commit = {
+          when = true;
+          command =
+            "jj root --ignore-working-copy >/dev/null 2>&1 || starship module git_commit";
+          description = "Only show git_commit if we're not in a jj repo";
+        };
+
+        git_metrics = {
+          when = true;
+          command =
+            "jj root --ignore-working-copy >/dev/null 2>&1 || starship module git_metrics";
+          description = "Only show git_metrics if we're not in a jj repo";
+        };
+      };
+      git_state = { disabled = true; };
+
+      git_commit = { disabled = true; };
+
+      git_metrics = { disabled = true; };
+
+      git_branch = { disabled = true; };
+    };
   };
 
   programs.yazi = {
@@ -206,7 +271,6 @@ in {
     enable = true;
     profiles.default.extensions = with pkgs.vscode-extensions; [
       #vadimcn.vscode-lldb
-      # pkgs.vscode-marketplace.sourcegraph.cody-ai
       fill-labs.dependi
       mkhl.direnv
       tamasfe.even-better-toml
@@ -511,11 +575,11 @@ in {
         enabled = true;
         default_model = {
           provider = "openai";
-          model = "anthropic/claude-opus-4";
+          model = "anthropic/claude-sonnet-4";
         };
         editor_model = {
           provider = "openai";
-          model = "anthropic/claude-opus-4";
+          model = "anthropic/claude-sonnet-4";
         };
       };
     };
