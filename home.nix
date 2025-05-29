@@ -234,6 +234,10 @@ in {
         pager = "delta";
         diff = { format = "git"; };
       };
+      revsets = {
+        log =
+          "present(@) | ancestors(immutable_heads().., 8) | present(trunk())";
+      };
     };
   };
 
