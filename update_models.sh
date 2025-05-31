@@ -37,7 +37,7 @@ jq_filter='[
     max_output_tokens: .top_provider.max_completion_tokens,
     max_completion_tokens: .top_provider.max_completion_tokens
   }
-]'
+] | sort_by(.name)'
 
 # Process the API response with jq and save to the output file
 echo "Processing data with jq and saving to $OUTPUT_FILE..."
