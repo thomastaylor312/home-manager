@@ -238,6 +238,7 @@ in {
         log =
           "present(@) | ancestors(immutable_heads().., 8) | present(trunk())";
       };
+      templates = { commit_trailers = "format_signed_off_by_trailer(self)"; };
     };
   };
 
