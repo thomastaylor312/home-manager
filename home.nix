@@ -345,6 +345,10 @@ in {
               "GITHUB_PERSONAL_ACCESS_TOKEN" = "\${input:github_token}";
             };
           };
+          fetch = {
+            "command" = "docker";
+            "args" = [ "run" "-i" "--rm" "mcp/fetch" ];
+          };
         };
       };
     };
@@ -421,7 +425,7 @@ in {
 
     setupClineMcp = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
             run mkdir -p "$HOME/Library/Application Support/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings"
-            json_path="$HOME/Library/Application Support/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/cline_mcp_settings.json"
+            json_path="$HOME/Library/Application Support/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/mcp_settings.json"
             run rm -f "$json_path"
             run cat > "$json_path" << 'EOF'
       {
@@ -441,6 +445,15 @@ in {
               },
               "disabled": false,
               "autoApprove": []
+            },
+          "fetch": {
+              "command": "docker",
+              "args": [
+                "run",
+                "-i",
+                "--rm",
+                "mcp/fetch"
+              ]
             }
         }
       }
