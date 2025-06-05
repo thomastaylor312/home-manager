@@ -30,6 +30,7 @@ in {
       google-cloud-sdk
       gofumpt
       pgcli
+      kubelogin-oidc
       (azure-cli.withExtensions [ azure-cli.extensions.aks-preview ])
     ];
 
