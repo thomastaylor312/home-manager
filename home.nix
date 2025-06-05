@@ -289,7 +289,6 @@ in {
       ziglang.vscode-zig
       pkgs.vscode-marketplace.jjk.jjk
       pkgs.vscode-marketplace.rooveterinaryinc.roo-cline
-      pkgs.vscode-marketplace-release.eamodio.gitlens
     ];
     profiles.default.userSettings = {
       "editor.inlineSuggest.enabled" = true;
