@@ -28,7 +28,10 @@ in {
     };
 
     programs.vscode = {
-      profiles.default.userSettings = { "svelte.enable-ts-plugin" = true; };
+      profiles.default.userSettings = {
+        "svelte.enable-ts-plugin" = true;
+        "git.enabled" = false;
+      };
       profiles.default.extensions = with packages.vscode-extensions; [
         ms-python.python
         ms-python.vscode-pylance
