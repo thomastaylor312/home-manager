@@ -232,7 +232,7 @@ in {
       user = { name = "Taylor Thomas"; };
       ui = {
         pager = "delta";
-        diff = { format = "git"; };
+        diff-formatter = ":git";
       };
       revsets = {
         log =
