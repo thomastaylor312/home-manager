@@ -57,6 +57,7 @@ in {
         packages.vscode-marketplace.bytecodealliance.wit-idl
         packages.vscode-marketplace.redhat.vscode-yaml
         ms-vscode-remote.remote-ssh
+        hashicorp.terraform
       ];
       profiles.default.userSettings = {
         "codesnap.containerPadding" = "0em";
