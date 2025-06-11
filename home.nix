@@ -444,7 +444,7 @@ in {
               },
               "disabled": false,
               "autoApprove": []
-            },
+          },
           "fetch": {
               "command": "docker",
               "args": [
@@ -453,7 +453,7 @@ in {
                 "--rm",
                 "mcp/fetch"
               ]
-            }
+          }
         }
       }
       EOF
@@ -528,6 +528,15 @@ in {
                 "OBSIDIAN_API_KEY":"<REPLACE ME2>",
                 "PATH": "<PATH>"
               }
+            },
+            "fetch": {
+                "command": "docker",
+                "args": [
+                  "run",
+                  "-i",
+                  "--rm",
+                  "mcp/fetch"
+                ]
             }
           }
         }

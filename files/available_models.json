@@ -492,9 +492,9 @@
   {
     "display_name": "DeepSeek: Deepseek R1 0528 Qwen3 8B",
     "name": "deepseek/deepseek-r1-0528-qwen3-8b",
-    "max_tokens": 128000,
-    "max_output_tokens": 32000,
-    "max_completion_tokens": 32000
+    "max_tokens": 131072,
+    "max_output_tokens": 131072,
+    "max_completion_tokens": 131072
   },
   {
     "display_name": "DeepSeek: Deepseek R1 0528 Qwen3 8B (free)",
@@ -686,8 +686,15 @@
     "max_completion_tokens": 65535
   },
   {
-    "display_name": "Google: Gemini 2.5 Pro Preview",
+    "display_name": "Google: Gemini 2.5 Pro Preview 06-05",
     "name": "google/gemini-2.5-pro-preview",
+    "max_tokens": 1048576,
+    "max_output_tokens": 65536,
+    "max_completion_tokens": 65536
+  },
+  {
+    "display_name": "Google: Gemini 2.5 Pro Preview 05-06",
+    "name": "google/gemini-2.5-pro-preview-05-06",
     "max_tokens": 1048576,
     "max_output_tokens": 65535,
     "max_completion_tokens": 65535
@@ -733,13 +740,6 @@
     "max_tokens": 8192,
     "max_output_tokens": 8192,
     "max_completion_tokens": 8192
-  },
-  {
-    "display_name": "Google: Gemma 2 2B",
-    "name": "google/gemma-2b-it",
-    "max_tokens": 8192,
-    "max_output_tokens": null,
-    "max_completion_tokens": null
   },
   {
     "display_name": "Google: Gemma 3 12B",
@@ -912,9 +912,9 @@
   {
     "display_name": "Meta: Llama 3.1 8B Instruct",
     "name": "meta-llama/llama-3.1-8b-instruct",
-    "max_tokens": 16384,
-    "max_output_tokens": 16384,
-    "max_completion_tokens": 16384
+    "max_tokens": 131000,
+    "max_output_tokens": 131000,
+    "max_completion_tokens": 131000
   },
   {
     "display_name": "Meta: Llama 3.1 8B Instruct (free)",
@@ -1141,6 +1141,27 @@
     "max_completion_tokens": null
   },
   {
+    "display_name": "Mistral: Magistral Medium 2506",
+    "name": "mistralai/magistral-medium-2506",
+    "max_tokens": 40960,
+    "max_output_tokens": 40000,
+    "max_completion_tokens": 40000
+  },
+  {
+    "display_name": "Mistral: Magistral Medium 2506 (thinking)",
+    "name": "mistralai/magistral-medium-2506:thinking",
+    "max_tokens": 40960,
+    "max_output_tokens": 40000,
+    "max_completion_tokens": 40000
+  },
+  {
+    "display_name": "Mistral: Magistral Small 2506",
+    "name": "mistralai/magistral-small-2506",
+    "max_tokens": 40000,
+    "max_output_tokens": 40000,
+    "max_completion_tokens": 40000
+  },
+  {
     "display_name": "Mistral: Ministral 3B",
     "name": "mistralai/ministral-3b",
     "max_tokens": 131072,
@@ -1220,7 +1241,7 @@
   {
     "display_name": "Mistral: Mistral Medium 3",
     "name": "mistralai/mistral-medium-3",
-    "max_tokens": 131072,
+    "max_tokens": 32768,
     "max_output_tokens": null,
     "max_completion_tokens": null
   },
@@ -1256,8 +1277,8 @@
     "display_name": "Mistral: Mistral Small 3",
     "name": "mistralai/mistral-small-24b-instruct-2501",
     "max_tokens": 32768,
-    "max_output_tokens": 16384,
-    "max_completion_tokens": 16384
+    "max_output_tokens": 32768,
+    "max_completion_tokens": 32768
   },
   {
     "display_name": "Mistral: Mistral Small 3 (free)",
@@ -1529,20 +1550,6 @@
     "display_name": "OpenAI: GPT-4 Turbo (older v1106)",
     "name": "openai/gpt-4-1106-preview",
     "max_tokens": 128000,
-    "max_output_tokens": 4096,
-    "max_completion_tokens": 4096
-  },
-  {
-    "display_name": "OpenAI: GPT-4 32k",
-    "name": "openai/gpt-4-32k",
-    "max_tokens": 32767,
-    "max_output_tokens": 4096,
-    "max_completion_tokens": 4096
-  },
-  {
-    "display_name": "OpenAI: GPT-4 32k (older v0314)",
-    "name": "openai/gpt-4-32k-0314",
-    "max_tokens": 32767,
     "max_output_tokens": 4096,
     "max_completion_tokens": 4096
   },
@@ -2086,13 +2093,6 @@
     "max_completion_tokens": 16384
   },
   {
-    "display_name": "Sarvam AI: Sarvam-M",
-    "name": "sarvamai/sarvam-m",
-    "max_tokens": 32768,
-    "max_output_tokens": 32768,
-    "max_completion_tokens": 32768
-  },
-  {
     "display_name": "Sarvam AI: Sarvam-M (free)",
     "name": "sarvamai/sarvam-m:free",
     "max_tokens": 32768,
@@ -2107,9 +2107,9 @@
     "max_completion_tokens": null
   },
   {
-    "display_name": "Typhoon2 8B Instruct",
-    "name": "scb10x/llama3.1-typhoon2-8b-instruct",
-    "max_tokens": 8192,
+    "display_name": "SentientAGI: Dobby Mini Plus Llama 3.1 8B",
+    "name": "sentientagi/dobby-mini-unhinged-plus-llama-3.1-8b",
+    "max_tokens": 131072,
     "max_output_tokens": null,
     "max_completion_tokens": null
   },
