@@ -57,7 +57,6 @@
       } // {
         attic = attic.packages.${system}.attic;
         nix = determinatenix.packages.${system}.default;
-        go = stagingPkgs.go;
       };
     in {
       homeConfigurations."oftaylor" =
@@ -96,7 +95,10 @@
 
         # Optionally use extraSpecialArgs
         # to pass through arguments to home.nix
-        extraSpecialArgs = { otel-tui = otel-tui.packages.${system}.otel-tui; };
+        extraSpecialArgs = {
+          otel-tui = otel-tui.packages.${system}.otel-tui;
+          tmp-go = stagingPkgs.go;
+        };
       };
     };
 }
