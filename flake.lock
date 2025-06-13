@@ -393,6 +393,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-staging-next": {
+      "locked": {
+        "lastModified": 1749837947,
+        "narHash": "sha256-QT/ocID0Wrg9l62zJlEH4xbjKOnof2WJkKFLiG5ImNE=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "78742e6d53be78304f11112c8b21db540aa7b574",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "staging-next",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs_2": {
       "locked": {
         "lastModified": 1749558678,
@@ -440,6 +456,7 @@
         "nix-vscode-extensions": "nix-vscode-extensions",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-patch": "nixpkgs-patch",
+        "nixpkgs-staging-next": "nixpkgs-staging-next",
         "otel-tui": "otel-tui"
       }
     },
