@@ -566,6 +566,7 @@ in {
       "dockerfile"
       "docker-compose"
       "terraform"
+      "sql"
     ];
     userSettings = {
       auto_update = false;
