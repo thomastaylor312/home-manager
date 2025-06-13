@@ -31,6 +31,7 @@ in {
       gofumpt
       pgcli
       kubelogin-oidc
+      delve
       (azure-cli.withExtensions [ azure-cli.extensions.aks-preview ])
     ];
 
