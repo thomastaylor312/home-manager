@@ -588,24 +588,16 @@ in {
       };
       buffer_font_features = { calt = false; };
       buffer_font_family = "Hack";
-      language_models = {
-        copilot_chat = { };
-        openai = {
-          version = "1";
-          api_url = "https://openrouter.ai/api/v1";
-          available_models =
-            builtins.fromJSON (builtins.readFile ./files/available_models.json);
-        };
-      };
+      language_models = { copilot_chat = { }; };
       agent = {
         version = "2";
         enabled = true;
         default_model = {
-          provider = "openai";
+          provider = "openrouter";
           model = "anthropic/claude-sonnet-4";
         };
         editor_model = {
-          provider = "openai";
+          provider = "openrouter";
           model = "anthropic/claude-sonnet-4";
         };
       };
