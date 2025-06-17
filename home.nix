@@ -73,7 +73,7 @@ in {
   programs.helix = {
     enable = true;
     defaultEditor = true;
-    settings.theme = "onedark";
+    settings.theme = "dracula";
   };
 
   programs.starship = {
@@ -162,8 +162,37 @@ in {
       window-padding-x = 15;
       window-padding-y = 15;
       window-padding-balance = true;
-      theme = "GruvboxDarkHard"; # Sublette is another I like
+      theme = "dracula"; # Sublette is another I like
       macos-icon = "glass";
+    };
+    themes = {
+      dracula = {
+        background = "282a36";
+        cursor-color = "f8f8f2";
+        cursor-text = "282a36";
+        foreground = "f8f8f2";
+        palette = [
+          "0=#21222c"
+          "1=#ff5555"
+          "2=#50fa7b"
+          "3=#f1fa8c"
+          "4=#bd93f9"
+          "5=#ff79c6"
+          "6=#8be9fd"
+          "7=#f8f8f2"
+          "8=#6272a4"
+          "9=#ff6e6e"
+          "10=#69ff94"
+          "11=#ffffa5"
+          "12=#d6acff"
+          "13=#ff92df"
+          "14=#a4ffff"
+          "15=#ffffff"
+        ];
+        selection-background = "44475a";
+        selection-foreground = "f8f8f2";
+      };
+
     };
   };
 
@@ -204,7 +233,7 @@ in {
 
     oh-my-zsh = {
       enable = true;
-      plugins = [ "git" "jj" ];
+      plugins = [ "git" "jj" "1password" ];
     };
   };
 
@@ -289,10 +318,11 @@ in {
       ziglang.vscode-zig
       pkgs.vscode-marketplace.jjk.jjk
       pkgs.vscode-marketplace.rooveterinaryinc.roo-cline
+      dracula-theme.theme-dracula
     ];
     profiles.default.userSettings = {
       "editor.inlineSuggest.enabled" = true;
-      "workbench.colorTheme" = "One Dark Pro";
+      "workbench.colorTheme" = "Dracula Theme";
       "editor.formatOnSave" = true;
       "rust-analyzer.check.command" = "clippy";
       "rewrap.wrappingColumn" = 100;
@@ -555,18 +585,19 @@ in {
     enable = true;
     package = packages.recent-zed-editor;
     extensions = [
-      "nix"
+      "cargo-tom"
+      "docker-compose"
+      "dockerfile"
+      "dracula"
       "golangci-lint"
       "gosum"
+      "make"
+      "nix"
       "one-dark-pro"
-      "cargo-tom"
+      "sql"
+      "terraform"
       "toml"
       "wit"
-      "make"
-      "dockerfile"
-      "docker-compose"
-      "terraform"
-      "sql"
     ];
     userSettings = {
       auto_update = false;
@@ -576,8 +607,8 @@ in {
       preferred_line_length = 100;
       theme = {
         mode = "dark";
-        dark = "One Dark Pro";
-        light = "One Dark Pro";
+        dark = "Dracula";
+        light = "Dracula";
       };
       languages = { Nix = { language_servers = [ "nil" "!nixd" ]; }; };
       lsp = {
