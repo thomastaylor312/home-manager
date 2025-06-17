@@ -75,7 +75,10 @@ in {
   programs.helix = {
     enable = true;
     defaultEditor = true;
-    settings.theme = "dracula";
+    settings = {
+      theme = "dracula";
+      editor = { file-picker = { hidden = false; }; };
+    };
     languages = {
       language = [{
         name = "nix";
