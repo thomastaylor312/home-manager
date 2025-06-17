@@ -17,10 +17,12 @@ in {
     delta
     docker
     ffmpeg
+    gopls # For Go in helix
     hack-font
     iperf3
     jq
     just
+    marksman
     mtr
     nil
     nixfmt-classic
@@ -74,6 +76,13 @@ in {
     enable = true;
     defaultEditor = true;
     settings.theme = "dracula";
+    languages = {
+      language = [{
+        name = "nix";
+        formatter = { command = "nixfmt"; };
+        auto-format = true;
+      }];
+    };
   };
 
   programs.starship = {
@@ -592,6 +601,7 @@ in {
       "golangci-lint"
       "gosum"
       "make"
+      "marksman"
       "nix"
       "one-dark-pro"
       "sql"
