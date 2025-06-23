@@ -32,21 +32,12 @@
       url = "github:sigoden/llm-functions/main";
       flake = false;
     };
-    # Temporary workaround because it is taking forever for go and rust to be updated in nixpkgs
-    nixpkgs-staging-next = { url = "github:nixos/nixpkgs/staging-next"; };
   };
 
   outputs = { nixpkgs, home-manager, nix-vscode-extensions, attic
-    , determinatenix, otel-tui, llm-functions, nixpkgs-staging-next, ... }:
+    , determinatenix, otel-tui, llm-functions, ... }:
     let
       system = "aarch64-darwin";
-      stagingPkgs = import nixpkgs-staging-next {
-        inherit system;
-        config = {
-          allowUnfree = true;
-          allowUnfreePredicate = _: true;
-        };
-      };
       pkgs = import nixpkgs {
         inherit system;
         config = {
@@ -67,7 +58,7 @@
           # the path to your home.nix.
           modules = [
             (import ./home.nix {
-              inherit pkgs stagingPkgs;
+              inherit pkgs;
               importPath = ./personal;
               lib = home-manager.lib;
               llmFunctionsPath = llm-functions;
@@ -86,7 +77,7 @@
         # the path to your home.nix.
         modules = [
           (import ./home.nix {
-            inherit pkgs stagingPkgs;
+            inherit pkgs;
             importPath = ./work;
             lib = home-manager.lib;
             llmFunctionsPath = llm-functions;
@@ -95,10 +86,7 @@
 
         # Optionally use extraSpecialArgs
         # to pass through arguments to home.nix
-        extraSpecialArgs = {
-          otel-tui = otel-tui.packages.${system}.otel-tui;
-          tmp-go = stagingPkgs.go;
-        };
+        extraSpecialArgs = { otel-tui = otel-tui.packages.${system}.otel-tui; };
       };
     };
 }

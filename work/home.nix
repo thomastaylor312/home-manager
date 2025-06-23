@@ -1,4 +1,4 @@
-{ pkgs, otel-tui, tmp-go, ... }:
+{ pkgs, otel-tui, ... }:
 let packages = (pkgs // import ./pkgs pkgs);
 in {
   config = rec {
@@ -8,7 +8,7 @@ in {
     home.packages = with packages; [
       act
       clusterctl
-      tmp-go
+      go
       k6
       k9s
       kind

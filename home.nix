@@ -1,5 +1,5 @@
-{ pkgs, importPath, lib, llmFunctionsPath, stagingPkgs, ... }:
-let packages = (import ./pkgs stagingPkgs);
+{ pkgs, importPath, lib, llmFunctionsPath, ... }:
+let packages = (import ./pkgs pkgs);
 in {
   imports = [ importPath ];
 
