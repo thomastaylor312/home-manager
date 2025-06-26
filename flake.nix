@@ -32,12 +32,21 @@
       url = "github:sigoden/llm-functions/main";
       flake = false;
     };
+    # Pull in the recent staging version to get latest Zed Editor until it stabilizes some more
+    nixpkgs-staging.url = "github:nixos/nixpkgs/staging-next";
   };
 
   outputs = { nixpkgs, home-manager, nix-vscode-extensions, attic
-    , determinatenix, otel-tui, llm-functions, ... }:
+    , determinatenix, otel-tui, llm-functions, nixpkgs-staging, ... }:
     let
       system = "aarch64-darwin";
+      staging-pkgs = import nixpkgs-staging {
+        inherit system;
+        config = {
+          allowUnfree = true;
+          allowUnfreePredicate = _: true;
+        };
+      };
       pkgs = import nixpkgs {
         inherit system;
         config = {
@@ -48,6 +57,7 @@
       } // {
         attic = attic.packages.${system}.attic;
         nix = determinatenix.packages.${system}.default;
+        zed-recent = staging-pkgs.zed-editor;
       };
     in {
       homeConfigurations."oftaylor" =

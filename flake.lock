@@ -6,7 +6,9 @@
         "flake-compat": "flake-compat",
         "flake-parts": "flake-parts",
         "nix-github-actions": "nix-github-actions",
-        "nixpkgs": ["nixpkgs-patch"],
+        "nixpkgs": [
+          "nixpkgs-patch"
+        ],
         "nixpkgs-stable": "nixpkgs-stable"
       },
       "locked": {
@@ -25,7 +27,10 @@
     },
     "crane": {
       "inputs": {
-        "nixpkgs": ["attic", "nixpkgs"]
+        "nixpkgs": [
+          "attic",
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1722960479,
@@ -44,7 +49,9 @@
     "determinatenix": {
       "inputs": {
         "nix": "nix",
-        "nixpkgs": ["nixpkgs"]
+        "nixpkgs": [
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1743102273,
@@ -93,7 +100,10 @@
     },
     "flake-parts": {
       "inputs": {
-        "nixpkgs-lib": ["attic", "nixpkgs"]
+        "nixpkgs-lib": [
+          "attic",
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1722555600,
@@ -111,7 +121,11 @@
     },
     "flake-parts_2": {
       "inputs": {
-        "nixpkgs-lib": ["determinatenix", "nix", "nixpkgs"]
+        "nixpkgs-lib": [
+          "determinatenix",
+          "nix",
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1733312601,
@@ -165,10 +179,24 @@
     },
     "git-hooks-nix": {
       "inputs": {
-        "flake-compat": ["determinatenix", "nix"],
-        "gitignore": ["determinatenix", "nix"],
-        "nixpkgs": ["determinatenix", "nix", "nixpkgs"],
-        "nixpkgs-stable": ["determinatenix", "nix", "nixpkgs"]
+        "flake-compat": [
+          "determinatenix",
+          "nix"
+        ],
+        "gitignore": [
+          "determinatenix",
+          "nix"
+        ],
+        "nixpkgs": [
+          "determinatenix",
+          "nix",
+          "nixpkgs"
+        ],
+        "nixpkgs-stable": [
+          "determinatenix",
+          "nix",
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1734279981,
@@ -186,7 +214,9 @@
     },
     "home-manager": {
       "inputs": {
-        "nixpkgs": ["nixpkgs"]
+        "nixpkgs": [
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1750614446,
@@ -243,7 +273,10 @@
     },
     "nix-github-actions": {
       "inputs": {
-        "nixpkgs": ["attic", "nixpkgs"]
+        "nixpkgs": [
+          "attic",
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1729742964,
@@ -262,7 +295,9 @@
     "nix-vscode-extensions": {
       "inputs": {
         "flake-utils": "flake-utils",
-        "nixpkgs": ["nixpkgs"]
+        "nixpkgs": [
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1750644735,
@@ -358,6 +393,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-staging": {
+      "locked": {
+        "lastModified": 1750939630,
+        "narHash": "sha256-VP/sTuHVzX3LXPLlMq+ZVQXb3gASW7B9Y3qgHPCr2m4=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "e5ce23659a195ac9da6840f03e5e010fc8a68ed3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "staging-next",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs_2": {
       "locked": {
         "lastModified": 1750386251,
@@ -377,7 +428,9 @@
     "otel-tui": {
       "inputs": {
         "flake-utils": "flake-utils_2",
-        "nixpkgs": ["nixpkgs"]
+        "nixpkgs": [
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1741616311,
@@ -403,6 +456,7 @@
         "nix-vscode-extensions": "nix-vscode-extensions",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-patch": "nixpkgs-patch",
+        "nixpkgs-staging": "nixpkgs-staging",
         "otel-tui": "otel-tui"
       }
     },
