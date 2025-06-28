@@ -7,7 +7,9 @@
     nixpkgs-patch.url =
       "github:nixos/nixpkgs/b2b0718004cc9a5bca610326de0a82e6ea75920b";
     home-manager = {
-      url = "github:nix-community/home-manager";
+      # Temp pin to avoid a problem with zed settings issues
+      url =
+        "github:nix-community/home-manager/951f0b30c535a46817aa5ef4c66ddc4445f3e324";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-vscode-extensions = {
@@ -32,21 +34,12 @@
       url = "github:sigoden/llm-functions/main";
       flake = false;
     };
-    # Pull in the recent staging version to get latest Zed Editor until it stabilizes some more
-    nixpkgs-staging.url = "github:nixos/nixpkgs/staging-next";
   };
 
   outputs = { nixpkgs, home-manager, nix-vscode-extensions, attic
-    , determinatenix, otel-tui, llm-functions, nixpkgs-staging, ... }:
+    , determinatenix, otel-tui, llm-functions, ... }:
     let
       system = "aarch64-darwin";
-      staging-pkgs = import nixpkgs-staging {
-        inherit system;
-        config = {
-          allowUnfree = true;
-          allowUnfreePredicate = _: true;
-        };
-      };
       pkgs = import nixpkgs {
         inherit system;
         config = {
@@ -57,7 +50,6 @@
       } // {
         attic = attic.packages.${system}.attic;
         nix = determinatenix.packages.${system}.default;
-        zed-recent = staging-pkgs.zed-editor;
       };
     in {
       homeConfigurations."oftaylor" =

@@ -595,7 +595,6 @@ in {
 
   programs.zed-editor = {
     enable = true;
-    package = pkgs.zed-recent;
     extensions = [
       "cargo-tom"
       "docker-compose"
