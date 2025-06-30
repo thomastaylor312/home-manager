@@ -27,7 +27,7 @@ in {
     nil
     nixfmt-classic
     nmap
-    nodejs
+    nodejs_24
     openai-whisper
     protobuf
     rustup
@@ -508,7 +508,7 @@ in {
       # Create a wrapper script that sets up the PATH correctly
       buildScript = pkgs.writeShellScriptBin "build-llm-functions" ''
         #!/usr/bin/env bash
-        export PATH="${pkgs.argc}/bin:${pkgs.nodejs_22}/bin:${pkgs.uv}/bin:${pkgs.docker}/bin:$PATH"
+        export PATH="${pkgs.argc}/bin:${pkgs.nodejs_24}/bin:${pkgs.uv}/bin:${pkgs.docker}/bin:$PATH"
 
         FUNCTIONS_DIR="$HOME/Library/Application Support/aichat/functions"
 
@@ -540,7 +540,7 @@ in {
     in lib.hm.dag.entryAfter [ "writeBoundary" "installPackages" ] ''
       json_file="$HOME/Library/Application Support/aichat/functions/mcp.json"
       run rm -f "$json_file"
-      export PATH="${pkgs.argc}/bin:${pkgs.nodejs_22}/bin:${pkgs.uv}/bin:${pkgs.docker}/bin:$PATH"
+      export PATH="${pkgs.argc}/bin:${pkgs.nodejs_24}/bin:${pkgs.uv}/bin:${pkgs.docker}/bin:$PATH"
       run cat > "$json_file" << 'EOF'
         {
           "mcpServers": {
