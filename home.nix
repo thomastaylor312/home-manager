@@ -274,6 +274,7 @@ in {
       ui = {
         pager = "delta";
         diff-formatter = ":git";
+        merge-editor = "vscode";
       };
       revsets = {
         log =
