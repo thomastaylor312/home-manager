@@ -32,6 +32,7 @@ in {
       pgcli
       kubelogin-oidc
       delve
+      upbound
       (azure-cli.withExtensions [ azure-cli.extensions.aks-preview ])
     ];
 
