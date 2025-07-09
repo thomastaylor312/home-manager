@@ -3,24 +3,15 @@
 
   inputs = {
     # Specify the source of Home Manager and Nixpkgs.
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    nixpkgs-patch.url =
-      "github:nixos/nixpkgs/b2b0718004cc9a5bca610326de0a82e6ea75920b";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       # Temp pin to avoid a problem with zed settings issues
-      url =
-        "github:nix-community/home-manager/951f0b30c535a46817aa5ef4c66ddc4445f3e324";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-vscode-extensions = {
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    attic = {
-      url = "github:zhaofengli/attic";
-      # For some reason some of the later versions of nixpkgs cause an issue where it says
-      # `fatal error: 'nix/config.h' file not found` so we pin it to a good commit for now
-      inputs.nixpkgs.follows = "nixpkgs-patch";
     };
     determinatenix = {
       url = "https://flakehub.com/f/DeterminateSystems/nix/2.27.*";
@@ -36,8 +27,8 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, nix-vscode-extensions, attic
-    , determinatenix, otel-tui, llm-functions, ... }:
+  outputs = { nixpkgs, home-manager, nix-vscode-extensions, determinatenix
+    , otel-tui, llm-functions, ... }:
     let
       system = "aarch64-darwin";
       pkgs = import nixpkgs {
@@ -48,7 +39,6 @@
         };
         overlays = [ nix-vscode-extensions.overlays.default ];
       } // {
-        attic = attic.packages.${system}.attic;
         nix = determinatenix.packages.${system}.default;
       };
     in {

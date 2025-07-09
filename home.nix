@@ -8,7 +8,7 @@ in {
     aichat
     aider-chat
     argc
-    attic
+    attic-client
     bat
     cachix
     claude-code
