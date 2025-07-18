@@ -333,39 +333,41 @@ in {
       pkgs.vscode-marketplace.rooveterinaryinc.roo-cline
       dracula-theme.theme-dracula
     ];
-    profiles.default.userSettings = {
-      "editor.inlineSuggest.enabled" = true;
-      "workbench.colorTheme" = "Dracula Theme";
-      "editor.formatOnSave" = true;
-      "rust-analyzer.check.command" = "clippy";
-      "rewrap.wrappingColumn" = 100;
-      "editor.wordWrap" = "on";
-      "explorer.confirmDelete" = false;
-      "editor.inlineSuggest.suppressSuggestions" = true;
-      "cody.commandCodeLenses" = true;
-      "update.showReleaseNotes" = false;
-      "zig.path" = "zig";
-      "zig.zls.enabled" = "on";
-      "zig.zls.path" = "zls";
-      "lldb.library" =
-        "/Library/Developer/CommandLineTools/Library/PrivateFrameworks/LLDB.framework/Versions/A/LLDB";
-      "lldb.launch.expressions" = "native";
-      "swift.backgroundCompilation" = true;
-      "nix.enableLanguageServer" = true;
-      "nix.serverPath" = "nil";
-      "nix.serverSettings" = {
-        "nil" = { "formatting" = { "command" = [ "nixfmt" ]; }; };
+    profiles.default = {
+      userSettings = {
+        "editor.inlineSuggest.enabled" = true;
+        "workbench.colorTheme" = "Dracula Theme";
+        "editor.formatOnSave" = true;
+        "rust-analyzer.check.command" = "clippy";
+        "rewrap.wrappingColumn" = 100;
+        "editor.wordWrap" = "on";
+        "explorer.confirmDelete" = false;
+        "editor.inlineSuggest.suppressSuggestions" = true;
+        "cody.commandCodeLenses" = true;
+        "update.showReleaseNotes" = false;
+        "zig.path" = "zig";
+        "zig.zls.enabled" = "on";
+        "zig.zls.path" = "zls";
+        "lldb.library" =
+          "/Library/Developer/CommandLineTools/Library/PrivateFrameworks/LLDB.framework/Versions/A/LLDB";
+        "lldb.launch.expressions" = "native";
+        "swift.backgroundCompilation" = true;
+        "nix.enableLanguageServer" = true;
+        "nix.serverPath" = "nil";
+        "nix.serverSettings" = {
+          "nil" = { "formatting" = { "command" = [ "nixfmt" ]; }; };
+        };
+        "go.toolsManagement.autoUpdate" = true;
+        "cody.suggestions.mode" = "auto-edit";
+        "github.copilot.nextEditSuggestions.enabled" = true;
+        "github.copilot.enable" = {
+          "*" = true;
+          "plaintext" = false;
+          "markdown" = true;
+          "scminput" = false;
+        };
       };
-      "go.toolsManagement.autoUpdate" = true;
-      "cody.suggestions.mode" = "auto-edit";
-      "github.copilot.nextEditSuggestions.enabled" = true;
-      "github.copilot.enable" = {
-        "*" = true;
-        "plaintext" = false;
-        "markdown" = true;
-        "scminput" = false;
-      };
-      "mcp" = {
+      userMcp = {
         "inputs" = [{
           "type" = "promptString";
           "id" = "github_token";
