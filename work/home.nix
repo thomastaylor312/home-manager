@@ -40,7 +40,14 @@ in {
       netrc-file = "/Users/${home.username}/.config/nix/netrc";
     };
 
-    programs.git = { userEmail = "taylor.thomas@akuity.io"; };
+    programs.git = {
+      userEmail = "taylor.thomas@akuity.io";
+      extraConfig = {
+        url = {
+          "ssh://git@github.com/" = { insteadOf = "https://github.com/"; };
+        };
+      };
+    };
     programs.jujutsu = {
       settings = { user = { email = "taylor.thomas@akuity.io"; }; };
     };
