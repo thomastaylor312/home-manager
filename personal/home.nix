@@ -33,9 +33,9 @@ in {
         "git.enabled" = false;
       };
       profiles.default.extensions = with packages.vscode-extensions; [
-        ms-python.python
-        ms-python.vscode-pylance
-        ms-python.debugpy
+        #ms-python.python
+        #ms-python.vscode-pylance
+        #ms-python.debugpy
         packages.vscode-marketplace.mtxr.sqltools
         bradlc.vscode-tailwindcss
         svelte.svelte-vscode

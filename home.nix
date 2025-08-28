@@ -317,7 +317,6 @@ in {
   programs.vscode = {
     enable = true;
     profiles.default.extensions = with pkgs.vscode-extensions; [
-      #vadimcn.vscode-lldb
       fill-labs.dependi
       mkhl.direnv
       tamasfe.even-better-toml
