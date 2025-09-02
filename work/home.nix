@@ -29,11 +29,13 @@ in {
       docker-credential-gcr
       google-cloud-sdk
       gofumpt
-      pgcli
+      # Temporary due to nixpkgs build failure
+      #pgcli
       kubelogin-oidc
       delve
       upbound
-      (azure-cli.withExtensions [ azure-cli.extensions.aks-preview ])
+      # Another temporary break
+      #(azure-cli.withExtensions [ azure-cli.extensions.aks-preview ])
     ];
 
     nix.settings = {
