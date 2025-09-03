@@ -11,7 +11,6 @@ in {
     attic-client
     bat
     cachix
-    claude-code
     cloc
     dasel
     delta
@@ -542,7 +541,7 @@ in {
     in lib.hm.dag.entryAfter [ "writeBoundary" "installPackages" ] ''
       json_file="$HOME/Library/Application Support/aichat/functions/mcp.json"
       run rm -f "$json_file"
-      export PATH="${pkgs.argc}/bin:${pkgs.nodejs_24}/bin:${pkgs.uv}/bin:${pkgs.docker}/bin:$PATH"
+      export PATH="${pkgs.argc}/bin:${pkgs.nodejs_24}/bin:${pkgs.docker}/bin:$PATH"
       run cat > "$json_file" << 'EOF'
         {
           "mcpServers": {
@@ -563,16 +562,6 @@ in {
               "disabled": false,
               "autoApprove": []
             },
-            "obsidian": {
-              "command": "uvx",
-              "args": [
-                "mcp-obsidian"
-              ],
-              "env": {
-                "OBSIDIAN_API_KEY":"<REPLACE ME2>",
-                "PATH": "<PATH>"
-              }
-            },
             "fetch": {
                 "command": "docker",
                 "args": [
@@ -586,7 +575,6 @@ in {
         }
       EOF
       run ${pkgs._1password-cli}/bin/op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ "op://Private/mcp-github-token/credential" | run xargs -I{} sed -i"" 's/<REPLACE ME>/{}/g' "$json_file"
-      run ${pkgs._1password-cli}/bin/op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ "op://Private/obsidian-rest-api/credential" | run xargs -I{} sed -i"" 's/<REPLACE ME2>/{}/g' "$json_file"
       run sed -i"" "s|<PATH>|$PATH|g" "$json_file"
       run chmod 400 "$json_file"
 
