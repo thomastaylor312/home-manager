@@ -592,6 +592,7 @@ in {
       "dracula"
       "golangci-lint"
       "gosum"
+      "jj-lsp"
       "make"
       "marksman"
       "nix"
@@ -621,15 +622,9 @@ in {
       };
       buffer_font_features = { calt = false; };
       buffer_font_family = "Hack";
-      language_models = { copilot_chat = { }; };
       agent = {
-        version = "2";
         enabled = true;
         default_model = {
-          provider = "openrouter";
-          model = "anthropic/claude-sonnet-4";
-        };
-        editor_model = {
           provider = "openrouter";
           model = "anthropic/claude-sonnet-4";
         };

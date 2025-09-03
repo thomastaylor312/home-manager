@@ -83,14 +83,7 @@ in {
     programs.zed-editor = {
       userSettings = {
         languages = {
-          Go = {
-            formatter = {
-              external = {
-                command = "gofumpt";
-                args = [ "-w" ];
-              };
-            };
-          };
+          Go = { formatter = { external = { command = "gofumpt"; }; }; };
         };
       };
     };
