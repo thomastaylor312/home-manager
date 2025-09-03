@@ -87,7 +87,7 @@ in {
             formatter = {
               external = {
                 command = "gofumpt";
-                args = [ "-w" ];
+                arguments = [ "-w" ];
               };
             };
           };
