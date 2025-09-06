@@ -1,1 +1,1 @@
-pkgs: { }
+pkgs: { zed-recent = pkgs.callPackage ./zed-recent { }; }
