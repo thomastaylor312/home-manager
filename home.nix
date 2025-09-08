@@ -1,5 +1,5 @@
 { pkgs, importPath, lib, llmFunctionsPath, ... }:
-let packages = (import ./pkgs pkgs);
+let _packages = (import ./pkgs pkgs);
 in {
   imports = [ importPath ];
 
@@ -585,7 +585,6 @@ in {
 
   programs.zed-editor = {
     enable = true;
-    package = packages.zed-recent;
     extensions = [
       "cargo-tom"
       "docker-compose"
