@@ -604,6 +604,7 @@ in {
     ];
     userSettings = {
       auto_update = false;
+      soft_wrap = "editor_width";
       show_edit_predictions = true;
       telemetry = { metrics = false; };
       features = { edit_prediction_provider = "copilot"; };
