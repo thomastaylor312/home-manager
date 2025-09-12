@@ -47,6 +47,8 @@ in {
   # changes in each release.
   home.stateVersion = "24.05";
 
+  home.sessionPath = [ "$HOME/.local/bin" ];
+
   nix.package = pkgs.nix;
   nix.settings = {
     substituters = [
