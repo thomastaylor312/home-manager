@@ -19,6 +19,7 @@ in {
     gopls # For Go in helix
     hack-font
     iperf3
+    jjui
     jq
     just
     marksman
