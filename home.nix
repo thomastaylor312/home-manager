@@ -593,6 +593,7 @@ in {
       "docker-compose"
       "dockerfile"
       "dracula"
+      "elixir"
       "golangci-lint"
       "gosum"
       "jj-lsp"
