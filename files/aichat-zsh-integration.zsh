@@ -3,7 +3,7 @@ _aichat_zsh() {
         local _old=$BUFFER
         BUFFER+="⌛"
         zle -I && zle redisplay
-        BUFFER=$(command aichat -r '%shell%' "$_old")
+        BUFFER=$(command aichat -e "$_old")
         zle end-of-line
     fi
 }

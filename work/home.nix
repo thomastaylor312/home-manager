@@ -79,13 +79,5 @@ in {
       enable = true;
       enableAlias = true;
     };
-
-    programs.zed-editor = {
-      userSettings = {
-        languages = {
-          Go = { formatter = { external = { command = "gofumpt"; }; }; };
-        };
-      };
-    };
   };
 }

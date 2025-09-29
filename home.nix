@@ -446,7 +446,7 @@ in {
             yaml_path="$HOME/Library/Application Support/aichat/config.yaml"
             run rm -f "$yaml_path"
             run cat > "$yaml_path" << 'EOF'
-      model: openrouter:openai/o4-mini
+      model: openrouter:openai/gpt-5-mini
       function_calling: true
       rag_embedding_model: ollama:nomic-embed-text
       clients:
@@ -584,56 +584,5 @@ in {
       # Run the wrapper script
       run ${buildScript}/bin/build-llm-functions
     '';
-  };
-
-  programs.zed-editor = {
-    enable = true;
-    extensions = [
-      "cargo-tom"
-      "docker-compose"
-      "dockerfile"
-      "dracula"
-      "elixir"
-      "golangci-lint"
-      "gosum"
-      "jj-lsp"
-      "make"
-      "marksman"
-      "nix"
-      "one-dark-pro"
-      "sql"
-      "terraform"
-      "toml"
-      "wit"
-    ];
-    userSettings = {
-      auto_update = false;
-      soft_wrap = "editor_width";
-      show_edit_predictions = true;
-      telemetry = { metrics = false; };
-      features = { edit_prediction_provider = "copilot"; };
-      preferred_line_length = 100;
-      theme = {
-        mode = "dark";
-        dark = "Dracula";
-        light = "Dracula";
-      };
-      languages = { Nix = { language_servers = [ "nil" "!nixd" ]; }; };
-      lsp = {
-        nil = { settings = { formatting = { command = [ "nixfmt" ]; }; }; };
-        rust-analyzer = {
-          initialization_options = { check = { command = "clippy"; }; };
-        };
-      };
-      buffer_font_features = { calt = false; };
-      buffer_font_family = "Hack";
-      agent = {
-        enabled = true;
-        default_model = {
-          provider = "openrouter";
-          model = "anthropic/claude-sonnet-4";
-        };
-      };
-    };
   };
 }
