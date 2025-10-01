@@ -16,13 +16,11 @@ in {
     delta
     docker
     ffmpeg
-    gopls # For Go in helix
     hack-font
     iperf3
     jjui
     jq
     just
-    marksman
     mtr
     nil
     nixfmt-classic
@@ -35,6 +33,14 @@ in {
     wget
     zig
     zls
+    # Language servers for helix
+    bash-language-server
+    gopls
+    marksman
+    terraform-ls
+    typescript-language-server
+    vscode-json-languageserver
+    yaml-language-server
   ];
 
   # This value determines the Home Manager release that your
