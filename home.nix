@@ -30,7 +30,6 @@ in {
     nodejs_24
     openai-whisper
     protobuf
-    rustup
     tailscale
     uv
     wget
@@ -48,7 +47,7 @@ in {
   # changes in each release.
   home.stateVersion = "24.05";
 
-  home.sessionPath = [ "$HOME/.local/bin" ];
+  home.sessionPath = [ "$HOME/.local/bin" "$HOME/.cargo/bin" ];
 
   nix.package = pkgs.nix;
   nix.settings = {
@@ -94,6 +93,7 @@ in {
         formatter = { command = "nixfmt"; };
         auto-format = true;
       }];
+      language-server.rust-analyzer.config = { check.command = "clippy"; };
     };
   };
 
