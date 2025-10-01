@@ -79,7 +79,14 @@ in {
     defaultEditor = true;
     settings = {
       theme = "dracula";
-      editor = { file-picker = { hidden = false; }; };
+      editor = {
+        file-picker = { hidden = false; };
+        soft-wrap = { enable = true; };
+        inline-diagnostics = {
+          cursor-line = "warning";
+          other-lines = "error";
+        };
+      };
     };
     languages = {
       language = [{
