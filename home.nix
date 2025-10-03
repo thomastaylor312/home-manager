@@ -254,7 +254,7 @@ in {
       cache-all = "cache-build && cache-inputs";
       aichat = "$HOME/aichat.sh";
       aider =
-        "OPENROUTER_API_KEY=$(op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ 'op://Private/aider-openrouter-key/credential') aider --no-auto-commits --cache-prompts";
+        "OPENAI_API_KEY=$(op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ 'op://Private/aider-openai-key/credential') aider --no-auto-commits --cache-prompts";
       cd = "z";
     };
 
