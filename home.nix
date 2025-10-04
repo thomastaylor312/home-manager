@@ -21,6 +21,7 @@ in {
     jjui
     jq
     just
+    lsp-ai
     mtr
     nil
     nixfmt-classic
@@ -41,6 +42,7 @@ in {
     typescript-language-server
     vscode-json-languageserver
     yaml-language-server
+    taplo
   ];
 
   # This value determines the Home Manager release that your
@@ -92,14 +94,89 @@ in {
           other-lines = "error";
         };
       };
+      keys = {
+        normal = {
+          "C-d" = [
+            "move_prev_word_start"
+            "move_next_word_end"
+            "search_selection"
+            "extend_search_next"
+          ];
+          "Cmd-s" = ":write";
+        };
+      };
     };
     languages = {
-      language = [{
-        name = "nix";
-        formatter = { command = "nixfmt"; };
-        auto-format = true;
-      }];
-      language-server.rust-analyzer.config = { check.command = "clippy"; };
+      language = [
+        {
+          name = "nix";
+          formatter = { command = "nixfmt"; };
+          auto-format = true;
+        }
+        {
+          name = "rust";
+          language-servers = [ "rust-analyzer" "lsp-ai" ];
+        }
+        {
+          name = "bash";
+          language-servers = [ "bash-language-server" "lsp-ai" ];
+        }
+        {
+          name = "docker-compose";
+          language-servers = [ "yaml-language-server" "lsp-ai" ];
+        }
+        {
+          name = "go";
+          language-servers = [ "gopls" "lsp-ai" ];
+        }
+        {
+          name = "hcl";
+          language-servers = [ "terraform-ls" "lsp-ai" ];
+        }
+        {
+          name = "javascript";
+          language-servers = [ "typescript-language-server" "lsp-ai" ];
+        }
+        {
+          name = "jsx";
+          language-servers = [ "typescript-language-server" "lsp-ai" ];
+        }
+        {
+          name = "typescript";
+          language-servers = [ "typescript-language-server" "lsp-ai" ];
+        }
+        {
+          name = "zig";
+          language-servers = [ "zls" "lsp-ai" ];
+        }
+      ];
+      language-server = {
+        rust-analyzer.config = { check.command = "clippy"; };
+        lsp-ai = {
+          command = "lsp-ai";
+          config = {
+            memory = { file_store = { }; };
+            models = {
+              model1 = {
+                type = "ollama";
+                model = "qwen2.5-coder:7b";
+              };
+            };
+            completion = {
+              model = "model1";
+              parameters = {
+                max_context = 256;
+                fim = {
+                  start = "<|fim_prefix|>";
+                  middle = "<|fim_suffix|>";
+                  end = "<|fim_middle|>";
+                };
+                options = { num_predict = 16; };
+              };
+            };
+          };
+        };
+      };
     };
   };
 
