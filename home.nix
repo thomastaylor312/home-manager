@@ -38,11 +38,11 @@ in {
     bash-language-server
     gopls
     marksman
+    taplo
     terraform-ls
     typescript-language-server
     vscode-json-languageserver
     yaml-language-server
-    taplo
   ];
 
   # This value determines the Home Manager release that your
@@ -103,6 +103,14 @@ in {
             "extend_search_next"
           ];
           "Cmd-s" = ":write";
+          "A-down" =
+            [ "extend_to_line_bounds" "delete_selection" "paste_after" ];
+          "A-up" = [
+            "extend_to_line_bounds"
+            "delete_selection"
+            "move_line_up"
+            "paste_before"
+          ];
         };
       };
     };
