@@ -37,6 +37,7 @@ in {
     # Language servers for helix
     bash-language-server
     gopls
+    harper
     marksman
     taplo
     terraform-ls
@@ -157,9 +158,17 @@ in {
           name = "zig";
           language-servers = [ "zls" "lsp-ai" ];
         }
+        {
+          name = "markdown";
+          language-servers = [ "marksman" "harper" ];
+        }
       ];
       language-server = {
         rust-analyzer.config = { check.command = "clippy"; };
+        harper = {
+          command = "harper-ls";
+          args = [ "--stdio" ];
+        };
         lsp-ai = {
           command = "lsp-ai";
           config = {
