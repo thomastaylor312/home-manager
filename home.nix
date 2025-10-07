@@ -104,6 +104,7 @@ in {
             "extend_search_next"
           ];
           "Cmd-s" = ":write";
+          "Cmd-r" = ":reload-all";
           "C-t" = ":vsplit-new";
           "C-n" = ":new";
           "A-down" =
