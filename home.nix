@@ -174,6 +174,27 @@ in {
       ];
       language-server = {
         rust-analyzer.config = { check.command = "clippy"; };
+        yaml-language-server = {
+          config.yaml = {
+            completion = true;
+            format.enable = true;
+            schemas = {
+              kubernetes = "/*.{yml,yaml}";
+              "https://www.schemastore.org/github-workflow" =
+                ".github/workflows/*";
+              "https://www.schemastore.org/github-action" =
+                ".github/action.{yml,yaml}";
+              "https://www.schemastore.org/kustomization" =
+                "kustomization.{yml,yaml}";
+              "https://www.schemastore.org/chart" = "Chart.{yml,yaml}";
+              "https://www.schemastore.org/dependabot-v2" =
+                ".github/dependabot.{yml,yaml}";
+              "https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json" =
+                "*docker-compose*.{yml,yaml}";
+            };
+            hover = true;
+          };
+        };
         harper = {
           command = "harper-ls";
           args = [ "--stdio" ];
