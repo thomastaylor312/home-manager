@@ -104,6 +104,8 @@ in {
             "extend_search_next"
           ];
           "Cmd-s" = ":write";
+          "C-t" = ":vsplit-new";
+          "C-n" = ":new";
           "A-down" =
             [ "extend_to_line_bounds" "delete_selection" "paste_after" ];
           "A-up" = [
@@ -161,6 +163,13 @@ in {
         {
           name = "markdown";
           language-servers = [ "marksman" "harper" ];
+        }
+        {
+          name = "yaml";
+          indent = {
+            tab-width = 2;
+            unit = " ";
+          };
         }
       ];
       language-server = {
