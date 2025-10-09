@@ -37,6 +37,7 @@ in {
     # Language servers for helix
     bash-language-server
     gopls
+    gotools
     harper
     marksman
     taplo
@@ -140,6 +141,7 @@ in {
         {
           name = "go";
           language-servers = [ "gopls" "lsp-ai" ];
+          formatter.command = "goimports";
         }
         {
           name = "hcl";
