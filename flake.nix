@@ -5,7 +5,6 @@
     # Specify the source of Home Manager and Nixpkgs.
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
-      # Temp pin to avoid a problem with zed settings issues
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -18,7 +17,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     otel-tui = {
-      url = "github:ymtdzzz/otel-tui/v0.4.3";
+      url = "github:ymtdzzz/otel-tui/v0.5.5";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     llm-functions = {
