@@ -43,8 +43,8 @@ in {
     };
 
     programs.git = {
-      userEmail = "taylor.thomas@akuity.io";
-      extraConfig = {
+      settings = {
+        user = { email = "taylor.thomas@akuity.io"; };
         url = {
           "ssh://git@github.com/" = { insteadOf = "https://github.com/"; };
         };

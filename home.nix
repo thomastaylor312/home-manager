@@ -391,18 +391,20 @@ in {
     };
   };
 
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      navigate = true;
+      dark = true;
+      hyperlinks = true;
+    };
+  };
+
   programs.git = {
     enable = true;
-    delta = {
-      enable = true;
-      options = {
-        navigate = true;
-        dark = true;
-        hyperlinks = true;
-      };
-    };
-    userName = "Taylor Thomas";
-    extraConfig = {
+    settings = {
+      user = { name = "Taylor Thomas"; };
       merge = { conflictstyle = "zdiff3"; };
       core = { blame = "delta"; };
     };

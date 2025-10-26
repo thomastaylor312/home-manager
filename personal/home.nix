@@ -12,10 +12,10 @@ in {
     home.packages = [ packages.rclone packages.doctl ];
 
     programs.git = {
-      userEmail = "taylor@oftaylor.com";
-      userName = "Taylor Thomas";
-
-      extraConfig = { init = { defaultBranch = "master"; }; };
+      settings = {
+        user = { email = "taylor@oftaylor.com"; };
+        init = { defaultBranch = "master"; };
+      };
     };
 
     programs.jujutsu = {
