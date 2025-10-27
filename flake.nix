@@ -54,28 +54,31 @@
           };
           determinateOverride =
             if builtins.hasAttr system determinatenix.packages then
-              let determinatePkgs = determinatenix.packages.${system}; in
-              if determinatePkgs ? default then { nix = determinatePkgs.default; } else { }
+              let determinatePkgs = determinatenix.packages.${system};
+              in if determinatePkgs ? default then {
+                nix = determinatePkgs.default;
+              } else
+                { }
             else
               { };
         in base // determinateOverride;
 
       mkOtelTui = system:
         if builtins.hasAttr system otel-tui.packages then
-          let otelPackages = otel-tui.packages.${system}; in
-          if otelPackages ? otel-tui then otelPackages.otel-tui else null
+          let otelPackages = otel-tui.packages.${system};
+          in if otelPackages ? otel-tui then otelPackages.otel-tui else null
         else
           null;
 
-      mkHomeEntry = { username, importPath, system, slug, homeDirectoryBase, needsOtelTui ? false, extraSpecialArgs ? { } }:
+      mkHomeEntry = { username, importPath, system, slug, homeDirectoryBase
+        , needsOtelTui ? false, extraSpecialArgs ? { } }:
         let
           pkgs = mkPkgs system;
-          otelArg =
-            if needsOtelTui then
-              let otelPackage = mkOtelTui system;
-              in if otelPackage != null then { otel-tui = otelPackage; } else { }
-            else
-              { };
+          otelArg = if needsOtelTui then
+            let otelPackage = mkOtelTui system;
+            in if otelPackage != null then { otel-tui = otelPackage; } else { }
+          else
+            { };
           defaultSpecialArgs = { inherit homeDirectoryBase; } // otelArg;
           finalSpecialArgs = defaultSpecialArgs // extraSpecialArgs;
         in {
@@ -86,7 +89,7 @@
               (import ./home.nix {
                 inherit pkgs;
                 importPath = importPath;
-                lib = home-manager.lib;
+                lib = nixpkgs.lib // home-manager.lib;
                 llmFunctionsPath = llm-functions;
               })
             ];
@@ -95,7 +98,8 @@
         };
 
       homeEntries = builtins.concatMap (systemData:
-        let inherit (systemData) system slug homeDirectoryBase; in [
+        let inherit (systemData) system slug homeDirectoryBase;
+        in [
           (mkHomeEntry {
             username = "oftaylor";
             importPath = ./personal;
@@ -111,10 +115,9 @@
 
       homes = builtins.listToAttrs homeEntries;
     in {
-      homeConfigurations =
-        homes // {
-          oftaylor = homes."oftaylor-darwin";
-          taylor = homes."taylor-darwin";
-        };
+      homeConfigurations = homes // {
+        oftaylor = homes."oftaylor-darwin";
+        taylor = homes."taylor-darwin";
+      };
     };
 }

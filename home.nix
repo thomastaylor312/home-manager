@@ -3,49 +3,52 @@ let _packages = (import ./pkgs pkgs);
 in {
   imports = [ importPath ];
 
-  home.packages = with pkgs; [
-    _1password-cli
-    aichat
-    aider-chat
-    argc
-    attic-client
-    bat
-    cachix
-    cloc
-    dasel
-    delta
-    docker
-    ffmpeg
-    hack-font
-    iperf3
-    jjui
-    jq
-    just
-    lsp-ai
-    mtr
-    nil
-    nixfmt-classic
-    nmap
-    nodejs_24
-    openai-whisper
-    protobuf
-    tailscale
-    uv
-    wget
-    zig
-    zls
-    # Language servers for helix
-    bash-language-server
-    gopls
-    gotools
-    harper
-    marksman
-    taplo
-    terraform-ls
-    typescript-language-server
-    vscode-json-languageserver
-    yaml-language-server
-  ];
+  home.packages = with pkgs;
+    let
+      base = [
+        aichat
+        aider-chat
+        argc
+        attic-client
+        bat
+        cachix
+        cloc
+        dasel
+        delta
+        docker
+        ffmpeg
+        hack-font
+        iperf3
+        jjui
+        jq
+        just
+        lsp-ai
+        mtr
+        nil
+        nixfmt-classic
+        nmap
+        nodejs_24
+        openai-whisper
+        protobuf
+        tailscale
+        uv
+        wget
+        zig
+        zls
+        # Language servers for helix
+        bash-language-server
+        gopls
+        gotools
+        harper
+        marksman
+        taplo
+        terraform-ls
+        typescript-language-server
+        vscode-json-languageserver
+        yaml-language-server
+      ];
+      macOnly = lib.optionals stdenv.isDarwin [ _1password-cli ];
+    in base ++ macOnly;
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
@@ -309,7 +312,7 @@ in {
   programs.ghostty = {
     enable = true;
     enableZshIntegration = true;
-    package = if pkgs.stdenv.isLinux then pkgs.ghostty else null;
+    package = null;
     settings = {
       window-save-state = "always";
       font-family = "Hack";
