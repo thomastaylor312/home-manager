@@ -577,7 +577,7 @@ in {
       executable = true;
       text = ''
         #!/usr/bin/env bash
-        pushd $HOME/Library/Application\ Support/aichat/functions > /dev/null 2>&1 && argc mcp start 1>/dev/null && popd > /dev/null 2>&1 && command aichat "$@" < /dev/stdin
+        pushd $HOME/Library/Application\ Support/aichat/functions > /dev/null 2>&1 && argc mcp start 1>/dev/null && popd > /dev/null 2>&1 && OPENROUTER_API_KEY=$(op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ "op://Private/aichat-openrouter-token/credential") command aichat "$@" < /dev/stdin
       '';
     };
   };
@@ -596,7 +596,6 @@ in {
       - type: openai-compatible
         name: openrouter
         api_base: https://openrouter.ai/api/v1
-        api_key: <REPLACE ME>
       - type: openai-compatible
         name: ollama
         api_base: http://localhost:11434/v1
@@ -606,48 +605,7 @@ in {
         - name: phi4:14b-q8_0
           max_input_tokens: 16000
       EOF
-            # On macOS, sed -i requires an extension argument but we need to avoid escaping issues
-            run ${pkgs._1password-cli}/bin/op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ "op://Private/aichat-openrouter-token/credential" | run xargs -I{} sed -i"" 's/<REPLACE ME>/{}/g' "$yaml_path"
             run chmod 400 "$yaml_path"
-    '';
-
-    setupClineMcp = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-            run mkdir -p "$HOME/Library/Application Support/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings"
-            json_path="$HOME/Library/Application Support/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/mcp_settings.json"
-            run rm -f "$json_path"
-            run cat > "$json_path" << 'EOF'
-      {
-        "mcpServers": {
-          "github": {
-              "command": "docker",
-              "args": [
-                "run",
-                "-i",
-                "--rm",
-                "-e",
-                "GITHUB_PERSONAL_ACCESS_TOKEN",
-                "ghcr.io/github/github-mcp-server"
-              ],
-              "env": {
-                "GITHUB_PERSONAL_ACCESS_TOKEN": "<REPLACE_GH_TOKEN>"
-              },
-              "disabled": false,
-              "autoApprove": []
-          },
-          "fetch": {
-              "command": "docker",
-              "args": [
-                "run",
-                "-i",
-                "--rm",
-                "mcp/fetch"
-              ]
-          }
-        }
-      }
-      EOF
-      run ${pkgs._1password-cli}/bin/op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ "op://Private/mcp-github-token/credential" | run xargs -I{} sed -i"" 's/<REPLACE_GH_TOKEN>/{}/g' "$json_path"
-      run chmod 400 "$json_path"
     '';
 
     # Setup llm-functions for aichat
@@ -691,23 +649,6 @@ in {
       run cat > "$json_file" << 'EOF'
         {
           "mcpServers": {
-            "github": {
-              "command": "docker",
-              "args": [
-                "run",
-                "-i",
-                "--rm",
-                "-e",
-                "GITHUB_PERSONAL_ACCESS_TOKEN",
-                "ghcr.io/github/github-mcp-server"
-              ],
-              "env": {
-                "GITHUB_PERSONAL_ACCESS_TOKEN": "<REPLACE ME>",
-                "PATH": "<PATH>"
-              },
-              "disabled": false,
-              "autoApprove": []
-            },
             "fetch": {
                 "command": "docker",
                 "args": [
@@ -720,8 +661,6 @@ in {
           }
         }
       EOF
-      run ${pkgs._1password-cli}/bin/op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ "op://Private/mcp-github-token/credential" | run xargs -I{} sed -i"" 's/<REPLACE ME>/{}/g' "$json_file"
-      run sed -i"" "s|<PATH>|$PATH|g" "$json_file"
       run chmod 400 "$json_file"
 
       # Run the wrapper script

@@ -3,7 +3,7 @@ _aichat_zsh() {
         local _old=$BUFFER
         BUFFER+="⌛"
         zle -I && zle redisplay
-        BUFFER=$(command aichat -e "$_old")
+        BUFFER=$(OPENROUTER_API_KEY=$(op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ "op://Private/aichat-openrouter-token/credential") command aichat -e "$_old")
         zle end-of-line
     fi
 }
