@@ -309,7 +309,7 @@ in {
   programs.ghostty = {
     enable = true;
     enableZshIntegration = true;
-    package = null;
+    package = if pkgs.stdenv.isLinux then pkgs.ghostty else null;
     settings = {
       window-save-state = "always";
       font-family = "Hack";
