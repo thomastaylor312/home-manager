@@ -33,10 +33,12 @@
         {
           slug = "darwin";
           system = "aarch64-darwin";
+          homeDirectoryBase = "/Users";
         }
         {
           slug = "linux";
           system = "x86_64-linux";
+          homeDirectoryBase = "/home";
         }
       ];
 
@@ -65,7 +67,7 @@
         else
           null;
 
-      mkHomeEntry = { username, importPath, system, slug, needsOtelTui ? false, extraSpecialArgs ? { } }:
+      mkHomeEntry = { username, importPath, system, slug, homeDirectoryBase, needsOtelTui ? false, extraSpecialArgs ? { } }:
         let
           pkgs = mkPkgs system;
           otelArg =
@@ -74,7 +76,8 @@
               in if otelPackage != null then { otel-tui = otelPackage; } else { }
             else
               { };
-          finalSpecialArgs = otelArg // extraSpecialArgs;
+          defaultSpecialArgs = { inherit homeDirectoryBase; } // otelArg;
+          finalSpecialArgs = defaultSpecialArgs // extraSpecialArgs;
         in {
           name = "${username}-${slug}";
           value = home-manager.lib.homeManagerConfiguration {
@@ -92,16 +95,16 @@
         };
 
       homeEntries = builtins.concatMap (systemData:
-        let inherit (systemData) system slug; in [
+        let inherit (systemData) system slug homeDirectoryBase; in [
           (mkHomeEntry {
             username = "oftaylor";
             importPath = ./personal;
-            inherit system slug;
+            inherit system slug homeDirectoryBase;
           })
           (mkHomeEntry {
             username = "taylor";
             importPath = ./work;
-            inherit system slug;
+            inherit system slug homeDirectoryBase;
             needsOtelTui = true;
           })
         ]) systems;

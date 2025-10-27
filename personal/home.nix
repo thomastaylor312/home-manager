@@ -1,12 +1,12 @@
-{ pkgs, ... }:
+{ pkgs, homeDirectoryBase, ... }:
 let packages = (pkgs // import ./pkgs pkgs);
 in {
   config = rec {
     home.username = "oftaylor";
-    home.homeDirectory = "/Users/${home.username}";
+    home.homeDirectory = "${homeDirectoryBase}/${home.username}";
 
     nix.settings = {
-      netrc-file = "/Users/${home.username}/.config/nix/netrc";
+      netrc-file = "${homeDirectoryBase}/${home.username}/.config/nix/netrc";
     };
 
     home.packages = [ packages.rclone packages.doctl ];

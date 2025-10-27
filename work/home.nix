@@ -1,9 +1,9 @@
-{ pkgs, otel-tui, ... }:
+{ pkgs, otel-tui, homeDirectoryBase, ... }:
 let packages = (pkgs // import ./pkgs pkgs);
 in {
   config = rec {
     home.username = "taylor";
-    home.homeDirectory = "/Users/${home.username}";
+    home.homeDirectory = "${homeDirectoryBase}/${home.username}";
 
     home.packages = with packages; [
       act
@@ -39,7 +39,7 @@ in {
     ];
 
     nix.settings = {
-      netrc-file = "/Users/${home.username}/.config/nix/netrc";
+      netrc-file = "${homeDirectoryBase}/${home.username}/.config/nix/netrc";
     };
 
     programs.git = {
