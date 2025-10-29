@@ -34,6 +34,8 @@ in {
         uv
         wget
         zig
+        # Needed for flowstry extension
+        zlib
         zls
         # Language servers for helix
         bash-language-server
