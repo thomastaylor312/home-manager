@@ -323,6 +323,7 @@ in {
       window-padding-balance = true;
       theme = "dracula"; # Sublette is another I like
       macos-icon = "glass";
+      shell-integration-features = "ssh-terminfo";
     };
     themes = {
       dracula = {
