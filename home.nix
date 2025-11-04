@@ -112,6 +112,9 @@ in {
           ];
           "Cmd-s" = ":write";
           "Cmd-r" = ":reload-all";
+          "Cmd-c" = "yank_to_clipboard";
+          "Cmd-f" = "search";
+          "p" = "paste_before";
           "C-t" = ":vsplit-new";
           "C-n" = ":new";
           "C-b" = ":echo %sh{git blame -L %{cursor_line},+1 %{buffer_name}}";
