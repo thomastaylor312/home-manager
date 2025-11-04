@@ -100,6 +100,7 @@ in {
           cursor-line = "warning";
           other-lines = "error";
         };
+        lsp.display-inlay-hints = true;
       };
       keys = {
         normal = {
