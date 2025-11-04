@@ -213,20 +213,17 @@ in {
             memory = { file_store = { }; };
             models = {
               model1 = {
-                type = "ollama";
-                model = "qwen2.5-coder:7b";
+                type = "mistral_fim";
+                fim_endpoint = "https://api.mistral.ai/v1/fim/completions";
+                model = "codestral-latest";
+                auth_token_env_var_name = "MISTRAL_API_KEY";
               };
             };
             completion = {
               model = "model1";
               parameters = {
-                max_context = 256;
-                fim = {
-                  start = "<|fim_prefix|>";
-                  middle = "<|fim_suffix|>";
-                  end = "<|fim_middle|>";
-                };
-                options = { num_predict = 16; };
+                max_tokens = 64;
+                max_context = 1024;
               };
             };
           };
@@ -389,6 +386,8 @@ in {
       aider =
         "OPENAI_API_KEY=$(op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ 'op://Private/aider-openai-key/credential') aider --no-auto-commits --cache-prompts";
       cd = "z";
+      hx-ai =
+        "MISTRAL_API_KEY=$(op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ 'op://Private/mistral-helix-api-key/credential') hx";
     };
 
     oh-my-zsh = {
