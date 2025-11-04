@@ -113,6 +113,7 @@ in {
           "Cmd-r" = ":reload-all";
           "C-t" = ":vsplit-new";
           "C-n" = ":new";
+          "C-b" = ":echo %sh{git blame -L %{cursor_line},+1 %{buffer_name}}";
           "A-down" =
             [ "extend_to_line_bounds" "delete_selection" "paste_after" ];
           "A-up" = [
