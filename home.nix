@@ -126,6 +126,10 @@ in {
             "move_line_up"
             "paste_before"
           ];
+          "space" = {
+            # Copies the directory containing the current file (for use in go tests and other commands)
+            "=" = ":sh echo %{buffer_name} | xargs dirname | pbcopy";
+          };
         };
       };
     };
