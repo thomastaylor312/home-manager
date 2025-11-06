@@ -114,6 +114,7 @@ in {
           "Cmd-r" = ":reload-all";
           "Cmd-c" = "yank_to_clipboard";
           "Cmd-f" = "search";
+          "Cmd-x" = ''@"+d'';
           "p" = "paste_before";
           "C-t" = ":vsplit-new";
           "C-n" = ":new";
