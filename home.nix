@@ -97,7 +97,7 @@ in {
         file-picker = { hidden = false; };
         soft-wrap = { enable = true; };
         inline-diagnostics = {
-          cursor-line = "warning";
+          cursor-line = "hint";
           other-lines = "error";
         };
         lsp.display-inlay-hints = true;
