@@ -138,6 +138,8 @@ in {
               '':insert-output echo "\x1b[?1049h\x1b[?2004h" > /dev/tty''
               ":open %sh{cat /tmp/unique-file}"
               ":redraw"
+              ":set mouse false"
+              ":set mouse true"
             ];
             "e" = [
               ":sh rm -f /tmp/unique-file"
@@ -145,6 +147,8 @@ in {
               '':insert-output echo "\x1b[?1049h\x1b[?2004h" > /dev/tty''
               ":open %sh{cat /tmp/unique-file}"
               ":redraw"
+              ":set mouse false"
+              ":set mouse true"
             ];
           };
         };
