@@ -130,6 +130,22 @@ in {
           "space" = {
             # Copies the directory containing the current file (for use in go tests and other commands)
             "=" = ":sh echo %{buffer_name} | xargs dirname | pbcopy";
+            # Replaces normal helix directory viewer with yazi. For more details:
+            # https://github.com/sxyazi/yazi/pull/2461
+            "E" = [
+              ":sh rm -f /tmp/unique-file"
+              ":insert-output yazi %{buffer_name} --chooser-file=/tmp/unique-file"
+              '':insert-output echo "\x1b[?1049h\x1b[?2004h" > /dev/tty''
+              ":open %sh{cat /tmp/unique-file}"
+              ":redraw"
+            ];
+            "e" = [
+              ":sh rm -f /tmp/unique-file"
+              ":insert-output yazi --chooser-file=/tmp/unique-file"
+              '':insert-output echo "\x1b[?1049h\x1b[?2004h" > /dev/tty''
+              ":open %sh{cat /tmp/unique-file}"
+              ":redraw"
+            ];
           };
         };
       };
@@ -315,7 +331,7 @@ in {
   programs.yazi = {
     enable = true;
     enableZshIntegration = true;
-    settings = { manager = { show_hidden = true; }; };
+    settings = { mgr = { show_hidden = true; }; };
   };
 
   programs.ghostty = {
