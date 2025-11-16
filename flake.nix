@@ -24,10 +24,14 @@
       url = "github:sigoden/llm-functions/main";
       flake = false;
     };
+    dracula-yazi = {
+      url = "github:dracula/yazi/main";
+      flake = false;
+    };
   };
 
   outputs = { nixpkgs, home-manager, nix-vscode-extensions, determinatenix
-    , otel-tui, llm-functions, ... }:
+    , otel-tui, llm-functions, dracula-yazi, ... }:
     let
       systems = [
         {
@@ -91,6 +95,7 @@
                 importPath = importPath;
                 lib = nixpkgs.lib // home-manager.lib;
                 llmFunctionsPath = llm-functions;
+                draculaYaziPath = dracula-yazi;
               })
             ];
             extraSpecialArgs = finalSpecialArgs;

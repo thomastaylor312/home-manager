@@ -1,4 +1,4 @@
-{ pkgs, importPath, lib, llmFunctionsPath, ... }:
+{ pkgs, importPath, lib, llmFunctionsPath, draculaYaziPath, ... }:
 let _packages = (import ./pkgs pkgs);
 in {
   imports = [ importPath ];
@@ -315,7 +315,12 @@ in {
   programs.yazi = {
     enable = true;
     enableZshIntegration = true;
-    settings = { mgr = { show_hidden = true; }; };
+    settings = {
+      mgr = { show_hidden = true; };
+      tasks.image_bound = [ 10000 10000 ];
+    };
+    theme = { dark.flavor = "dracula"; };
+    flavors = { dracula = draculaYaziPath; };
   };
 
   programs.ghostty = {

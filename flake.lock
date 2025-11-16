@@ -20,6 +20,23 @@
         "url": "https://flakehub.com/f/DeterminateSystems/nix/2.27.%2A"
       }
     },
+    "dracula-yazi": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1734073870,
+        "narHash": "sha256-dFhBT9s/54jDP6ZpRkakbS5khUesk0xEtv+xtPrqHVo=",
+        "owner": "dracula",
+        "repo": "yazi",
+        "rev": "99b60fd76df4cce2778c7e6c611bfd733cf73866",
+        "type": "github"
+      },
+      "original": {
+        "owner": "dracula",
+        "ref": "main",
+        "repo": "yazi",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -279,6 +296,7 @@
     "root": {
       "inputs": {
         "determinatenix": "determinatenix",
+        "dracula-yazi": "dracula-yazi",
         "home-manager": "home-manager",
         "llm-functions": "llm-functions",
         "nix-vscode-extensions": "nix-vscode-extensions",
