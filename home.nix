@@ -7,7 +7,8 @@ in {
     let
       base = [
         aichat
-        aider-chat
+        # Currently broken and taking forever to fix. Installed manually for now
+        # aider-chat
         argc
         attic-client
         bat
