@@ -36,6 +36,7 @@ in {
         #ms-python.python
         #ms-python.vscode-pylance
         #ms-python.debugpy
+        astro-build.astro-vscode
         packages.vscode-marketplace.mtxr.sqltools
         bradlc.vscode-tailwindcss
         svelte.svelte-vscode
