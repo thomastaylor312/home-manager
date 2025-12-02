@@ -7,33 +7,33 @@ in {
 
     home.packages = with packages; [
       act
+      awscli2
       clusterctl
+      delve
+      docker-credential-gcr
+      eksctl
       go
+      gofumpt
+      google-cloud-sdk
       k6
       k9s
+      kargo
       kind
       kubectl
+      kubelogin-oidc
+      kubernetes-helm
+      kustomize
       nats-server
       natscli
       oras
+      otel-tui
+      pgcli
       redis
       shellcheck
+      tilt
+      upbound
       wasm-tools
       zstd
-      kargo
-      awscli2
-      kubernetes-helm
-      eksctl
-      kustomize
-      otel-tui
-      docker-credential-gcr
-      google-cloud-sdk
-      gofumpt
-      # Temporary due to nixpkgs build failure
-      #pgcli
-      kubelogin-oidc
-      delve
-      upbound
       # Another temporary break
       #(azure-cli.withExtensions [ azure-cli.extensions.aks-preview ])
     ];
