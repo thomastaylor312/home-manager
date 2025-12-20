@@ -493,7 +493,6 @@ in {
       golang.go
       ziglang.vscode-zig
       pkgs.vscode-marketplace.jjk.jjk
-      pkgs.vscode-marketplace.rooveterinaryinc.roo-cline
       dracula-theme.theme-dracula
       pkgs.vscode-marketplace.wcrichton.flowistry
     ];
