@@ -30,6 +30,7 @@ in {
         nodejs_24
         openai-whisper
         protobuf
+        python314
         tailscale
         uv
         wget
@@ -445,6 +446,7 @@ in {
           "present(@) | ancestors(immutable_heads().., 8) | present(trunk())";
       };
       templates = { commit_trailers = "format_signed_off_by_trailer(self)"; };
+      remotes.thomastaylor312 = { auto-track-bookmarks = "glob:*"; };
     };
   };
 

@@ -51,7 +51,10 @@ in {
       };
     };
     programs.jujutsu = {
-      settings = { user = { email = "taylor.thomas@akuity.io"; }; };
+      settings = {
+        user = { email = "taylor.thomas@akuity.io"; };
+        remotes.origin = { auto-track-bookmarks = "glob:alice/*"; };
+      };
     };
 
     programs.zsh.shellAliases = {
