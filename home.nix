@@ -8,6 +8,7 @@ in {
       base = [
         aichat
         aider-chat
+        age
         argc
         attic-client
         bat
