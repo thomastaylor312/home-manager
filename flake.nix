@@ -90,15 +90,14 @@
           value = home-manager.lib.homeManagerConfiguration {
             inherit pkgs;
             modules = [
-              (import ./home.nix {
-                inherit pkgs;
-                importPath = importPath;
-                lib = nixpkgs.lib // home-manager.lib;
-                llmFunctionsPath = llm-functions;
-                draculaYaziPath = dracula-yazi;
-              })
+              ./home.nix
             ];
-            extraSpecialArgs = finalSpecialArgs;
+            extraSpecialArgs = finalSpecialArgs // {
+              inherit importPath;
+              hmLib = home-manager.lib;
+              llmFunctionsPath = llm-functions;
+              draculaYaziPath = dracula-yazi;
+            };
           };
         };
 

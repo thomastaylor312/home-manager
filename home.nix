@@ -1,5 +1,9 @@
-{ pkgs, importPath, lib, llmFunctionsPath, draculaYaziPath, ... }:
-let _packages = (import ./pkgs pkgs);
+args@{ config, pkgs, importPath, hmLib, llmFunctionsPath, draculaYaziPath, ...
+}:
+let
+  nixpkgsLib = args.lib;
+  lib = nixpkgsLib // hmLib;
+  _packages = (import ./pkgs pkgs);
 in {
   imports = [ importPath ];
 
@@ -389,6 +393,7 @@ in {
     '';
 
     autosuggestion.enable = true;
+    dotDir = config.home.homeDirectory;
 
     shellAliases = {
       tree = "eza --tree";
