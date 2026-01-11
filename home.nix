@@ -27,7 +27,6 @@ in {
         jjui
         jq
         just
-        lsp-ai
         mtr
         nil
         nixfmt-classic
@@ -149,40 +148,40 @@ in {
         }
         {
           name = "rust";
-          language-servers = [ "rust-analyzer" "lsp-ai" ];
+          language-servers = [ "rust-analyzer" ];
         }
         {
           name = "bash";
-          language-servers = [ "bash-language-server" "lsp-ai" ];
+          language-servers = [ "bash-language-server" ];
         }
         {
           name = "docker-compose";
-          language-servers = [ "yaml-language-server" "lsp-ai" ];
+          language-servers = [ "yaml-language-server" ];
         }
         {
           name = "go";
-          language-servers = [ "gopls" "lsp-ai" ];
+          language-servers = [ "gopls" ];
           formatter.command = "goimports";
         }
         {
           name = "hcl";
-          language-servers = [ "terraform-ls" "lsp-ai" ];
+          language-servers = [ "terraform-ls" ];
         }
         {
           name = "javascript";
-          language-servers = [ "typescript-language-server" "lsp-ai" ];
+          language-servers = [ "typescript-language-server" ];
         }
         {
           name = "jsx";
-          language-servers = [ "typescript-language-server" "lsp-ai" ];
+          language-servers = [ "typescript-language-server" ];
         }
         {
           name = "typescript";
-          language-servers = [ "typescript-language-server" "lsp-ai" ];
+          language-servers = [ "typescript-language-server" ];
         }
         {
           name = "zig";
-          language-servers = [ "zls" "lsp-ai" ];
+          language-servers = [ "zls" ];
         }
         {
           name = "markdown";
@@ -222,27 +221,6 @@ in {
         harper = {
           command = "harper-ls";
           args = [ "--stdio" ];
-        };
-        lsp-ai = {
-          command = "lsp-ai";
-          config = {
-            memory = { file_store = { }; };
-            models = {
-              model1 = {
-                type = "mistral_fim";
-                fim_endpoint = "https://api.mistral.ai/v1/fim/completions";
-                model = "codestral-latest";
-                auth_token_env_var_name = "MISTRAL_API_KEY";
-              };
-            };
-            completion = {
-              model = "model1";
-              parameters = {
-                max_tokens = 64;
-                max_context = 1024;
-              };
-            };
-          };
         };
       };
     };
@@ -331,6 +309,7 @@ in {
 
   programs.ghostty = {
     enable = true;
+    systemd.enable = false;
     enableZshIntegration = true;
     package = null;
     settings = {
