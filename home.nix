@@ -400,10 +400,6 @@ in
   programs.zsh = {
     enable = true;
 
-    initContent = ''
-      source $HOME/.config/zsh/aichat-integration.zsh
-    '';
-
     autosuggestion.enable = true;
     dotDir = config.home.homeDirectory;
 
@@ -624,6 +620,9 @@ in
         list = "allow";
         todowrite = "allow";
         todoread = "allow";
+        glob = "allow";
+        lsp = "allow";
+        question = "allow";
       };
     };
   };
