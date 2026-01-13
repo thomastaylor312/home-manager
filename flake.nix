@@ -20,10 +20,6 @@
       url = "github:ymtdzzz/otel-tui/v0.5.5";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    llm-functions = {
-      url = "github:sigoden/llm-functions/main";
-      flake = false;
-    };
     dracula-yazi = {
       url = "github:dracula/yazi/main";
       flake = false;
@@ -31,7 +27,7 @@
   };
 
   outputs = { nixpkgs, home-manager, nix-vscode-extensions, determinatenix
-    , otel-tui, llm-functions, dracula-yazi, ... }:
+    , otel-tui, dracula-yazi, ... }:
     let
       systems = [
         {
@@ -89,13 +85,10 @@
           name = "${username}-${slug}";
           value = home-manager.lib.homeManagerConfiguration {
             inherit pkgs;
-            modules = [
-              ./home.nix
-            ];
+            modules = [ ./home.nix ];
             extraSpecialArgs = finalSpecialArgs // {
               inherit importPath;
               hmLib = home-manager.lib;
-              llmFunctionsPath = llm-functions;
               draculaYaziPath = dracula-yazi;
             };
           };
