@@ -612,8 +612,11 @@ in
   programs.opencode = {
     enable = true;
     rules = ./files/GLOBAL_AGENTS.md;
+    agents = {
+      code-review = ./files/agents/code-review.md;
+    };
     settings = {
-      model = "anthropic/claude-sonnet-4.5";
+      model = "anthropic/claude-sonnet-4-5";
       permission = {
         "*" = "ask";
         read = "allow";
