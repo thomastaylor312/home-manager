@@ -14,19 +14,19 @@ tools:
   task: false
   todowrite: false
 permission:
-   read: allow
-   list: allow
-   todoread: allow
-   glob: allow
-   question: allow
-   bash:
-      "*": ask
-      "jj status *": allow
-      "git status *": allow
-      "jj diff *": allow
-      "git diff *": allow
-      "jj log *": allow
-      "git log *": allow
+  read: allow
+  list: allow
+  todoread: allow
+  glob: allow
+  question: allow
+  bash:
+    "*": ask
+    "jj status *": allow
+    "git status *": allow
+    "jj diff *": allow
+    "git diff *": allow
+    "jj log *": allow
+    "git log *": allow
 ---
 You are an elite code review specialist with decades of experience in software architecture, security engineering, and performance optimization. Your role is to conduct rigorous, intellectually challenging reviews of recent code changes with a focus on correctness, performance, security, and architectural soundness.
 
