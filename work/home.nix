@@ -1,6 +1,13 @@
-{ pkgs, otel-tui, homeDirectoryBase, ... }:
-let packages = (pkgs // import ./pkgs pkgs);
-in {
+{
+  pkgs,
+  otel-tui,
+  homeDirectoryBase,
+  ...
+}:
+let
+  packages = (pkgs // import ./pkgs pkgs);
+in
+{
   config = rec {
     home.username = "taylor";
     home.homeDirectory = "${homeDirectoryBase}/${home.username}";
@@ -44,22 +51,29 @@ in {
 
     programs.git = {
       settings = {
-        user = { email = "taylor.thomas@akuity.io"; };
+        user = {
+          email = "taylor.thomas@akuity.io";
+        };
         url = {
-          "ssh://git@github.com/" = { insteadOf = "https://github.com/"; };
+          "ssh://git@github.com/" = {
+            insteadOf = "https://github.com/";
+          };
         };
       };
     };
     programs.jujutsu = {
       settings = {
-        user = { email = "taylor.thomas@akuity.io"; };
-        remotes.origin = { auto-track-bookmarks = "glob:alice/*"; };
+        user = {
+          email = "taylor.thomas@akuity.io";
+        };
+        remotes.origin = {
+          auto-track-bookmarks = "glob:taylor/*";
+        };
       };
     };
 
     programs.zsh.shellAliases = {
-      cache-home-manager =
-        "nix build .#homeConfigurations.${home.username}.activationPackage --json | jq -r '.[].outputs | to_entries[].value' | attic push --stdin oftaylor";
+      cache-home-manager = "nix build .#homeConfigurations.${home.username}.activationPackage --json | jq -r '.[].outputs | to_entries[].value' | attic push --stdin oftaylor";
     };
 
     programs.vscode = {
