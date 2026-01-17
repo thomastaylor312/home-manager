@@ -4,6 +4,7 @@ args@{
   importPath,
   hmLib,
   draculaYaziPath,
+  beadsRepo,
   ...
 }:
 let
@@ -22,6 +23,7 @@ in
         argc
         attic-client
         bat
+        beadsRepo
         cachix
         cloc
         dasel
@@ -626,6 +628,10 @@ in
         glob = "allow";
         lsp = "allow";
         question = "allow";
+        bash = {
+          "*" = "ask";
+          "bd *" = "allow";
+        };
       };
     };
   };

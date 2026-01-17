@@ -24,10 +24,23 @@
       url = "github:dracula/yazi/main";
       flake = false;
     };
+    beads = {
+      url = "github:steveyegge/beads/v0.47.1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { nixpkgs, home-manager, nix-vscode-extensions, determinatenix
-    , otel-tui, dracula-yazi, ... }:
+  outputs =
+    {
+      nixpkgs,
+      home-manager,
+      nix-vscode-extensions,
+      determinatenix,
+      otel-tui,
+      dracula-yazi,
+      beads,
+      ...
+    }:
     let
       systems = [
         {
@@ -42,7 +55,8 @@
         }
       ];
 
-      mkPkgs = system:
+      mkPkgs =
+        system:
         let
           base = import nixpkgs {
             inherit system;
@@ -54,34 +68,70 @@
           };
           determinateOverride =
             if builtins.hasAttr system determinatenix.packages then
-              let determinatePkgs = determinatenix.packages.${system};
-              in if determinatePkgs ? default then {
-                nix = determinatePkgs.default;
-              } else
+              let
+                determinatePkgs = determinatenix.packages.${system};
+              in
+              if determinatePkgs ? default then
+                {
+                  nix = determinatePkgs.default;
+                }
+              else
                 { }
             else
               { };
-        in base // determinateOverride;
+          beadsOverride =
+            if builtins.hasAttr system beads.packages then
+              let
+                beadsPackages = beads.packages.${system};
+              in
+              if beadsPackages ? default then
+                {
+                  "beads-repo" = beadsPackages.default;
+                }
+              else
+                { }
+            else
+              { };
+        in
+        base // determinateOverride // beadsOverride;
 
-      mkOtelTui = system:
+      mkOtelTui =
+        system:
         if builtins.hasAttr system otel-tui.packages then
-          let otelPackages = otel-tui.packages.${system};
-          in if otelPackages ? otel-tui then otelPackages.otel-tui else null
+          let
+            otelPackages = otel-tui.packages.${system};
+          in
+          if otelPackages ? otel-tui then otelPackages.otel-tui else null
         else
           null;
 
-      mkHomeEntry = { username, importPath, system, slug, homeDirectoryBase
-        , needsOtelTui ? false, extraSpecialArgs ? { } }:
+      mkHomeEntry =
+        {
+          username,
+          importPath,
+          system,
+          slug,
+          homeDirectoryBase,
+          needsOtelTui ? false,
+          extraSpecialArgs ? { },
+        }:
         let
           pkgs = mkPkgs system;
-          otelArg = if needsOtelTui then
-            let otelPackage = mkOtelTui system;
-            in if otelPackage != null then { otel-tui = otelPackage; } else { }
-          else
-            { };
-          defaultSpecialArgs = { inherit homeDirectoryBase; } // otelArg;
+          otelArg =
+            if needsOtelTui then
+              let
+                otelPackage = mkOtelTui system;
+              in
+              if otelPackage != null then { otel-tui = otelPackage; } else { }
+            else
+              { };
+          defaultSpecialArgs = {
+            inherit homeDirectoryBase;
+          }
+          // otelArg;
           finalSpecialArgs = defaultSpecialArgs // extraSpecialArgs;
-        in {
+        in
+        {
           name = "${username}-${slug}";
           value = home-manager.lib.homeManagerConfiguration {
             inherit pkgs;
@@ -90,13 +140,18 @@
               inherit importPath;
               hmLib = home-manager.lib;
               draculaYaziPath = dracula-yazi;
+              beadsRepo =
+                if builtins.hasAttr system beads.packages then beads.packages.${system}.default else null;
             };
           };
         };
 
-      homeEntries = builtins.concatMap (systemData:
-        let inherit (systemData) system slug homeDirectoryBase;
-        in [
+      homeEntries = builtins.concatMap (
+        systemData:
+        let
+          inherit (systemData) system slug homeDirectoryBase;
+        in
+        [
           (mkHomeEntry {
             username = "oftaylor";
             importPath = ./personal;
@@ -108,10 +163,12 @@
             inherit system slug homeDirectoryBase;
             needsOtelTui = true;
           })
-        ]) systems;
+        ]
+      ) systems;
 
       homes = builtins.listToAttrs homeEntries;
-    in {
+    in
+    {
       homeConfigurations = homes // {
         oftaylor = homes."oftaylor-darwin";
         taylor = homes."taylor-darwin";
