@@ -66,6 +66,15 @@ in
     in
     base ++ macOnly;
 
+  home.file = {
+    ".claude/CLAUDE.md" = {
+      source = ./files/GLOBAL_AGENTS.md;
+    };
+    ".claude/agents/code-review.md" = {
+      source = ./files/agents/claude-code-review.md;
+    };
+  };
+
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new Home Manager release introduces backwards
@@ -631,6 +640,7 @@ in
         bash = {
           "*" = "ask";
           "bd *" = "allow";
+          "jq *" = "allow";
         };
       };
     };
