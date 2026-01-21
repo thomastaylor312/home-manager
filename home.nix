@@ -73,6 +73,9 @@ in
     ".claude/agents/code-review.md" = {
       source = ./files/agents/claude-code-review.md;
     };
+    ".codex/AGENTS.md" = {
+      source = ./files/GLOBAL_AGENTS.md;
+    };
   };
 
   # This value determines the Home Manager release that your
