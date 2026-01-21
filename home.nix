@@ -76,6 +76,11 @@ in
     ".codex/AGENTS.md" = {
       source = ./files/GLOBAL_AGENTS.md;
     };
+    # This might not work because it references claude specific tools, but figured I might as well
+    # try it out
+    ".codex/prompts/code-review.md" = {
+      source = ./files/agents/claude-code-review.md;
+    };
   };
 
   # This value determines the Home Manager release that your
