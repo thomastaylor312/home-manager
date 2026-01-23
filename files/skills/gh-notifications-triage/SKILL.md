@@ -1,6 +1,6 @@
 ---
 name: gh-notifications-triage
-description: Triage GitHub notifications by filtering to Pull Request notifications (ignoring issues), optionally filtering by organization/owner names, summarizing PRs via `gh pr view`, classifying relevance based on user-provided criteria, and marking “not relevant” PR notification threads as read via `gh api` (without approving, closing, or merging PRs).
+description: Triage GitHub notifications by filtering to Pull Request notifications (ignoring issues), optionally filtering by organization/owner names, summarizing PRs via `gh pr view`, classifying relevance (including a `merged` bucket) based on user-provided criteria, and marking “merged” + “not relevant” PR notification threads as done via `gh api` (without approving, closing, or merging PRs).
 ---
 
 # GitHub Notifications Triage (PRs only)
@@ -40,30 +40,41 @@ description: Triage GitHub notifications by filtering to Pull Request notificati
    - For each chunk, delegate to a separate subagent/task (run in parallel if possible) to:
      - Produce a 1–3 sentence “summary of the PR” from the `gh pr view` output.
      - Classify using the user’s criteria into exactly one bucket:
+       - `merged` (PR is already merged; do not apply the “not relevant” criteria)
        - `not_relevant_high` (only if you are highly confident)
        - `not_relevant_medium` (some signals, but not enough to auto-mark-read)
        - `other` (everything else)
+   - `merged` is objective: if `.isMerged == true` (or `.state == "MERGED"` / `.mergedAt != null`), bucket it as `merged`.
    - NEVER place anything in `not_relevant_high` unless you’re confident enough that auto-marking as read is correct.
 
-6. Present results back to the user in three lists (`not_relevant_high`, `not_relevant_medium`, `other`).
+6. Present results back to the user:
 
-   Each item must include: `repo`, `PR number`, `PR title`, and “summary of the PR”.
+   - Three detailed lists: `not_relevant_high`, `not_relevant_medium`, `other`.
+   - One merged summary: only show counts of merged PRs per repo (do not list individual merged PRs unless the user asks).
+     - Recommended format: `org/repo: N` (and optionally a `Total merged: M` line).
+     - If you have a `results.json` artifact, you can compute counts with:
+       - `jq -r '.merged | group_by(.repo) | map({repo: .[0].repo, count: length}) | sort_by(.count) | reverse | .[] | "\(.repo): \(.count)"' results.json`
+
+   Each item in the three detailed lists must include: `repo`, `PR number`, `PR title`, and “summary of the PR”.
 
 7. Ask: “Any PRs miscategorized? Tell me which ones (repo#number) and where to move them.”
 
-8. After the user confirms categorization, mark the “not relevant” PR notification threads as read (DO NOT approve/close/merge PRs):
+8. After the user confirms categorization, mark notification threads as done (DO NOT approve/close/merge PRs):
 
-   - If you’re unsure whether to mark `not_relevant_medium` as read, ask:
-     - “Mark as read: (1) high only, or (2) high + medium?”
+   - Always mark all `merged` PR notification threads as done.
+   - Also mark the “not relevant” PR notification threads as done, based on user preference:
+
+   - If you’re unsure whether to mark `not_relevant_medium` as done, ask:
+     - “Mark as done: (1) high only, or (2) high + medium?”
      - Default to (2) unless the user says otherwise.
 
-   - Mark one thread as read:
-     - `files/skills/gh-notifications-triage/scripts/mark_thread_read.sh 22180782087`
-   - Mark many threads as read (from a JSON object you produced):
-     - High only:
-       - `jq -r '.not_relevant_high[].thread_id' results.json | xargs -n1 files/skills/gh-notifications-triage/scripts/mark_thread_read.sh`
-     - High + medium:
-       - `jq -r '(.not_relevant_high + .not_relevant_medium)[]?.thread_id' results.json | xargs -n1 files/skills/gh-notifications-triage/scripts/mark_thread_read.sh`
+   - Mark one thread as done:
+     - `files/skills/gh-notifications-triage/scripts/mark_thread_done.sh 22180782087`
+   - Mark many threads as done (from a JSON object you produced):
+     - Merged + high only:
+       - `jq -r '(.merged + .not_relevant_high)[]?.thread_id' results.json | xargs -n1 files/skills/gh-notifications-triage/scripts/mark_thread_done.sh`
+     - Merged + high + medium:
+       - `jq -r '(.merged + .not_relevant_high + .not_relevant_medium)[]?.thread_id' results.json | xargs -n1 files/skills/gh-notifications-triage/scripts/mark_thread_done.sh`
 
 ## Output format (recommended)
 
@@ -71,6 +82,9 @@ When presenting lists in chat, also keep a machine-readable artifact in memory (
 
 ```json
 {
+  "merged": [
+    { "thread_id": "22180782087", "repo": "org/repo", "pr_number": 123, "pr_title": "…", "summary": "…" }
+  ],
   "not_relevant_high": [
     { "thread_id": "22180782087", "repo": "org/repo", "pr_number": 123, "pr_title": "…", "summary": "…" }
   ],
@@ -79,13 +93,13 @@ When presenting lists in chat, also keep a machine-readable artifact in memory (
 }
 ```
 
-REQUIRED: Once threads are marked as read, the artifact should be removed.
+REQUIRED: Once threads are marked as done, the artifact should be removed.
 
 ## Required `gh api` endpoints (copy/paste)
 
 - List notifications (docs: `GET /notifications`):
   - `gh api -X GET /notifications -f per_page=50 -f all=false -f participating=false --paginate --slurp`
-- Mark a thread as read (docs: `PATCH /notifications/threads/{thread_id}`):
+- Mark a thread as done (docs: `PATCH /notifications/threads/{thread_id}`):
   - `gh api -X PATCH /notifications/threads/THREAD_ID`
 
 ## Notes on `gh api` (avoid common mistakes)

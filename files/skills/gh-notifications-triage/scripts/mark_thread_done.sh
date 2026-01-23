@@ -3,14 +3,17 @@ set -euo pipefail
 
 usage() {
   cat <<'EOF' >&2
-Mark a GitHub notification thread as read using `gh api`.
+Mark a GitHub notification thread as done using `gh api`.
+
+Note: GitHub’s “Done” action is implemented by marking the notification thread as read via
+`PATCH /notifications/threads/{thread_id}`.
 
 Usage:
-  mark_thread_read.sh [--dry-run] THREAD_ID
+  mark_thread_done.sh [--dry-run] THREAD_ID
 
 Examples:
-  mark_thread_read.sh 22180782087
-  mark_thread_read.sh --dry-run 22180782087
+  mark_thread_done.sh 22180782087
+  mark_thread_done.sh --dry-run 22180782087
 EOF
 }
 
@@ -38,7 +41,7 @@ if [[ -z "$thread_id" ]]; then
 fi
 
 endpoint="/notifications/threads/${thread_id}"
-cmd=(gh api -H "Accept: application/vnd.github+json" -X PATCH "$endpoint" --silent)
+cmd=(gh api -H "Accept: application/vnd.github+json" -X DELETE "$endpoint" --silent)
 
 if [[ "$dry_run" == "true" ]]; then
   printf '%q ' "${cmd[@]}"
@@ -47,3 +50,4 @@ if [[ "$dry_run" == "true" ]]; then
 fi
 
 "${cmd[@]}"
+

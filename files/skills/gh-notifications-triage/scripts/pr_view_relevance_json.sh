@@ -60,7 +60,7 @@ if [[ ${#positional[@]} -eq 4 ]]; then
 fi
 
 gh pr view -R "$repo" "$number" \
-  --json number,title,body,author,labels,reviewRequests,isDraft,state,url,comments,reviews \
+  --json number,title,body,author,labels,reviewRequests,isDraft,state,mergedAt,url,comments,reviews \
   | jq -c \
       --arg repo "$repo" \
       --arg thread_id "$thread_id" \
@@ -102,6 +102,8 @@ gh pr view -R "$repo" "$number" \
         url: .url,
         author: (.author.login // null),
         state: .state,
+        mergedAt: (.mergedAt // null),
+        isMerged: (((.state // "") == "MERGED") or (.mergedAt != null)),
         isDraft: .isDraft,
         labels: (.labels | map(.name)),
 

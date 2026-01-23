@@ -29,7 +29,7 @@ repo="$1"
 number="$2"
 
 gh pr view -R "$repo" "$number" \
-  --json number,title,body,author,additions,deletions,changedFiles,labels,reviewDecision,state,isDraft,baseRefName,headRefName,url \
+  --json number,title,body,author,additions,deletions,changedFiles,labels,reviewDecision,state,mergedAt,isDraft,baseRefName,headRefName,url \
   | jq -c --arg repo "$repo" '
       {
         repo: $repo,
@@ -38,6 +38,8 @@ gh pr view -R "$repo" "$number" \
         url: .url,
         author: (.author.login // null),
         state: .state,
+        mergedAt: (.mergedAt // null),
+        isMerged: (((.state // "") == "MERGED") or (.mergedAt != null)),
         isDraft: .isDraft,
         baseRefName: .baseRefName,
         headRefName: .headRefName,
