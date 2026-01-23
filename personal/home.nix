@@ -1,6 +1,8 @@
 { pkgs, homeDirectoryBase, ... }:
-let packages = (pkgs // import ./pkgs pkgs);
-in {
+let
+  packages = (pkgs // import ./pkgs pkgs);
+in
+{
   config = rec {
     home.username = "oftaylor";
     home.homeDirectory = "${homeDirectoryBase}/${home.username}";
@@ -9,22 +11,32 @@ in {
       netrc-file = "${homeDirectoryBase}/${home.username}/.config/nix/netrc";
     };
 
-    home.packages = [ packages.rclone packages.doctl ];
+    home.packages = [
+      packages.rclone
+      packages.doctl
+    ];
 
     programs.git = {
       settings = {
-        user = { email = "taylor@oftaylor.com"; };
-        init = { defaultBranch = "master"; };
+        user = {
+          email = "taylor@oftaylor.com";
+        };
+        init = {
+          defaultBranch = "master";
+        };
       };
     };
 
     programs.jujutsu = {
-      settings = { user = { email = "taylor@oftaylor.com"; }; };
+      settings = {
+        user = {
+          email = "taylor@oftaylor.com";
+        };
+      };
     };
 
     programs.zsh.shellAliases = {
-      cache-home-manager =
-        "nix build .#homeConfigurations.${home.username}.activationPackage --json | jq -r '.[].outputs | to_entries[].value' | attic push --stdin oftaylor";
+      cache-home-manager = "nix build .#homeConfigurations.${home.username}.activationPackage --json | jq -r '.[].outputs | to_entries[].value' | attic push --stdin oftaylor";
     };
 
     programs.vscode = {

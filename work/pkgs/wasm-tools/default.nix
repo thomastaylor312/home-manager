@@ -1,4 +1,8 @@
-{ lib, rustPlatform, fetchFromGitHub, }:
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "wasm-tools";
@@ -18,10 +22,19 @@ rustPlatform.buildRustPackage rec {
   auditable = false;
   useFetchCargoVendor = true;
   cargoHash = "sha256-GbsI3eiAsVPlTkF6DdQTvccpNKGZgCQmAfOCL3LfGjY=";
-  cargoBuildFlags = [ "--package" "wasm-tools" ];
-  cargoTestFlags = [ "--all" ] ++
+  cargoBuildFlags = [
+    "--package"
+    "wasm-tools"
+  ];
+  cargoTestFlags = [
+    "--all"
+  ]
+  ++
     # Due to https://github.com/bytecodealliance/wasm-tools/issues/1820
-    [ "--" "--test-threads=1" ];
+    [
+      "--"
+      "--test-threads=1"
+    ];
 
   meta = with lib; {
     description = "Low level tooling for WebAssembly in Rust";

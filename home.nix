@@ -73,6 +73,9 @@ in
     ".claude/agents/code-review.md" = {
       source = ./files/agents/claude-code-review.md;
     };
+    ".claude/skills/gh-notifications-triage" = {
+      source = ./files/skills/gh-notifications-triage;
+    };
     ".codex/AGENTS.md" = {
       source = ./files/GLOBAL_AGENTS.md;
     };
@@ -80,6 +83,9 @@ in
     # try it out
     ".codex/prompts/code-review.md" = {
       source = ./files/agents/claude-code-review.md;
+    };
+    ".codex/skills/gh-notifications-triage" = {
+      source = ./files/skills/gh-notifications-triage;
     };
   };
 
