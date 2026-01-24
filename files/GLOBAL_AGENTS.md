@@ -20,7 +20,12 @@
 
 ### 1. Planning & Staging
 
-Break complex work into 3-5 stages. Document in \`IMPLEMENTATION_PLAN.md\`:
+Break complex work into 3-5 stages. If a `.beads` directory is present in the project, use `bd` for
+creating and managing work to complete. Each "stage" of work should be a "task" type in beads unless
+it is several large features, in which case there should be a top level "feature" type with several
+subtasks. Any "task" type should use `--description` flag when creating the task to included detailed
+information for the task. It should also use the `--acceptance` flag to document any success criteria.
+If the `.beads` directory is not present, fallback to documenting in a \`IMPLEMENTATION_PLAN.md\`:
 
 ```markdown
 ## Stage N: [Name]
@@ -29,8 +34,8 @@ Break complex work into 3-5 stages. Document in \`IMPLEMENTATION_PLAN.md\`:
 **Tests**: [Specific test cases]
 **Status**: [Not Started|In Progress|Complete]
 ```
-- Update status as you progress
-- Remove file when all stages are done
+- Update the status as you progress in the markdown file or in beads depending on what you used
+- If you used a markdown file, remove file when all stages are done
 
 ### 2. Implementation Flow
 
