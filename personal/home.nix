@@ -14,7 +14,17 @@ in
     home.packages = [
       packages.rclone
       packages.doctl
+      packages.tesseract
     ];
+
+    home.file = {
+      ".claude/skills/media-library-organize" = {
+        source = ../files/skills/media-library-organize;
+      };
+      ".codex/skills/media-library-organize" = {
+        source = ../files/skills/media-library-organize;
+      };
+    };
 
     programs.git = {
       settings = {
