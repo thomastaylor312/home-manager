@@ -203,6 +203,32 @@ For complex disc sets, create an `EPISODE_ANALYSIS.md` file in the source direct
 - Chapter counts and precise runtimes for all files
 - TMDB episode reference for cross-checking
 
+### Additional Sampling for Uncertain Episodes
+
+When initial identification yields LOW or MEDIUM confidence, extract frames at multiple
+timestamps throughout the episode to find distinctive visual cues:
+
+```bash
+# Extract frames at 2min, 5min, 10min, 15min, 20min, 25min, 30min, 35min, 40min
+for ts in 120 300 600 900 1200 1500 1800 2100 2400; do
+  ffmpeg -y -ss $ts -i input.mkv -frames:v 1 -q:v 2 "frame_${ts}s.jpg" 2>/dev/null
+done
+```
+
+**What to look for:**
+- Location changes (ship interior vs Earth vs alien planet vs flashback)
+- Character costumes or appearance changes
+- Distinctive set pieces, props, or visual effects
+- Environmental differences (lighting, weather, terrain)
+- Dream/hallucination sequences with unusual visual treatment
+
+**Process:**
+1. Extract 5-9 frames spread across the episode runtime
+2. Compare visual elements against TMDB episode descriptions
+3. Look for episode-specific events (battles, ceremonies, specific locations)
+4. Upgrade confidence when visual evidence confirms identification
+5. For persistent uncertainty, try different timestamp intervals
+
 ## Safety Constraints
 
 - Never overwrite existing files without explicit confirmation
