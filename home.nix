@@ -49,7 +49,8 @@ in
         zig
         # Needed for flowstry extension
         zlib
-        zls
+        # Build failure on unstable right now
+        # zls
         # Language servers for helix
         bash-language-server
         gopls
