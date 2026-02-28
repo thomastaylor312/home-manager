@@ -28,6 +28,10 @@
       url = "github:steveyegge/beads/v0.49.1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    tuicr = {
+      url = "github:agavra/tuicr/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -39,6 +43,7 @@
       otel-tui,
       dracula-yazi,
       beads,
+      tuicr,
       ...
     }:
     let
@@ -142,6 +147,8 @@
               draculaYaziPath = dracula-yazi;
               beadsRepo =
                 if builtins.hasAttr system beads.packages then beads.packages.${system}.default else null;
+              tuicrPkg =
+                if builtins.hasAttr system tuicr.defaultPackage then tuicr.defaultPackage.${system} else null;
             };
           };
         };

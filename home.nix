@@ -5,6 +5,7 @@ args@{
   hmLib,
   draculaYaziPath,
   beadsRepo,
+  tuicrPkg,
   ...
 }:
 let
@@ -24,6 +25,7 @@ in
         attic-client
         bat
         beadsRepo
+        tuicrPkg
         cachix
         cloc
         dasel
