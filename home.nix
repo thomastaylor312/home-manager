@@ -33,6 +33,7 @@ in
         docker
         ffmpeg
         hack-font
+        imagemagick
         iperf3
         jjui
         jq
@@ -69,6 +70,10 @@ in
     base ++ macOnly;
 
   home.file = {
+    ".local/bin/intensify" = {
+      source = ./files/intensify;
+      executable = true;
+    };
     ".claude/CLAUDE.md" = {
       source = ./files/GLOBAL_AGENTS.md;
     };
