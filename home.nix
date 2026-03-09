@@ -500,6 +500,7 @@ in
       };
       revsets = {
         log = "present(@) | ancestors(immutable_heads().., 8) | present(trunk())";
+        bookmark-advance-to = "@-";
       };
       templates = {
         commit_trailers = "format_signed_off_by_trailer(self)";
