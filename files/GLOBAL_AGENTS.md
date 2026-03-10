@@ -115,6 +115,7 @@ When multiple valid approaches exist, choose based on:
 - Identify common patterns and conventions
 - Use same libraries/utilities when possible
 - Follow existing test patterns
+- If asked to look at a specific GitHub issue (or issues on any other code forge), YOU MUST read the entire issue thread, including linked issues and PRs, to understand the full context before starting work.
 
 ### Tooling
 

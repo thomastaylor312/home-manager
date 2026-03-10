@@ -19,7 +19,7 @@ in
       delve
       docker-credential-gcr
       eksctl
-      go
+      go_1_26
       gofumpt
       google-cloud-sdk
       k6
