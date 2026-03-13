@@ -6,6 +6,7 @@ args@{
   draculaYaziPath,
   beadsRepo,
   tuicrPkg,
+  helixPkg,
   ...
 }:
 let
@@ -54,6 +55,7 @@ in
         zlib
         zls
         # Language servers for helix
+        copilot-language-server
         bash-language-server
         gopls
         gotools
@@ -137,6 +139,7 @@ in
 
   programs.helix = {
     enable = true;
+    package = helixPkg;
     defaultEditor = true;
     settings = {
       theme = "dracula";
@@ -152,8 +155,16 @@ in
           other-lines = "error";
         };
         lsp.display-inlay-hints = true;
+        inline-completion-timeout = 150;
+        inline-completion-auto-trigger = true;
       };
       keys = {
+        insert = {
+          "tab" = "inline_completion_accept";
+          "C-e" = "inline_completion_dismiss";
+          "A-n" = "inline_completion_next";
+          "A-p" = "inline_completion_prev";
+        };
         normal = {
           "C-d" = [
             "move_prev_word_start"
@@ -196,53 +207,89 @@ in
             command = "nixfmt";
           };
           auto-format = true;
+          language-servers = [
+            "nil"
+            "copilot"
+          ];
         }
         {
           name = "rust";
-          language-servers = [ "rust-analyzer" ];
+          language-servers = [
+            "rust-analyzer"
+            "copilot"
+          ];
         }
         {
           name = "bash";
-          language-servers = [ "bash-language-server" ];
+          language-servers = [
+            "bash-language-server"
+            "copilot"
+          ];
         }
         {
           name = "docker-compose";
-          language-servers = [ "yaml-language-server" ];
+          language-servers = [
+            "yaml-language-server"
+            "copilot"
+          ];
         }
         {
           name = "go";
-          language-servers = [ "gopls" ];
+          language-servers = [
+            "gopls"
+            "copilot"
+          ];
           formatter.command = "goimports";
         }
         {
           name = "hcl";
-          language-servers = [ "terraform-ls" ];
+          language-servers = [
+            "terraform-ls"
+            "copilot"
+          ];
         }
         {
           name = "javascript";
-          language-servers = [ "typescript-language-server" ];
+          language-servers = [
+            "typescript-language-server"
+            "copilot"
+          ];
         }
         {
           name = "jsx";
-          language-servers = [ "typescript-language-server" ];
+          language-servers = [
+            "typescript-language-server"
+            "copilot"
+          ];
         }
         {
           name = "typescript";
-          language-servers = [ "typescript-language-server" ];
+          language-servers = [
+            "typescript-language-server"
+            "copilot"
+          ];
         }
         {
           name = "zig";
-          language-servers = [ "zls" ];
+          language-servers = [
+            "zls"
+            "copilot"
+          ];
         }
         {
           name = "markdown";
           language-servers = [
             "marksman"
             "harper"
+            "copilot"
           ];
         }
         {
           name = "yaml";
+          language-servers = [
+            "yaml-language-server"
+            "copilot"
+          ];
           indent = {
             tab-width = 2;
             unit = " ";
@@ -250,6 +297,20 @@ in
         }
       ];
       language-server = {
+        copilot = {
+          command = "copilot-language-server";
+          args = [ "--stdio" ];
+          config = {
+            editorInfo = {
+              name = "helix";
+              version = "25.07.1";
+            };
+            editorPluginInfo = {
+              name = "helix-copilot";
+              version = "0.1.0";
+            };
+          };
+        };
         rust-analyzer.config = {
           check.command = "clippy";
         };
@@ -444,8 +505,8 @@ in
       cache-all = "cache-build && cache-inputs";
       aichat = "$HOME/aichat.sh";
       aider = "OPENAI_API_KEY=$(op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ 'op://Private/aider-openai-key/credential') aider --no-auto-commits --cache-prompts";
-      cd = "z";
       hx-ai = "MISTRAL_API_KEY=$(op read --account ZYK5R7INKFEFBMCZGVCN7TTLSQ 'op://Private/mistral-helix-api-key/credential') hx";
+      jjba = "jj bookmark advance";
     };
 
     oh-my-zsh = {

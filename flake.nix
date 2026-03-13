@@ -32,6 +32,10 @@
       url = "github:agavra/tuicr/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    helix = {
+      url = "github:thomastaylor312/helix/inline-completion";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -44,6 +48,7 @@
       dracula-yazi,
       beads,
       tuicr,
+      helix,
       ...
     }:
     let
@@ -149,6 +154,8 @@
                 if builtins.hasAttr system beads.packages then beads.packages.${system}.default else null;
               tuicrPkg =
                 if builtins.hasAttr system tuicr.defaultPackage then tuicr.defaultPackage.${system} else null;
+              helixPkg =
+                if builtins.hasAttr system helix.packages then helix.packages.${system}.default else null;
             };
           };
         };
