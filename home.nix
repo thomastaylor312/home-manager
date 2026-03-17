@@ -32,6 +32,8 @@ in
         dasel
         delta
         docker
+        # This is for beads
+        dolt
         ffmpeg
         hack-font
         imagemagick
@@ -47,6 +49,7 @@ in
         openai-whisper
         protobuf
         python314
+        scooter
         tailscale
         uv
         wget
@@ -196,6 +199,14 @@ in
             # Copies the directory containing the current file (for use in go tests and other commands)
             "=" = ":sh echo %{buffer_name} | xargs dirname | pbcopy";
           };
+          "C-r" = [
+            ":write-all"
+            ":insert-output scooter --no-stdin >/dev/tty"
+            ":redraw"
+            ":reload-all"
+            ":set mouse false"
+            ":set mouse true"
+          ];
         };
       };
     };

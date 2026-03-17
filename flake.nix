@@ -25,11 +25,12 @@
       flake = false;
     };
     beads = {
-      url = "github:steveyegge/beads/v0.49.1";
+      # Current flake has a hash mismatch so pinning to a known good commit
+      url = "github:steveyegge/beads/f320e3cc13519259d4586e8fa26dcdfb0665e1a2";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     tuicr = {
-      url = "github:agavra/tuicr/main";
+      url = "github:agavra/tuicr/v0.8.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     helix = {
