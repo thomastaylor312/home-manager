@@ -66,6 +66,19 @@
         }
       ];
 
+      aiDevSystems = [
+        {
+          slug = "aarch64-linux";
+          system = "aarch64-linux";
+          homeDirectoryBase = "/home";
+        }
+        {
+          slug = "x86_64-linux";
+          system = "x86_64-linux";
+          homeDirectoryBase = "/home";
+        }
+      ];
+
       mkPkgs =
         system:
         let
@@ -161,6 +174,29 @@
           };
         };
 
+      mkAiDevEntry =
+        {
+          username,
+          system,
+          slug,
+          homeDirectoryBase,
+        }:
+        let
+          pkgs = mkPkgs system;
+        in
+        {
+          name = "ai-dev-${slug}";
+          value = home-manager.lib.homeManagerConfiguration {
+            inherit pkgs;
+            modules = [ ./ai-dev.nix ];
+            extraSpecialArgs = {
+              inherit homeDirectoryBase username;
+              hmLib = home-manager.lib;
+              draculaYaziPath = dracula-yazi;
+            };
+          };
+        };
+
       homeEntries = builtins.concatMap (
         systemData:
         let
@@ -181,10 +217,19 @@
         ]
       ) systems;
 
+      aiDevEntries = map (
+        systemData:
+        mkAiDevEntry {
+          username = "taylor";
+          inherit (systemData) system slug homeDirectoryBase;
+        }
+      ) aiDevSystems;
+
       homes = builtins.listToAttrs homeEntries;
+      aiDevHomes = builtins.listToAttrs aiDevEntries;
     in
     {
-      homeConfigurations = homes // {
+      homeConfigurations = homes // aiDevHomes // {
         oftaylor = homes."oftaylor-darwin";
         taylor = homes."taylor-darwin";
       };
