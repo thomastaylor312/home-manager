@@ -32,7 +32,21 @@
     dolt
   ];
 
-  programs.helix.package = helixPkg;
+  programs.helix = {
+    package = helixPkg;
+    settings = {
+      editor = {
+        inline-completion-timeout = 150;
+        inline-completion-auto-trigger = true;
+      };
+      keys.insert = {
+        "A-tab" = "inline_completion_accept";
+        "C-e" = "inline_completion_dismiss";
+        "A-n" = "inline_completion_next";
+        "A-p" = "inline_completion_prev";
+      };
+    };
+  };
 
   programs.ghostty = {
     enable = true;
