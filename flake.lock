@@ -1,26 +1,5 @@
 {
   "nodes": {
-    "beads": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1773429883,
-        "narHash": "sha256-LZ5iD70aiVU123E0EQq7QXRPFruR4bSSGWyTe3F2EXE=",
-        "owner": "steveyegge",
-        "repo": "beads",
-        "rev": "f320e3cc13519259d4586e8fa26dcdfb0665e1a2",
-        "type": "github"
-      },
-      "original": {
-        "owner": "steveyegge",
-        "repo": "beads",
-        "rev": "f320e3cc13519259d4586e8fa26dcdfb0665e1a2",
-        "type": "github"
-      }
-    },
     "determinatenix": {
       "inputs": {
         "nix": "nix",
@@ -343,6 +322,23 @@
         "type": "github"
       }
     },
+    "obsidian-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1775150516,
+        "narHash": "sha256-/D5HKtLvVdBh7g7zCFDQmInL7/q8koiR6HL0ARmTCoE=",
+        "owner": "kepano",
+        "repo": "obsidian-skills",
+        "rev": "fa1e131a014576ff8f8919f191a7ca8d8fded39b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kepano",
+        "ref": "main",
+        "repo": "obsidian-skills",
+        "type": "github"
+      }
+    },
     "otel-tui": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -367,13 +363,13 @@
     },
     "root": {
       "inputs": {
-        "beads": "beads",
         "determinatenix": "determinatenix",
         "dracula-yazi": "dracula-yazi",
         "helix": "helix",
         "home-manager": "home-manager",
         "nix-vscode-extensions": "nix-vscode-extensions",
         "nixpkgs": "nixpkgs_2",
+        "obsidian-skills": "obsidian-skills",
         "otel-tui": "otel-tui",
         "tuicr": "tuicr"
       }

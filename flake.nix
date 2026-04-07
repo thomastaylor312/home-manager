@@ -24,11 +24,6 @@
       url = "github:dracula/yazi/main";
       flake = false;
     };
-    beads = {
-      # Current flake has a hash mismatch so pinning to a known good commit
-      url = "github:steveyegge/beads/f320e3cc13519259d4586e8fa26dcdfb0665e1a2";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     tuicr = {
       url = "github:agavra/tuicr/v0.8.0";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -36,6 +31,10 @@
     helix = {
       url = "github:thomastaylor312/helix/inline-completion";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    obsidian-skills = {
+      url = "github:kepano/obsidian-skills/main";
+      flake = false;
     };
   };
 
@@ -47,9 +46,9 @@
       determinatenix,
       otel-tui,
       dracula-yazi,
-      beads,
       tuicr,
       helix,
+      obsidian-skills,
       ...
     }:
     let
@@ -103,21 +102,8 @@
                 { }
             else
               { };
-          beadsOverride =
-            if builtins.hasAttr system beads.packages then
-              let
-                beadsPackages = beads.packages.${system};
-              in
-              if beadsPackages ? default then
-                {
-                  "beads-repo" = beadsPackages.default;
-                }
-              else
-                { }
-            else
-              { };
         in
-        base // determinateOverride // beadsOverride;
+        base // determinateOverride;
 
       mkOtelTui =
         system:
@@ -164,8 +150,7 @@
               inherit importPath;
               hmLib = home-manager.lib;
               draculaYaziPath = dracula-yazi;
-              beadsRepo =
-                if builtins.hasAttr system beads.packages then beads.packages.${system}.default else null;
+              obsidianSkillsPath = obsidian-skills;
               tuicrPkg =
                 if builtins.hasAttr system tuicr.defaultPackage then tuicr.defaultPackage.${system} else null;
               helixPkg =
@@ -229,9 +214,12 @@
       aiDevHomes = builtins.listToAttrs aiDevEntries;
     in
     {
-      homeConfigurations = homes // aiDevHomes // {
-        oftaylor = homes."oftaylor-darwin";
-        taylor = homes."taylor-darwin";
-      };
+      homeConfigurations =
+        homes
+        // aiDevHomes
+        // {
+          oftaylor = homes."oftaylor-darwin";
+          taylor = homes."taylor-darwin";
+        };
     };
 }

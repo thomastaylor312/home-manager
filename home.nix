@@ -2,10 +2,24 @@
   pkgs,
   importPath,
   helixPkg,
-  beadsRepo,
   tuicrPkg,
+  obsidianSkillsPath,
   ...
 }:
+
+let
+  obsidianSkillNames = builtins.attrNames (
+    builtins.readDir "${obsidianSkillsPath}/skills"
+  );
+  mkSkillEntries =
+    prefix:
+    builtins.listToAttrs (
+      map (name: {
+        name = "${prefix}/${name}";
+        value.source = "${obsidianSkillsPath}/skills/${name}";
+      }) obsidianSkillNames
+    );
+in
 {
   imports = [
     ./common.nix
@@ -17,10 +31,11 @@
       source = ./files/intensify;
       executable = true;
     };
-  };
+  }
+  // mkSkillEntries ".claude/skills"
+  // mkSkillEntries ".codex/skills";
 
   home.packages = with pkgs; [
-    beadsRepo
     docker
     iperf3
     dasel
@@ -28,8 +43,6 @@
     nmap
     openai-whisper
     tuicrPkg
-    # This is for beads
-    dolt
   ];
 
   programs.helix = {
