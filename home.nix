@@ -31,6 +31,14 @@ in
       source = ./files/intensify;
       executable = true;
     };
+    ".local/bin/codebase-status" = {
+      source = ./files/codebase-status;
+      executable = true;
+    };
+    ".local/bin/codebase-status-graph" = {
+      source = ./files/codebase-status-graph;
+      executable = true;
+    };
   }
   // mkSkillEntries ".claude/skills"
   // mkSkillEntries ".codex/skills";

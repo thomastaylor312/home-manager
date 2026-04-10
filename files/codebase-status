@@ -1,0 +1,103 @@
+#!/bin/bash
+
+# A useful script to check normal hot spots and patterns in the codebase. Commands from
+# https://piechowski.io/post/git-commands-before-reading-code/ and
+# https://news.ycombinator.com/item?id=47688065
+
+set -euo pipefail
+
+LIMIT=20
+GRAPH=false
+
+usage() {
+  cat <<EOF
+Usage: $(basename "$0") [OPTIONS]
+
+Analyze a jj repository for common codebase health signals.
+
+Options:
+  -l, --limit N   Number of results to show (default: 20)
+  -g, --graph     Generate a combined image with graphs to /tmp/codebase-status.png
+  -h, --help      Show this help message and exit
+
+Sections:
+  - What changes the most?        Files with the most commits (1 year)
+  - Who built this?               Top committers by commit count
+  - Where do bugs cluster?        Files most touched by bug-fix commits
+  - What is the speed of commits? Commits per month over all time
+  - How often is the team         Reverts, hotfixes, emergencies (1 year)
+    firefighting?
+EOF
+  exit 0
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -h|--help) usage ;;
+    -g|--graph) GRAPH=true; shift ;;
+    -l|--limit)
+      LIMIT="$2"
+      shift 2
+      ;;
+    *)
+      echo "Unknown option: $1" >&2
+      echo "Run '$(basename "$0") --help' for usage." >&2
+      exit 1
+      ;;
+  esac
+done
+
+# Collect data from jj
+changes_raw=$(jj log --no-graph -r 'ancestors(trunk()) & committer_date(after:"1 year ago")' \
+      -T 'self.diff().files().map(|f| f.path() ++ "\n").join("")' \
+      | sort | uniq -c | sort -nr | head -"$LIMIT")
+
+authors_raw=$(jj log --no-graph -r 'ancestors(trunk()) & ~merges()' \
+      -T 'self.author().name() ++ "\n"' \
+      | sort | uniq -c | sort -nr | head -"$LIMIT")
+
+bugs_raw=$(jj log --no-graph -r 'ancestors(trunk()) & description(regex:"(?i)fix|bug|broken")' \
+      -T 'self.diff().files().map(|f| f.path() ++ "\n").join("")' \
+      | sort | uniq -c | sort -nr | head -"$LIMIT")
+
+speed_raw=$(jj log --no-graph -r 'ancestors(trunk())' \
+      -T 'self.committer().timestamp().format("%Y-%m") ++ "\n"' \
+      | sort | uniq -c)
+
+firefighting_count=$(jj log --no-graph \
+      -r 'ancestors(trunk()) & committer_date(after:"1 year ago") & description(regex:"(?i)revert|hotfix|emergency|rollback")' \
+      -T '"x\n"' | grep -c . || true)
+# For graph mode, just need the count; for text mode, we re-run with color
+
+if [ "$GRAPH" = true ]; then
+  # Convert "  count label" lines into a JSON array of {count, label} objects
+  to_json_array() {
+    echo "$1" | awk '{count=$1; $1=""; sub(/^ /, ""); print count "\t" $0}' \
+      | jq -Rn '[inputs | split("\t") | {count: (.[0] | tonumber), label: .[1]}]'
+  }
+
+  jq -n \
+    --argjson changes "$(to_json_array "$changes_raw")" \
+    --argjson authors "$(to_json_array "$authors_raw")" \
+    --argjson bugs "$(to_json_array "$bugs_raw")" \
+    --argjson speed "$(to_json_array "$speed_raw")" \
+    --argjson firefighting_count "$firefighting_count" \
+    '{changes: $changes, authors: $authors, bugs: $bugs, speed: $speed, firefighting_count: $firefighting_count}' \
+    | codebase-status-graph
+else
+  echo "========== What changes the most? =========="
+  echo "$changes_raw"
+  echo ""
+  echo "============= Who built this? =============="
+  echo "$authors_raw"
+  echo ""
+  echo "========= Where do bugs cluster? ==========="
+  echo "$bugs_raw"
+  echo ""
+  echo "====== What is the speed of commits? ======="
+  echo "$speed_raw"
+  echo ""
+  echo "=== How often is the team firefighting? ===="
+  jj log --no-graph \
+      -r 'ancestors(trunk()) & committer_date(after:"1 year ago") & description(regex:"(?i)revert|hotfix|emergency|rollback")'
+fi

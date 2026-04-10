@@ -1,0 +1,116 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["matplotlib"]
+# ///
+"""Generate a combined dashboard image from codebase-status JSON on stdin."""
+
+import json
+import sys
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from matplotlib.gridspec import GridSpec
+
+
+def main():
+    data = json.load(sys.stdin)
+
+    fig = plt.figure(figsize=(18, 14))
+    fig.suptitle("Codebase Status Dashboard", fontsize=16, fontweight="bold", y=0.98)
+    gs = GridSpec(2, 3, figure=fig, hspace=0.4, wspace=0.4)
+
+    # 1. What changes the most? - Horizontal bar chart (top-left, spans 2 cols)
+    ax_changes = fig.add_subplot(gs[0, 0:2])
+    changes = data.get("changes", [])
+    if changes:
+        labels = [e["label"] for e in reversed(changes)]
+        sizes = [e["count"] for e in reversed(changes)]
+        short_labels = []
+        for lbl in labels:
+            parts = lbl.split("/")
+            short_labels.append("/".join(parts[-2:]) if len(parts) > 2 else lbl)
+        colors = plt.cm.Blues([0.3 + 0.7 * c / max(sizes) for c in sizes])
+        ax_changes.barh(short_labels, sizes, color=colors)
+        ax_changes.set_xlabel("Commits touching file")
+        ax_changes.tick_params(axis="y", labelsize=7)
+    else:
+        ax_changes.text(0.5, 0.5, "No data", ha="center", va="center")
+    ax_changes.set_title("What changes the most?", fontsize=12, fontweight="bold")
+
+    # 2. Who built this? - Table (top-right)
+    ax_table = fig.add_subplot(gs[0, 2])
+    ax_table.axis("off")
+    authors = data.get("authors", [])
+    if authors:
+        table_data = [[e["label"], str(e["count"])] for e in authors]
+        tbl = ax_table.table(cellText=table_data, colLabels=["Author", "Commits"],
+                             loc="center", cellLoc="left")
+        tbl.auto_set_font_size(False)
+        tbl.set_fontsize(8)
+        tbl.scale(1, 1.2)
+        for (row, col), cell in tbl.get_celld().items():
+            if row == 0:
+                cell.set_facecolor("#4472C4")
+                cell.set_text_props(color="white", fontweight="bold")
+            else:
+                cell.set_facecolor("#f0f0f0" if row % 2 == 0 else "white")
+    ax_table.set_title("Who built this?", fontsize=12, fontweight="bold")
+
+    # 3. Where do bugs cluster? - Heatmap-style horizontal bar (bottom-left)
+    ax_bugs = fig.add_subplot(gs[1, 0:2])
+    bugs = data.get("bugs", [])
+    if bugs:
+        bug_labels = [e["label"] for e in reversed(bugs)]
+        bug_counts = [e["count"] for e in reversed(bugs)]
+        short_bug_labels = []
+        for lbl in bug_labels:
+            parts = lbl.split("/")
+            short_bug_labels.append("/".join(parts[-2:]) if len(parts) > 2 else lbl)
+        colors = plt.cm.YlOrRd([c / max(bug_counts) for c in bug_counts])
+        ax_bugs.barh(short_bug_labels, bug_counts, color=colors)
+        ax_bugs.set_xlabel("Bug-fix commits touching file")
+        ax_bugs.tick_params(axis="y", labelsize=7)
+    else:
+        ax_bugs.text(0.5, 0.5, "No data", ha="center", va="center")
+    ax_bugs.set_title("Where do bugs cluster?", fontsize=12, fontweight="bold")
+
+    # Bottom-right: split into speed bar chart + firefighting count
+    gs_inner = gs[1, 2].subgridspec(2, 1, height_ratios=[3, 1], hspace=0.5)
+
+    # 4. Speed of commits - Bar chart
+    ax_speed = fig.add_subplot(gs_inner[0])
+    speed = data.get("speed", [])
+    if speed:
+        months = [e["label"] for e in speed]
+        counts = [e["count"] for e in speed]
+        ax_speed.bar(range(len(months)), counts, color="#4472C4")
+        # Show only every Nth label to avoid overlap
+        step = max(1, len(months) // 8)
+        ax_speed.set_xticks(range(0, len(months), step))
+        ax_speed.set_xticklabels([months[i] for i in range(0, len(months), step)],
+                                 rotation=45, ha="right", fontsize=7)
+        ax_speed.set_ylabel("Commits")
+    else:
+        ax_speed.text(0.5, 0.5, "No data", ha="center", va="center")
+    ax_speed.set_title("Speed of commits", fontsize=12, fontweight="bold")
+
+    # 5. Firefighting count - Big number
+    ax_fire = fig.add_subplot(gs_inner[1])
+    ax_fire.axis("off")
+    count = data.get("firefighting_count", 0)
+    color = "#2ecc71" if count < 5 else "#e67e22" if count < 15 else "#e74c3c"
+    ax_fire.text(0.5, 0.6, str(count), ha="center", va="center",
+                 fontsize=36, fontweight="bold", color=color)
+    ax_fire.text(0.5, 0.15, "reverts / hotfixes / emergencies\n(past year)",
+                 ha="center", va="center", fontsize=8, color="#666666")
+    ax_fire.set_title("Firefighting", fontsize=12, fontweight="bold")
+
+    output_path = "/tmp/codebase-status.png"
+    fig.savefig(output_path, dpi=150, bbox_inches="tight", facecolor="white")
+    plt.close(fig)
+    print(f"Dashboard saved to {output_path}")
+
+
+if __name__ == "__main__":
+    main()
