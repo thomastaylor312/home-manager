@@ -36,6 +36,10 @@
       url = "github:kepano/obsidian-skills/main";
       flake = false;
     };
+    age-plugin-1pass = {
+      url = "github:thomastaylor312/age-plugin-1pass/v0.1.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -49,6 +53,7 @@
       tuicr,
       helix,
       obsidian-skills,
+      age-plugin-1pass,
       ...
     }:
     let
@@ -155,6 +160,11 @@
                 if builtins.hasAttr system tuicr.defaultPackage then tuicr.defaultPackage.${system} else null;
               helixPkg =
                 if builtins.hasAttr system helix.packages then helix.packages.${system}.default else null;
+              agePlugin1passPkg =
+                if builtins.hasAttr system age-plugin-1pass.packages then
+                  age-plugin-1pass.packages.${system}.default
+                else
+                  null;
             };
           };
         };

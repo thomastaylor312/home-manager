@@ -3,14 +3,13 @@
   importPath,
   helixPkg,
   tuicrPkg,
+  agePlugin1passPkg,
   obsidianSkillsPath,
   ...
 }:
 
 let
-  obsidianSkillNames = builtins.attrNames (
-    builtins.readDir "${obsidianSkillsPath}/skills"
-  );
+  obsidianSkillNames = builtins.attrNames (builtins.readDir "${obsidianSkillsPath}/skills");
   mkSkillEntries =
     prefix:
     builtins.listToAttrs (
@@ -39,6 +38,9 @@ in
       source = ./files/codebase-status-graph;
       executable = true;
     };
+    ".config/age/1pass.key" = {
+      source = ./files/1pass.key;
+    };
   }
   // mkSkillEntries ".claude/skills"
   // mkSkillEntries ".codex/skills";
@@ -51,6 +53,7 @@ in
     nmap
     openai-whisper
     tuicrPkg
+    agePlugin1passPkg
   ];
 
   programs.helix = {
