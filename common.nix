@@ -21,6 +21,7 @@ in
         delta
         ffmpeg
         hack-font
+        hexyl
         imagemagick
         jjui
         jq
