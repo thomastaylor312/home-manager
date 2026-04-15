@@ -579,4 +579,9 @@ in
     enable = true;
     enableZshIntegration = true;
   };
+
+  programs.opencode = {
+    enable = true;
+    context = ./files/GLOBAL_AGENTS.md;
+  };
 }
