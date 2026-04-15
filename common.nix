@@ -2,12 +2,43 @@ args@{
   config,
   pkgs,
   draculaYaziPath,
+  playwrightCliSrc,
   ...
 }:
 let
   nixpkgsLib = args.lib;
   hmLib = args.hmLib;
   lib = nixpkgsLib // hmLib;
+
+  playwright-cli = pkgs.buildNpmPackage {
+    pname = "playwright-cli";
+    version = "0.1.8";
+    src = playwrightCliSrc;
+
+    npmDepsHash = "sha256-DK+nTRdVKznerAMK7McCCgr2OK4GXymbmgyR9qU/aH4=";
+
+    dontNpmBuild = true;
+
+    env = {
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1";
+      PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
+    };
+
+    nativeBuildInputs = [ pkgs.makeWrapper ];
+
+    postInstall = ''
+      wrapProgram $out/bin/playwright-cli \
+        --set PLAYWRIGHT_BROWSERS_PATH ${pkgs.playwright-driver.browsers} \
+        --set PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS true
+    '';
+
+    meta = {
+      description = "CLI for common Playwright actions";
+      homepage = "https://github.com/microsoft/playwright-cli";
+      license = lib.licenses.asl20;
+      mainProgram = "playwright-cli";
+    };
+  };
 in
 {
   home.packages =
@@ -29,6 +60,7 @@ in
         nil
         nixfmt
         nodejs_24
+        playwright-cli
         protobuf
         python314
         scooter

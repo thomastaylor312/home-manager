@@ -40,6 +40,10 @@
       url = "github:thomastaylor312/age-plugin-1pass/v0.1.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    playwright-cli-src = {
+      url = "github:microsoft/playwright-cli/v0.1.8";
+      flake = false;
+    };
   };
 
   outputs =
@@ -54,6 +58,7 @@
       helix,
       obsidian-skills,
       age-plugin-1pass,
+      playwright-cli-src,
       ...
     }:
     let
@@ -165,6 +170,7 @@
                   age-plugin-1pass.packages.${system}.default
                 else
                   null;
+              playwrightCliSrc = playwright-cli-src;
             };
           };
         };
@@ -188,6 +194,7 @@
               inherit homeDirectoryBase username;
               hmLib = home-manager.lib;
               draculaYaziPath = dracula-yazi;
+              playwrightCliSrc = playwright-cli-src;
             };
           };
         };

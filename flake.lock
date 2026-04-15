@@ -401,6 +401,23 @@
         "type": "github"
       }
     },
+    "playwright-cli-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1776192087,
+        "narHash": "sha256-8f/wFO4hSytpy3kEPyScoMWXWyeTl/SKoc3vD7xYaKo=",
+        "owner": "microsoft",
+        "repo": "playwright-cli",
+        "rev": "0406adaed4c6ba95bbfa6952229e76188bc59993",
+        "type": "github"
+      },
+      "original": {
+        "owner": "microsoft",
+        "ref": "v0.1.8",
+        "repo": "playwright-cli",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "age-plugin-1pass": "age-plugin-1pass",
@@ -412,6 +429,7 @@
         "nixpkgs": "nixpkgs_2",
         "obsidian-skills": "obsidian-skills",
         "otel-tui": "otel-tui",
+        "playwright-cli-src": "playwright-cli-src",
         "tuicr": "tuicr"
       }
     },
