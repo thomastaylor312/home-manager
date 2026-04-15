@@ -133,6 +133,17 @@ in
         lsp.display-inlay-hints = true;
       };
       keys = {
+        # NOTE: these won't actually work until ghostty can properly pass through these rather than
+        # intercepting them when in TUI mode for things like helix
+        insert = {
+          "A-j" = "move_prev_word_start";
+          "A-l" = "move_next_word_start";
+          "A-backspace" = "delete_word_backward";
+          "Cmd-l" = "goto_line_end";
+          "Cmd-j" = "goto_line_start";
+          "Cmd-i" = "goto_file_start";
+          "Cmd-k" = "goto_file_end";
+        };
         normal = {
           "C-d" = [
             "move_prev_word_start"
