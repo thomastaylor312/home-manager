@@ -49,6 +49,7 @@ in
     docker
     iperf3
     dasel
+    llama-cpp
     mtr
     nmap
     openai-whisper

@@ -96,6 +96,9 @@ in
     ".claude/skills/gh-notifications-triage" = {
       source = ./files/skills/gh-notifications-triage;
     };
+    ".claude/skills/writing-style" = {
+      source = ./files/skills/writing-style;
+    };
     ".codex/AGENTS.md" = {
       source = ./files/GLOBAL_AGENTS.md;
     };
@@ -106,6 +109,9 @@ in
     };
     ".codex/skills/gh-notifications-triage" = {
       source = ./files/skills/gh-notifications-triage;
+    };
+    ".codex/skills/writing-style" = {
+      source = ./files/skills/writing-style;
     };
   };
 
