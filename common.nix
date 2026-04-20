@@ -222,6 +222,16 @@ in
             ":set mouse false"
             ":set mouse true"
           ];
+          "C-y" = [
+            ":sh rm -f /tmp/yazi-helix"
+            ":insert-output [[ %{buffer_name} == \"[scratch]\" ]] && yazi %{current_working_directory} --chooser-file=/tmp/yazi-helix || yazi %{buffer_name} --chooser-file=/tmp/yazi-helix" # if this is a [scratch] buffer, open yazi in working directory instead
+            ":insert-output echo \"\x1b[?1049h\x1b[?2004h\" > /dev/tty" # These sequences help restore proper terminal state after Yazi exits: \x1b[?1049h switches to alternate screen buffer | \x1b[?2004h enables bracketed paste mode
+            ":open %sh{cat /tmp/yazi-helix}" # Reads the file path that Yazi saved to the temp file
+            ":redraw" # Necessary after running external terminal programs to fix visual artifacts
+            # manage conflict of mouse integration between helix and yazi
+            ":set mouse false"
+            ":set mouse true"
+          ];
         };
       };
     };
