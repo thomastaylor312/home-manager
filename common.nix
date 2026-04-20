@@ -49,6 +49,7 @@ in
         bat
         cachix
         cloc
+        cue
         delta
         ffmpeg
         hack-font
@@ -72,7 +73,7 @@ in
         # Language servers for helix
         copilot-language-server
         bash-language-server
-        gopls
+        (lib.hiPrio gopls)
         gotools
         harper
         marksman
