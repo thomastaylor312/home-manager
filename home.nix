@@ -38,6 +38,10 @@ in
       source = ./files/codebase-status-graph;
       executable = true;
     };
+    ".local/bin/copilot-signin" = {
+      source = ./files/copilot-signin;
+      executable = true;
+    };
     ".config/age/1pass.key" = {
       source = ./files/1pass.key;
     };

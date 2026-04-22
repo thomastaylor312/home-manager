@@ -1,0 +1,203 @@
+#!/usr/bin/env python3
+"""Sign in to GitHub Copilot by driving copilot-language-server over LSP.
+
+Helix's LSP client doesn't expose Copilot's custom `signIn` request, so this
+script speaks the protocol directly. The server persists the resulting token
+to ~/.config/github-copilot/hosts.json, which Helix (and any other LSP client)
+will then use automatically.
+"""
+import json
+import os
+import subprocess
+import sys
+import threading
+import time
+
+
+def encode(msg):
+    body = json.dumps(msg).encode("utf-8")
+    return f"Content-Length: {len(body)}\r\n\r\n".encode("utf-8") + body
+
+
+def read_message(stream):
+    headers = {}
+    while True:
+        line = stream.readline()
+        if not line:
+            return None
+        line = line.decode("utf-8").rstrip("\r\n")
+        if line == "":
+            break
+        key, _, value = line.partition(":")
+        headers[key.strip().lower()] = value.strip()
+    if "content-length" not in headers:
+        return None
+    body = stream.read(int(headers["content-length"]))
+    return json.loads(body.decode("utf-8"))
+
+
+class Client:
+    def __init__(self, proc):
+        self.proc = proc
+        self.responses = {}
+        self.lock = threading.Lock()
+        self.done = threading.Event()
+        self.signed_in = threading.Event()
+        self._next_id = 1
+        self._id_lock = threading.Lock()
+
+    def next_id(self):
+        with self._id_lock:
+            i = self._next_id
+            self._next_id += 1
+            return i
+
+    def send(self, msg):
+        self.proc.stdin.write(encode(msg))
+        self.proc.stdin.flush()
+
+    def request(self, method, params, timeout=60):
+        rid = self.next_id()
+        self.send({"jsonrpc": "2.0", "id": rid, "method": method, "params": params})
+        deadline = time.time() + timeout
+        while time.time() < deadline:
+            with self.lock:
+                if rid in self.responses:
+                    return self.responses.pop(rid)
+            time.sleep(0.05)
+        raise TimeoutError(f"no response to {method} within {timeout}s")
+
+    def notify(self, method, params):
+        self.send({"jsonrpc": "2.0", "method": method, "params": params})
+
+    def reader_loop(self):
+        while not self.done.is_set():
+            msg = read_message(self.proc.stdout)
+            if msg is None:
+                return
+            if "method" in msg and "id" in msg:
+                # Server-originated request — answer minimally
+                method = msg["method"]
+                if method == "window/workDoneProgress/create":
+                    self.send({"jsonrpc": "2.0", "id": msg["id"], "result": None})
+                else:
+                    self.send({"jsonrpc": "2.0", "id": msg["id"], "result": None})
+            elif "id" in msg:
+                with self.lock:
+                    self.responses[msg["id"]] = msg
+            else:
+                method = msg.get("method", "")
+                params = msg.get("params", {}) or {}
+                if method == "window/logMessage":
+                    text = params.get("message", "")
+                    if text.strip():
+                        print(f"  [log] {text}", file=sys.stderr)
+                elif method == "window/showMessage":
+                    print(f"  [msg] {params.get('message','')}")
+                else:
+                    # Copilot sends statusNotification / didChangeStatus
+                    status = None
+                    if isinstance(params, dict):
+                        status = params.get("status") or params.get("kind")
+                    if status:
+                        print(f"  [status] {status}")
+                        if str(status).lower() in ("ok", "signedin", "normal"):
+                            self.signed_in.set()
+
+
+def main():
+    try:
+        proc = subprocess.Popen(
+            ["copilot-language-server", "--stdio"],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            bufsize=0,
+        )
+    except FileNotFoundError:
+        print("copilot-language-server not found on PATH", file=sys.stderr)
+        sys.exit(1)
+
+    client = Client(proc)
+    threading.Thread(target=client.reader_loop, daemon=True).start()
+
+    client.request("initialize", {
+        "processId": os.getpid(),
+        "rootUri": None,
+        "capabilities": {
+            "workspace": {"executeCommand": {}, "workspaceFolders": True},
+            "window": {"showMessage": {}},
+        },
+        "initializationOptions": {
+            "editorInfo": {"name": "copilot-signin", "version": "1.0.0"},
+            "editorPluginInfo": {"name": "copilot-signin", "version": "1.0.0"},
+        },
+    })
+    client.notify("initialized", {})
+
+    resp = client.request("signIn", {})
+    if resp.get("error"):
+        print(f"signIn failed: {resp['error']}", file=sys.stderr)
+        sys.exit(1)
+
+    result = resp.get("result") or {}
+    status = result.get("status")
+    if status == "AlreadySignedIn":
+        user = result.get("user", "(unknown)")
+        print(f"Already signed in as {user}. Nothing to do.")
+        shutdown(client)
+        return
+
+    user_code = result.get("userCode")
+    verification_uri = result.get("verificationUri") or "https://github.com/login/device"
+    command = result.get("command")
+    if not user_code or not command:
+        print(f"Unexpected signIn response: {json.dumps(result, indent=2)}", file=sys.stderr)
+        sys.exit(1)
+
+    print()
+    print(f"  User code: {user_code}")
+    print(f"  Open:      {verification_uri}")
+    print()
+    print("A browser will open after you press Enter. Paste the code and authorize.")
+    input("Press Enter to continue...")
+
+    resp = client.request("workspace/executeCommand", {
+        "command": command["command"],
+        "arguments": command.get("arguments", []),
+    }, timeout=600)
+    if resp.get("error"):
+        print(f"finishDeviceFlow failed: {resp['error']}", file=sys.stderr)
+        sys.exit(1)
+
+    # Give the server a moment to emit the SignedIn status notification
+    client.signed_in.wait(timeout=10)
+
+    hosts = os.path.expanduser("~/.config/github-copilot/hosts.json")
+    if os.path.exists(hosts):
+        print(f"Signed in. Token written to {hosts}")
+    else:
+        print("Sign-in command returned. Restart Helix to pick up the new credentials.")
+
+    shutdown(client)
+
+
+def shutdown(client):
+    client.done.set()
+    try:
+        client.request("shutdown", None, timeout=3)
+        client.notify("exit", None)
+    except Exception:
+        pass
+    try:
+        client.proc.wait(timeout=3)
+    except subprocess.TimeoutExpired:
+        client.proc.terminate()
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\nAborted.")
+        sys.exit(130)
