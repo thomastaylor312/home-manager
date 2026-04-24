@@ -51,6 +51,7 @@ in
         cloc
         cue
         delta
+        difftastic
         ffmpeg
         hack-font
         hexyl
@@ -58,6 +59,7 @@ in
         jjui
         jq
         just
+        mergiraf
         nil
         nixfmt
         nodejs_24
@@ -556,6 +558,25 @@ in
       };
       remotes.thomastaylor312 = {
         auto-track-bookmarks = "glob:*";
+      };
+      aliases = {
+        rebase-all = [
+          "rebase"
+          "-s"
+          "(::trunk())+ & mutable()"
+          "-o"
+          "trunk()"
+        ];
+        difft = [
+          "diff"
+          "--tool"
+          "difft"
+        ];
+        resolvem = [
+          "resolve"
+          "--tool"
+          "mergiraf"
+        ];
       };
     };
   };
