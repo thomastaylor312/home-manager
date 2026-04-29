@@ -25,7 +25,7 @@
       flake = false;
     };
     tuicr = {
-      url = "github:agavra/tuicr/v0.8.0";
+      url = "github:agavra/tuicr/v0.10.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     helix = {
