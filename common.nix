@@ -559,11 +559,23 @@ in
       remotes.thomastaylor312 = {
         auto-track-bookmarks = "glob:*";
       };
+      revset-aliases = {
+        # Represents all commits on a "branch" between the trunk and the given change. Useful for rebases
+        "branch(c)" = "fork_point(c|trunk())..c";
+      };
+
       aliases = {
         rebase-all = [
           "rebase"
           "-s"
           "(::trunk())+ & mutable()"
+          "-o"
+          "trunk()"
+        ];
+        rebase-current = [
+          "rebase"
+          "-r"
+          "branch(@)"
           "-o"
           "trunk()"
         ];
