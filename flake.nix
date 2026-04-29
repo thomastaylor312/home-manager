@@ -12,10 +12,6 @@
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    determinatenix = {
-      url = "https://flakehub.com/f/DeterminateSystems/nix/2.*";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     otel-tui = {
       url = "github:ymtdzzz/otel-tui/v0.5.5";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -51,7 +47,6 @@
       nixpkgs,
       home-manager,
       nix-vscode-extensions,
-      determinatenix,
       otel-tui,
       dracula-yazi,
       tuicr,
@@ -90,30 +85,14 @@
 
       mkPkgs =
         system:
-        let
-          base = import nixpkgs {
-            inherit system;
-            config = {
-              allowUnfree = true;
-              allowUnfreePredicate = _: true;
-            };
-            overlays = [ nix-vscode-extensions.overlays.default ];
+        import nixpkgs {
+          inherit system;
+          config = {
+            allowUnfree = true;
+            allowUnfreePredicate = _: true;
           };
-          determinateOverride =
-            if builtins.hasAttr system determinatenix.packages then
-              let
-                determinatePkgs = determinatenix.packages.${system};
-              in
-              if determinatePkgs ? default then
-                {
-                  nix = determinatePkgs.default;
-                }
-              else
-                { }
-            else
-              { };
-        in
-        base // determinateOverride;
+          overlays = [ nix-vscode-extensions.overlays.default ];
+        };
 
       mkOtelTui =
         system:
