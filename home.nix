@@ -56,7 +56,7 @@ in
     llama-cpp
     mtr
     nmap
-    openai-whisper
+    # openai-whisper
     tuicrPkg
     agePlugin1passPkg
   ];

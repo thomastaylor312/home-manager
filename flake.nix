@@ -91,7 +91,12 @@
             allowUnfree = true;
             allowUnfreePredicate = _: true;
           };
-          overlays = [ nix-vscode-extensions.overlays.default ];
+          overlays = [
+            nix-vscode-extensions.overlays.default
+            (_: prev: {
+              direnv = prev.direnv.overrideAttrs (_: { doCheck = false; });
+            })
+          ];
         };
 
       mkOtelTui =
