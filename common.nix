@@ -133,6 +133,11 @@ in
     "$HOME/.cargo/bin"
   ];
 
+  home.sessionVariables = {
+    GH_TELEMETRY = "false";
+    DO_NOT_TRACK = "true";
+  };
+
   # Determinate manages /etc/nix and the daemon; substituters go in /etc/nix/nix.custom.conf, not here.
   nix.enable = false;
 
