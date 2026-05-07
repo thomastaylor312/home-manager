@@ -94,11 +94,15 @@
           overlays = [
             nix-vscode-extensions.overlays.default
             (_: prev: {
-              direnv = prev.direnv.overrideAttrs (_: { doCheck = false; });
+              direnv = prev.direnv.overrideAttrs (_: {
+                doCheck = false;
+              });
               python313 = prev.python313.override (old: {
                 packageOverrides = prev.lib.composeExtensions (old.packageOverrides or (_: _: { })) (
                   _: pyPrev: {
-                    cli-helpers = pyPrev.cli-helpers.overridePythonAttrs (_: { doCheck = false; });
+                    cli-helpers = pyPrev.cli-helpers.overridePythonAttrs (_: {
+                      doCheck = false;
+                    });
                   }
                 );
               });
