@@ -64,6 +64,8 @@ in
         nixfmt
         nodejs_24
         playwright-cli
+        # PDF-to-image converter, useful for claude stuff when analyzing docs
+        poppler-utils
         protobuf
         python314
         scooter
