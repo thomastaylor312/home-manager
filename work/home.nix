@@ -14,6 +14,7 @@ in
 
     home.packages = with packages; [
       act
+      argocd
       awscli2
       clusterctl
       delve
