@@ -20,10 +20,6 @@
       url = "github:dracula/yazi/main";
       flake = false;
     };
-    tuicr = {
-      url = "github:agavra/tuicr/v0.10.0";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     helix = {
       url = "github:thomastaylor312/helix/inline-completion";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -49,7 +45,6 @@
       nix-vscode-extensions,
       otel-tui,
       dracula-yazi,
-      tuicr,
       helix,
       obsidian-skills,
       age-plugin-1pass,
@@ -156,8 +151,6 @@
               hmLib = home-manager.lib;
               draculaYaziPath = dracula-yazi;
               obsidianSkillsPath = obsidian-skills;
-              tuicrPkg =
-                if builtins.hasAttr system tuicr.defaultPackage then tuicr.defaultPackage.${system} else null;
               helixPkg =
                 if builtins.hasAttr system helix.packages then helix.packages.${system}.default else null;
               agePlugin1passPkg =

@@ -2,7 +2,6 @@
   pkgs,
   importPath,
   helixPkg,
-  tuicrPkg,
   agePlugin1passPkg,
   obsidianSkillsPath,
   ...
@@ -58,7 +57,6 @@ in
     mtr
     nmap
     # openai-whisper
-    tuicrPkg
     agePlugin1passPkg
   ];
 
