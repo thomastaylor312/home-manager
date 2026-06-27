@@ -1,31 +1,10 @@
 # Development Guidelines
 
-## Philosophy
+## Planning
 
-### Core Beliefs
-
-- **Incremental progress over big bangs** - Small changes that compile and pass tests
-- **Learning from existing code** - Study and plan before implementing
-- **Pragmatic over dogmatic** - Adapt to project reality
-- **Clear intent over clever code** - Be boring and obvious
-
-### Simplicity Means
-
-- Single responsibility per function/class
-- Avoid premature abstractions
-- No clever tricks - choose the boring solution
-- If you need to explain it, it's too complex
-
-## Process
-
-### 1. Planning & Staging
-
-Break complex work into 3-5 stages. If a `.beads` directory is present in the project, use `bd` for
-creating and managing work to complete. Each "stage" of work should be a "task" type in beads unless
-it is several large features, in which case there should be a top level "feature" type with several
-subtasks. Any "task" type should use `--description` flag when creating the task to included detailed
-information for the task. It should also use the `--acceptance` flag to document any success criteria.
-If the `.beads` directory is not present, fallback to documenting in a \`IMPLEMENTATION_PLAN.md\`:
+For complex work, break it into 3-5 stages and track them with the harness's native planning/todo
+tooling. If, and only if, a longer-lived artifact is useful, document the stages in an
+`IMPLEMENTATION_PLAN.md` and remove it once all stages are done:
 
 ```markdown
 ## Stage N: [Name]
@@ -34,18 +13,8 @@ If the `.beads` directory is not present, fallback to documenting in a \`IMPLEME
 **Tests**: [Specific test cases]
 **Status**: [Not Started|In Progress|Complete]
 ```
-- Update the status as you progress in the markdown file or in beads depending on what you used
-- If you used a markdown file, remove file when all stages are done
 
-### 2. Implementation Flow
-
-1. **Understand** - Study existing patterns in codebase
-2. **Test** - Write test first (red)
-3. **Implement** - Minimal code to pass (green)
-4. **Refactor** - Clean up with tests passing
-5. **Commit** - With clear message linking to plan
-
-### 3. When Stuck (After 3 Attempts)
+## When Stuck (After 3 Attempts)
 
 **CRITICAL**: Maximum 3 attempts per issue, then STOP.
 
@@ -68,92 +37,20 @@ If the `.beads` directory is not present, fallback to documenting in a \`IMPLEME
    - Different architectural pattern?
    - Remove abstraction instead of adding?
 
-## Technical Standards
+## Tooling & Workflow
 
-### Architecture Principles
+- Use the project's existing build system, test framework, and formatter/linter
+  settings. Don't introduce new tools without strong justification.
+- Use jujutsu `jj` instead of git for most projects when searching for diffs and
+  commit information. If `jj` errors due to it not being a jj repo, fall back to git.
+- If asked to look at a specific GitHub issue (or issues on any other code forge),
+  YOU MUST read the entire issue thread, including linked issues and PRs, to
+  understand the full context before starting work.
 
-- **Composition over inheritance** - Use dependency injection
-- **Interfaces over singletons** - Enable testing and flexibility
-- **Explicit over implicit** - Clear data flow and dependencies
-- **Test-driven when possible** - Never disable tests, fix them
-
-### Code Quality
-
-- **Every commit must**:
-  - Compile successfully
-  - Pass all existing tests
-  - Include tests for new functionality
-  - Follow project formatting/linting
-
-- **Before committing**:
-  - Run formatters/linters
-  - Self-review changes
-  - Ensure commit message explains "why"
-
-### Error Handling
-
-- Fail fast with descriptive messages
-- Include context for debugging
-- Handle errors at appropriate level
-- Never silently swallow exceptions
-
-## Decision Framework
-
-When multiple valid approaches exist, choose based on:
-
-1. **Testability** - Can I easily test this?
-2. **Readability** - Will someone understand this in 6 months?
-3. **Consistency** - Does this match project patterns?
-4. **Simplicity** - Is this the simplest solution that works?
-5. **Reversibility** - How hard to change later?
-
-## Project Integration
-
-### Learning the Codebase
-
-- Find 3 similar features/components
-- Identify common patterns and conventions
-- Use same libraries/utilities when possible
-- Follow existing test patterns
-- If asked to look at a specific GitHub issue (or issues on any other code forge), YOU MUST read the entire issue thread, including linked issues and PRs, to understand the full context before starting work.
-
-### Tooling
-
-- Use project's existing build system
-- Use project's test framework
-- Use project's formatter/linter settings
-- Don't introduce new tools without strong justification
-- Use jujutsu `jj` instead of git for most projects when searching for diffs and commit information. If `jj` errors due to it not being a jj repo, fall back to git
-
-## Quality Gates
-
-### Definition of Done
-
-- [ ] Tests written and passing
-- [ ] Code follows project conventions
-- [ ] No linter/formatter warnings
-- [ ] Commit messages are clear
-- [ ] Implementation matches plan
-- [ ] No TODOs without issue numbers
-
-### Test Guidelines
-
-- Test behavior, not implementation
-- One assertion per test when possible
-- Clear test names describing scenario
-- Use existing test utilities/helpers
-- Tests should be deterministic
-
-## Important Reminders
+## Hard Rules
 
 **NEVER**:
-- Use \`--no-verify\` to bypass commit hooks
+- Use `--no-verify` to bypass commit hooks
 - Disable tests instead of fixing them
 - Commit code that doesn't compile
 - Make assumptions - verify with existing code
-
-**ALWAYS**:
-- Commit working code incrementally
-- Update plan documentation as you go
-- Learn from existing implementations
-- Stop after 3 failed attempts and reassess
