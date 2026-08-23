@@ -473,6 +473,13 @@ in
       sync_frequency = "5m";
       enter_accept = true;
       store_failed = true;
+      search_mode = "daemon-fuzzy";
+      daemon = {
+        enabled = true;
+        autostart = true;
+      };
+      ai.enabled = true;
+      pty_proxy.enabled = true;
     };
   };
 
