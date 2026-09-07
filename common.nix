@@ -87,7 +87,7 @@ in
         vscode-json-languageserver
         yaml-language-server
       ];
-      macOnly = lib.optionals stdenv.isDarwin [ _1password-cli ];
+      macOnly = lib.optionals stdenv.hostPlatform.isDarwin [ _1password-cli ];
     in
     base ++ macOnly;
 

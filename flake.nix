@@ -29,7 +29,7 @@
       flake = false;
     };
     age-plugin-1pass = {
-      url = "github:thomastaylor312/age-plugin-1pass/v0.1.0";
+      url = "github:thomastaylor312/age-plugin-1pass/v0.1.1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     playwright-cli-src = {
