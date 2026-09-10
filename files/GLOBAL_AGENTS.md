@@ -39,13 +39,35 @@ tooling. If, and only if, a longer-lived artifact is useful, document the stages
 
 ## Tooling & Workflow
 
-- Use the project's existing build system, test framework, and formatter/linter
-  settings. Don't introduce new tools without strong justification.
-- Use jujutsu `jj` instead of git for most projects when searching for diffs and
-  commit information. If `jj` errors due to it not being a jj repo, fall back to git.
-- If asked to look at a specific GitHub issue (or issues on any other code forge),
-  YOU MUST read the entire issue thread, including linked issues and PRs, to
-  understand the full context before starting work.
+- Use the project's existing build system, test framework, and formatter/linter settings. Don't
+  introduce new tools without strong justification.
+- Use jujutsu `jj` instead of git for most projects when searching for diffs and commit information.
+  If `jj` errors due to it not being a jj repo, fall back to git.
+- If asked to look at a specific GitHub issue (or issues on any other code forge), YOU MUST read the
+  entire issue thread, including linked issues and PRs, to understand the full context before
+  starting work.
+
+## Code Comments
+
+Comments are for a future reader who has only this repo — no design doc, no chat log, no memory of
+how the code got written. Write for that future reader.
+
+- Explain **why**, not what. If the code already says what it does, don't restate it.
+- No references to the conversation that produced the code: "as we discussed", "per your request",
+  "as requested above".
+- No references to planning artifacts unless they're committed here and named by path. "Phase 5 of
+  the design doc" is useless; "see `docs/rfc-042.md`" is fine.
+- No bare references to files outside the repo. `foo.go` means nothing to someone who can't find it.
+  Either make it resolvable (`k8s.io/client-go@v0.31 tools/cache/reflector.go`) or drop the pointer
+  and explain the behavior directly.
+- No changelogs in comments. "This used to use X, now uses Y" belongs in the commit message. The
+  one exception is when the current code looks wrong without it — then say it in the present tense:
+  "Don't use `errgroup` here; it swallows the cancellation cause."
+
+The same rule applies to everything else that gets committed or published — commit messages, PR
+descriptions, and docs. Describe the change and its motivation on its own terms. Nobody reading the
+history later has the plan or the thread, so "Phase 3 of the plan", "addresses your feedback", and
+"as requested" carry no information.
 
 ## Hard Rules
 
