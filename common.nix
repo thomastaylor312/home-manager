@@ -50,6 +50,7 @@ in
         cachix
         cloc
         cue
+        defuddle
         delta
         difftastic
         ffmpeg
