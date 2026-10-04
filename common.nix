@@ -521,6 +521,9 @@ in
     };
   };
 
+  # Also sets $PAGER, which delta and bat fall back to when no pager of their own is configured.
+  programs.moor.enable = true;
+
   programs.delta = {
     enable = true;
     enableGitIntegration = true;
