@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   importPath,
   helixPkg,
@@ -17,6 +18,13 @@ let
         value.source = "${obsidianSkillsPath}/skills/${name}";
       }) obsidianSkillNames
     );
+
+  # Generated at build time so new shells don't pay for launching omp just to produce completions.
+  ompZshCompletions = pkgs.runCommand "omp-zsh-completions" { } ''
+    export HOME="$TMPDIR"
+    mkdir -p "$out/share/zsh/site-functions"
+    ${config.programs.omp.package}/bin/omp completions zsh > "$out/share/zsh/site-functions/_omp"
+  '';
 in
 {
   imports = [
@@ -44,6 +52,26 @@ in
     ".config/age/1pass.key" = {
       source = ./files/1pass.key;
     };
+    # Only overrides go here; omp merges this onto its built-in server list, which already covers the
+    # other language servers installed for helix.
+    ".omp/agent/lsp.json".text = builtins.toJSON {
+      servers.taplo = {
+        command = "taplo";
+        args = [
+          "lsp"
+          "stdio"
+        ];
+        fileTypes = [ ".toml" ];
+        # omp only checks the launch directory for these, so include common repo roots alongside
+        # taplo's own config files.
+        rootMarkers = [
+          ".taplo.toml"
+          "taplo.toml"
+          ".git"
+          ".jj"
+        ];
+      };
+    };
   }
   // mkSkillEntries ".claude/skills"
   // mkSkillEntries ".codex/skills";
@@ -58,6 +86,7 @@ in
     nmap
     # openai-whisper
     agePlugin1passPkg
+    ompZshCompletions
   ];
 
   programs.helix = {
@@ -75,6 +104,8 @@ in
       };
     };
   };
+
+  programs.omp.enable = true;
 
   programs.ghostty = {
     enable = true;

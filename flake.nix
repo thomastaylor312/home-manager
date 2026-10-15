@@ -36,6 +36,7 @@
       url = "github:microsoft/playwright-cli/v0.1.8";
       flake = false;
     };
+    omp.url = "github:can1357/oh-my-pi";
   };
 
   outputs =
@@ -49,6 +50,7 @@
       obsidian-skills,
       age-plugin-1pass,
       playwright-cli-src,
+      omp,
       ...
     }:
     let
@@ -145,7 +147,10 @@
           name = "${username}-${slug}";
           value = home-manager.lib.homeManagerConfiguration {
             inherit pkgs;
-            modules = [ ./home.nix ];
+            modules = [
+              omp.homeManagerModules.default
+              ./home.nix
+            ];
             extraSpecialArgs = finalSpecialArgs // {
               inherit importPath;
               hmLib = home-manager.lib;
