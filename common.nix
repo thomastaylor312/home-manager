@@ -480,7 +480,12 @@ in
         autostart = true;
       };
       ai.enabled = true;
-      pty_proxy.enabled = true;
+      # Turning this off for now, even though it's what keeps atuin's search UI from wiping out my
+      # screen. The proxy sits between Rex and my shell, so Rex only ever sees login/atuin as the
+      # foreground process and every single tab gets the generic icon. Atuin is working on titling
+      # the terminal after the real program (atuinsh/atuin#4447), but Rex picks icons from the
+      # process and not the title, so this can go back on once Rex can use one of those signals.
+      pty_proxy.enabled = false;
     };
   };
 
