@@ -58,6 +58,9 @@ in
     ".config/rex/tear_off.lua" = {
       source = ./files/rex/tear_off.lua;
     };
+    ".config/rex/tab_names.lua" = {
+      source = ./files/rex/tab_names.lua;
+    };
     # Only overrides go here; omp merges this onto its built-in server list, which already covers the
     # other language servers installed for helix.
     ".omp/agent/lsp.json".text = builtins.toJSON {
