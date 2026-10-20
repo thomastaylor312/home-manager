@@ -116,6 +116,13 @@ in
 
   programs.omp.enable = true;
 
+  programs.btop = {
+    enable = true;
+    settings = {
+      color_theme = "dracula";
+    };
+  };
+
   programs.ghostty = {
     enable = true;
     systemd.enable = false;
