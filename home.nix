@@ -1,7 +1,9 @@
 {
   config,
+  lib,
   pkgs,
   importPath,
+  enableGui,
   helixPkg,
   agePlugin1passPkg,
   obsidianSkillsPath,
@@ -123,7 +125,7 @@ in
     };
   };
 
-  programs.ghostty = {
+  programs.ghostty = lib.mkIf enableGui {
     enable = true;
     systemd.enable = false;
     enableZshIntegration = true;
@@ -169,7 +171,7 @@ in
     };
   };
 
-  programs.vscode = {
+  programs.vscode = lib.mkIf enableGui {
     enable = true;
     profiles.default.extensions = with pkgs.vscode-extensions; [
       fill-labs.dependi
@@ -262,7 +264,7 @@ in
       };
     };
   };
-  programs.zed-editor = {
+  programs.zed-editor = lib.mkIf enableGui {
     enable = true;
     extensions = [
       "cargo-tom"

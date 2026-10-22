@@ -125,6 +125,7 @@
           slug,
           homeDirectoryBase,
           needsOtelTui ? false,
+          enableGui ? true,
           extraSpecialArgs ? { },
         }:
         let
@@ -152,7 +153,7 @@
               ./home.nix
             ];
             extraSpecialArgs = finalSpecialArgs // {
-              inherit importPath;
+              inherit importPath enableGui;
               hmLib = home-manager.lib;
               draculaYaziPath = dracula-yazi;
               obsidianSkillsPath = obsidian-skills;
@@ -212,6 +213,18 @@
         ]
       ) systems;
 
+      # For servers with no display, so the GUI apps in home.nix would only bloat the closure.
+      headlessEntries = [
+        (mkHomeEntry {
+          username = "oftaylor";
+          importPath = ./personal;
+          system = "x86_64-linux";
+          slug = "linux-headless";
+          homeDirectoryBase = "/home";
+          enableGui = false;
+        })
+      ];
+
       aiDevEntries = map (
         systemData:
         mkAiDevEntry {
@@ -220,7 +233,7 @@
         }
       ) aiDevSystems;
 
-      homes = builtins.listToAttrs homeEntries;
+      homes = builtins.listToAttrs (homeEntries ++ headlessEntries);
       aiDevHomes = builtins.listToAttrs aiDevEntries;
     in
     {
