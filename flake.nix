@@ -158,7 +158,20 @@
               draculaYaziPath = dracula-yazi;
               obsidianSkillsPath = obsidian-skills;
               helixPkg =
-                if builtins.hasAttr system helix.packages then helix.packages.${system}.default else null;
+                if builtins.hasAttr system helix.packages then
+                  helix.packages.${system}.default.override {
+                    grammarOverlays = [
+                      # tree-sitter-perl defines its own bsearch(), which collides with the C23
+                      # const-generic bsearch macro in glibc >= 2.43. Build it as C17 instead.
+                      (_: prev: {
+                        perl = prev.perl.overrideAttrs (old: {
+                          FLAGS = old.FLAGS ++ [ "-std=gnu17" ];
+                        });
+                      })
+                    ];
+                  }
+                else
+                  null;
               agePlugin1passPkg =
                 if builtins.hasAttr system age-plugin-1pass.packages then
                   age-plugin-1pass.packages.${system}.default
