@@ -13,7 +13,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     otel-tui = {
-      url = "github:ymtdzzz/otel-tui/v0.5.5";
+      url = "github:ymtdzzz/otel-tui/v0.7.5";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     dracula-yazi = {

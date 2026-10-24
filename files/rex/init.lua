@@ -198,7 +198,7 @@ rex.action{
     local root = layer.layout
     local keep = first_leaf(root)
     local r, err = rex.session.new_split{
-      anchor_block_id = keep,
+      anchor_id       = keep,
       direction       = "horizontal",
       side            = "after",
       ratio           = sidebar_ratio,
@@ -213,6 +213,107 @@ rex.action{
 }
 
 rex.bind("cmd+l", "claude_sidebar")
+
+-- term() types its input into a shell, so quote each argument for it.
+local function shell_line(argv)
+  local quoted = {}
+  for i, a in ipairs(argv) do
+    quoted[i] = "'" .. a:gsub("'", [['\'']]) .. "'"
+  end
+  return table.concat(quoted, " ") .. "\n"
+end
+
+-- Claude Code writes ~/.claude/sessions/PID.json for each running process,
+-- naming the conversation it has open, so a pane's foreground pid leads
+-- straight to it. Returns nil for any other program.
+local function claude_fork(fg)
+  local f = io.open(os.getenv("HOME") .. "/.claude/sessions/" .. fg.pid .. ".json")
+  if f == nil then return nil end
+  local s = rex.json.decode(f:read("*a"))
+  f:close()
+
+  -- Run the same claude as the original pane rather than whichever one the
+  -- new shell finds first on its PATH.
+  local cmd = { fg.invoked_path or fg.path, "--resume", s.sessionId, "--fork-session" }
+
+  -- The transcript records the permission mode on each message, so this
+  -- follows shift+tab changes made after launch, unlike the launch flags.
+  local r = rex.exec({ "sh", "-c",
+    [[grep -ho '"permissionMode":"[A-Za-z]*"' "$HOME"/.claude/projects/*/"$1".jsonl | tail -1]],
+    "sh", s.sessionId })
+  local mode = r and r.stdout and r.stdout:match('"permissionMode":"(%a+)"')
+  if mode then
+    table.insert(cmd, "--permission-mode")
+    table.insert(cmd, mode)
+  end
+
+  if s.nameSource == "user" and s.name then
+    table.insert(cmd, "--name")
+    table.insert(cmd, s.name .. "-fork")
+  end
+  -- Resume looks the conversation up by the directory it started in.
+  return cmd, s.cwd
+end
+
+local uuid = ("%x"):rep(8) .. "%-" .. ("%x"):rep(4) .. "%-" .. ("%x"):rep(4)
+  .. "%-" .. ("%x"):rep(4) .. "%-" .. ("%x"):rep(12)
+
+-- Nothing on disk ties a Codex TUI's pid to its thread: the shared
+-- app-server daemon owns and writes every thread. The TUI only shows the
+-- thread's ID when tui.status_line in ~/.codex/config.toml includes
+-- "thread-id" (put it first so a narrow pane doesn't cut it off), so read it
+-- from the footer, and otherwise leave the ID out so `codex fork` shows its
+-- picker of this directory's threads.
+local function codex_fork(block_id, fg)
+  local cmd = { fg.invoked_path or fg.path, "fork" }
+  local r = rex.block.call(terminal, "format", { block_id = block_id, trim = true })
+  local lines = {}
+  for line in ((r and r.content) or ""):gmatch("[^\n]+") do
+    table.insert(lines, line)
+  end
+  -- Only search the footer: the transcript above it can hold other IDs.
+  for i = #lines, math.max(1, #lines - 3), -1 do
+    local id = lines[i]:match(uuid)
+    if id then
+      table.insert(cmd, id)
+      break
+    end
+  end
+  return cmd, fg.cwd
+end
+
+rex.action{
+  name        = "fork_session",
+  title       = "Fork Agent Session",
+  description = "Fork the Claude Code or Codex conversation in the focused pane into a new pane on its right.",
+  keywords    = "claude codex fork branch",
+  run         = function(ctx)
+    if ctx.block_id == nil then error("no pane is focused", 0) end
+    local proc, err = rex.block.call(terminal, "process", { block_id = ctx.block_id })
+    if err ~= nil then error(err, 0) end
+    local fg = proc and proc.foreground
+    if fg == nil then error("nothing is running in the focused pane", 0) end
+
+    local cmd, cwd
+    if (fg.argv0 or fg.path or ""):match("([^/]*)$") == "codex" then
+      cmd, cwd = codex_fork(ctx.block_id, fg)
+    else
+      cmd, cwd = claude_fork(fg)
+    end
+    if cmd == nil then error("the focused pane isn't running Claude Code or Codex", 0) end
+
+    local r, err2 = rex.session.new_split{
+      anchor_id = ctx.block_id,
+      direction = "horizontal",
+      side      = "after",
+      layout    = term(cwd, shell_line(cmd)),
+    }
+    if err2 ~= nil then error(err2, 0) end
+    return { block_id = r.block_ids[1] }
+  end,
+}
+
+rex.bind("shift+cmd+f", "fork_session")
 
 -- Event handlers don't run in init.lua, so tab naming lives in a script
 -- (tab_names.lua) that runs beside the server. The file loads again on every
