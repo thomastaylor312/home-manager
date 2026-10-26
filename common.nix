@@ -522,7 +522,11 @@ in
   };
 
   # Also sets $PAGER, which delta and bat fall back to when no pager of their own is configured.
-  programs.moor.enable = true;
+  programs.moor = {
+    enable = true;
+    # Print short output (e.g. `jj status`) directly instead of opening the pager, matching `less -F`.
+    options.quit-if-one-screen = true;
+  };
 
   programs.delta = {
     enable = true;
