@@ -526,6 +526,7 @@ in
     enable = true;
     # Print short output (e.g. `jj status`) directly instead of opening the pager, matching `less -F`.
     options.quit-if-one-screen = true;
+    options.wrap = true;
   };
 
   programs.delta = {
