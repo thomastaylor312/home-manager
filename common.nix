@@ -479,6 +479,10 @@ in
         enabled = true;
         autostart = true;
       };
+      threads = {
+        enabled = true;
+        capture = true;
+      };
       ai.enabled = true;
       # Turning this off for now, even though it's what keeps atuin's search UI from wiping out my
       # screen. The proxy sits between Rex and my shell, so Rex only ever sees login/atuin as the
