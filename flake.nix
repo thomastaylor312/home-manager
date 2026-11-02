@@ -94,6 +94,11 @@
               direnv = prev.direnv.overrideAttrs (_: {
                 doCheck = false;
               });
+              # atuin's e2e_ai_sessions tests are timing-sensitive (redaction timeouts, daemon
+              # resume races) and fail under load in the Nix build sandbox on darwin.
+              atuin = prev.atuin.overrideAttrs (_: {
+                doCheck = false;
+              });
               python313 = prev.python313.override (old: {
                 packageOverrides = prev.lib.composeExtensions (old.packageOverrides or (_: _: { })) (
                   _: pyPrev: {

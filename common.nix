@@ -586,6 +586,13 @@ in
       revset-aliases = {
         # Represents all commits on a "branch" between the trunk and the given change. Useful for rebases
         "branch(c)" = "fork_point(c|trunk())..c";
+        # Root of the first-parent line from c down to trunk, i.e. "my side" of a stack that has
+        # other branches merged into it. Relies on merges being created as `jj new mine theirs`.
+        "stack_root(c)" = "roots(trunk()..c & first_ancestors(c))";
+        "stack_root" = "stack_root(@)";
+        # Roots of every branch merged into c's first-parent line ("their side"). To rebase both
+        # sides at once, use `jj rebase -b @ -o trunk()` instead.
+        "merged_roots(c)" = "roots(trunk()..c ~ first_ancestors(c))";
       };
 
       aliases = {
