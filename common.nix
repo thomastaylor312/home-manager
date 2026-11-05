@@ -158,6 +158,7 @@ in
       editor = {
         file-picker = {
           hidden = false;
+          git-ignore = false;
         };
         soft-wrap = {
           enable = true;
