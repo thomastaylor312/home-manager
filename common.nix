@@ -471,7 +471,7 @@ in
     enable = true;
     enableZshIntegration = true;
     settings = {
-      sync_address = "http://imperial-archives.dojo-nominal.ts.net:9999";
+      sync_address = "https://imperial-archives.dojo-nominal.ts.net";
       sync_frequency = "5m";
       enter_accept = true;
       store_failed = true;
