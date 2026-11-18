@@ -25,7 +25,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     obsidian-skills = {
-      url = "github:kepano/obsidian-skills/main";
+      url = "github:obsidianmd/obsidian-skills/main";
       flake = false;
     };
     age-plugin-1pass = {

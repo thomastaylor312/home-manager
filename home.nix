@@ -11,13 +11,14 @@
 }:
 
 let
-  obsidianSkillNames = builtins.attrNames (builtins.readDir "${obsidianSkillsPath}/skills");
+  obsidianSkillsDir = "${obsidianSkillsPath}/plugins/obsidian/skills";
+  obsidianSkillNames = builtins.attrNames (builtins.readDir obsidianSkillsDir);
   mkSkillEntries =
     prefix:
     builtins.listToAttrs (
       map (name: {
         name = "${prefix}/${name}";
-        value.source = "${obsidianSkillsPath}/skills/${name}";
+        value.source = "${obsidianSkillsDir}/${name}";
       }) obsidianSkillNames
     );
 
