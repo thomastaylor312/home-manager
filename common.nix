@@ -581,6 +581,11 @@ in
       templates = {
         commit_trailers = "format_signed_off_by_trailer(self)";
       };
+      git = {
+        # Refuse to push any commit whose description starts with "private:" so local-only
+        # TODO/scratch commits can't leak to a remote.
+        private-commits = "description(glob:'private:*')";
+      };
       remotes.thomastaylor312 = {
         auto-track-bookmarks = "glob:*";
       };
