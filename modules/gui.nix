@@ -1,132 +1,8 @@
+# Graphical applications. Left out of configurations for machines with no display, where they would
+# only bloat the closure.
+{ pkgs, ... }:
 {
-  config,
-  lib,
-  pkgs,
-  importPath,
-  enableGui,
-  helixPkg,
-  agePlugin1passPkg,
-  obsidianSkillsPath,
-  ...
-}:
-
-let
-  obsidianSkillsDir = "${obsidianSkillsPath}/plugins/obsidian/skills";
-  obsidianSkillNames = builtins.attrNames (builtins.readDir obsidianSkillsDir);
-  mkSkillEntries =
-    prefix:
-    builtins.listToAttrs (
-      map (name: {
-        name = "${prefix}/${name}";
-        value.source = "${obsidianSkillsDir}/${name}";
-      }) obsidianSkillNames
-    );
-
-  # Generated at build time so new shells don't pay for launching omp just to produce completions.
-  ompZshCompletions = pkgs.runCommand "omp-zsh-completions" { } ''
-    export HOME="$TMPDIR"
-    mkdir -p "$out/share/zsh/site-functions"
-    ${config.programs.omp.package}/bin/omp completions zsh > "$out/share/zsh/site-functions/_omp"
-  '';
-in
-{
-  imports = [
-    ./common.nix
-    importPath
-  ];
-
-  home.file = {
-    ".local/bin/intensify" = {
-      source = ./files/intensify;
-      executable = true;
-    };
-    ".local/bin/codebase-status" = {
-      source = ./files/codebase-status;
-      executable = true;
-    };
-    ".local/bin/codebase-status-graph" = {
-      source = ./files/codebase-status-graph;
-      executable = true;
-    };
-    ".local/bin/copilot-signin" = {
-      source = ./files/copilot-signin;
-      executable = true;
-    };
-    ".config/age/1pass.key" = {
-      source = ./files/1pass.key;
-    };
-    ".config/rex/init.lua" = {
-      source = ./files/rex/init.lua;
-    };
-    ".config/rex/tear_off.lua" = {
-      source = ./files/rex/tear_off.lua;
-    };
-    ".config/rex/tab_names.lua" = {
-      source = ./files/rex/tab_names.lua;
-    };
-    # Only overrides go here; omp merges this onto its built-in server list, which already covers the
-    # other language servers installed for helix.
-    ".omp/agent/lsp.json".text = builtins.toJSON {
-      servers.taplo = {
-        command = "taplo";
-        args = [
-          "lsp"
-          "stdio"
-        ];
-        fileTypes = [ ".toml" ];
-        # omp only checks the launch directory for these, so include common repo roots alongside
-        # taplo's own config files.
-        rootMarkers = [
-          ".taplo.toml"
-          "taplo.toml"
-          ".git"
-          ".jj"
-        ];
-      };
-    };
-  }
-  // mkSkillEntries ".claude/skills"
-  // mkSkillEntries ".codex/skills";
-
-  home.packages = with pkgs; [
-    docker
-    iperf3
-    dasel
-    helm-ls
-    llama-cpp
-    mtr
-    nmap
-    # openai-whisper
-    agePlugin1passPkg
-    ompZshCompletions
-  ];
-
-  programs.helix = {
-    package = helixPkg;
-    settings = {
-      editor = {
-        inline-completion-timeout = 150;
-        inline-completion-auto-trigger = true;
-      };
-      keys.insert = {
-        "A-tab" = "inline_completion_accept";
-        "C-e" = "inline_completion_dismiss";
-        "A-n" = "inline_completion_next";
-        "A-p" = "inline_completion_prev";
-      };
-    };
-  };
-
-  programs.omp.enable = true;
-
-  programs.btop = {
-    enable = true;
-    settings = {
-      color_theme = "dracula";
-    };
-  };
-
-  programs.ghostty = lib.mkIf enableGui {
+  programs.ghostty = {
     enable = true;
     systemd.enable = false;
     enableZshIntegration = true;
@@ -172,7 +48,7 @@ in
     };
   };
 
-  programs.vscode = lib.mkIf enableGui {
+  programs.vscode = {
     enable = true;
     profiles.default.extensions = with pkgs.vscode-extensions; [
       fill-labs.dependi
@@ -200,15 +76,10 @@ in
         "editor.wordWrap" = "on";
         "explorer.confirmDelete" = false;
         "editor.inlineSuggest.suppressSuggestions" = true;
-        "cody.commandCodeLenses" = true;
         "update.showReleaseNotes" = false;
         "zig.path" = "zig";
         "zig.zls.enabled" = "on";
         "zig.zls.path" = "zls";
-        "lldb.library" =
-          "/Library/Developer/CommandLineTools/Library/PrivateFrameworks/LLDB.framework/Versions/A/LLDB";
-        "lldb.launch.expressions" = "native";
-        "swift.backgroundCompilation" = true;
         "nix.enableLanguageServer" = true;
         "nix.serverPath" = "nil";
         "nix.serverSettings" = {
@@ -219,7 +90,6 @@ in
           };
         };
         "go.toolsManagement.autoUpdate" = true;
-        "cody.suggestions.mode" = "auto-edit";
         "github.copilot.nextEditSuggestions.enabled" = true;
         "github.copilot.enable" = {
           "*" = true;
@@ -265,7 +135,8 @@ in
       };
     };
   };
-  programs.zed-editor = lib.mkIf enableGui {
+
+  programs.zed-editor = {
     enable = true;
     extensions = [
       "cargo-tom"

@@ -164,24 +164,6 @@
         "type": "github"
       }
     },
-    "flake-utils_2": {
-      "inputs": {
-        "systems": "systems_4"
-      },
-      "locked": {
-        "lastModified": 1731533236,
-        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
     "helix": {
       "inputs": {
         "nixpkgs": [
@@ -297,22 +279,6 @@
         "type": "github"
       }
     },
-    "nixpkgs_2": {
-      "locked": {
-        "lastModified": 1794042290,
-        "narHash": "sha256-ziZn2PvCJE5JEEpqTdxXwJpPB+L3YqoCpTAMCzyaP3U=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "f4a03c008967841f2a0b3cb7c436fc6fc31671f6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "obsidian-skills": {
       "flake": false,
       "locked": {
@@ -336,7 +302,9 @@
         "bun2nix-darwin-x64": "bun2nix-darwin-x64",
         "crane": "crane",
         "nix-bun": "nix-bun",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
         "nixpkgs-darwin-x64": "nixpkgs-darwin-x64",
         "rust-overlay": "rust-overlay_2"
       },
@@ -351,28 +319,6 @@
       "original": {
         "owner": "can1357",
         "repo": "oh-my-pi",
-        "type": "github"
-      }
-    },
-    "otel-tui": {
-      "inputs": {
-        "flake-utils": "flake-utils_2",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1789208832,
-        "narHash": "sha256-m+3yVFlB4cSJMiuBdbPZ7oEFLw32980bbZ0KUpb5FSY=",
-        "owner": "ymtdzzz",
-        "repo": "otel-tui",
-        "rev": "3b25779a083469b732e3c628b4a412ee05cf9948",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ymtdzzz",
-        "ref": "v0.7.5",
-        "repo": "otel-tui",
         "type": "github"
       }
     },
@@ -403,7 +349,6 @@
         "nixpkgs": "nixpkgs",
         "obsidian-skills": "obsidian-skills",
         "omp": "omp",
-        "otel-tui": "otel-tui",
         "playwright-cli-src": "playwright-cli-src"
       }
     },
@@ -491,21 +436,6 @@
       "original": {
         "owner": "nix-systems",
         "repo": "x86_64-darwin",
-        "type": "github"
-      }
-    },
-    "systems_4": {
-      "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
-        "owner": "nix-systems",
-        "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-systems",
-        "repo": "default",
         "type": "github"
       }
     },

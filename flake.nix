@@ -12,10 +12,6 @@
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    otel-tui = {
-      url = "github:ymtdzzz/otel-tui/v0.7.5";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     dracula-yazi = {
       url = "github:dracula/yazi/main";
       flake = false;
@@ -36,231 +32,57 @@
       url = "github:microsoft/playwright-cli/v0.1.8";
       flake = false;
     };
-    omp.url = "github:can1357/oh-my-pi";
+    omp = {
+      url = "github:can1357/oh-my-pi";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    {
-      nixpkgs,
-      home-manager,
-      nix-vscode-extensions,
-      otel-tui,
-      dracula-yazi,
-      helix,
-      obsidian-skills,
-      age-plugin-1pass,
-      playwright-cli-src,
-      omp,
-      ...
-    }:
+    inputs@{ nixpkgs, home-manager, ... }:
     let
-      systems = [
-        {
-          slug = "darwin";
-          system = "aarch64-darwin";
-          homeDirectoryBase = "/Users";
-        }
-        {
-          slug = "linux";
-          system = "x86_64-linux";
-          homeDirectoryBase = "/home";
-        }
-      ];
-
-      aiDevSystems = [
-        {
-          slug = "aarch64-linux";
-          system = "aarch64-linux";
-          homeDirectoryBase = "/home";
-        }
-        {
-          slug = "x86_64-linux";
-          system = "x86_64-linux";
-          homeDirectoryBase = "/home";
-        }
-      ];
-
-      mkPkgs =
-        system:
-        import nixpkgs {
-          inherit system;
-          config = {
-            allowUnfree = true;
-            allowUnfreePredicate = _: true;
+      mkHome =
+        { system, modules }:
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
+            overlays = [ inputs.nix-vscode-extensions.overlays.default ];
           };
-          overlays = [
-            nix-vscode-extensions.overlays.default
-            (_: prev: {
-              direnv = prev.direnv.overrideAttrs (_: {
-                doCheck = false;
-              });
-              # atuin's e2e_ai_sessions tests are timing-sensitive (redaction timeouts, daemon
-              # resume races) and fail under load in the Nix build sandbox on darwin.
-              atuin = prev.atuin.overrideAttrs (_: {
-                doCheck = false;
-              });
-              python313 = prev.python313.override (old: {
-                packageOverrides = prev.lib.composeExtensions (old.packageOverrides or (_: _: { })) (
-                  _: pyPrev: {
-                    cli-helpers = pyPrev.cli-helpers.overridePythonAttrs (_: {
-                      doCheck = false;
-                    });
-                  }
-                );
-              });
-            })
-          ];
+          # Modules reach the other flake inputs (packages, themes, skills) through this.
+          extraSpecialArgs = { inherit inputs; };
+          inherit modules;
         };
-
-      mkOtelTui =
-        system:
-        if builtins.hasAttr system otel-tui.packages then
-          let
-            otelPackages = otel-tui.packages.${system};
-          in
-          if otelPackages ? otel-tui then otelPackages.otel-tui else null
-        else
-          null;
-
-      mkHomeEntry =
-        {
-          username,
-          importPath,
-          system,
-          slug,
-          homeDirectoryBase,
-          needsOtelTui ? false,
-          enableGui ? true,
-          extraSpecialArgs ? { },
-        }:
-        let
-          pkgs = mkPkgs system;
-          otelArg =
-            if needsOtelTui then
-              let
-                otelPackage = mkOtelTui system;
-              in
-              if otelPackage != null then { otel-tui = otelPackage; } else { }
-            else
-              { };
-          defaultSpecialArgs = {
-            inherit homeDirectoryBase;
-          }
-          // otelArg;
-          finalSpecialArgs = defaultSpecialArgs // extraSpecialArgs;
-        in
-        {
-          name = "${username}-${slug}";
-          value = home-manager.lib.homeManagerConfiguration {
-            inherit pkgs;
-            modules = [
-              omp.homeManagerModules.default
-              ./home.nix
-            ];
-            extraSpecialArgs = finalSpecialArgs // {
-              inherit importPath enableGui;
-              hmLib = home-manager.lib;
-              draculaYaziPath = dracula-yazi;
-              obsidianSkillsPath = obsidian-skills;
-              helixPkg =
-                if builtins.hasAttr system helix.packages then
-                  helix.packages.${system}.default.override {
-                    grammarOverlays = [
-                      # tree-sitter-perl defines its own bsearch(), which collides with the C23
-                      # const-generic bsearch macro in glibc >= 2.43. Build it as C17 instead.
-                      (_: prev: {
-                        perl = prev.perl.overrideAttrs (old: {
-                          FLAGS = old.FLAGS ++ [ "-std=gnu17" ];
-                        });
-                      })
-                    ];
-                  }
-                else
-                  null;
-              agePlugin1passPkg =
-                if builtins.hasAttr system age-plugin-1pass.packages then
-                  age-plugin-1pass.packages.${system}.default
-                else
-                  null;
-              playwrightCliSrc = playwright-cli-src;
-            };
-          };
-        };
-
-      mkAiDevEntry =
-        {
-          username,
-          system,
-          slug,
-          homeDirectoryBase,
-        }:
-        let
-          pkgs = mkPkgs system;
-        in
-        {
-          name = "ai-dev-${slug}";
-          value = home-manager.lib.homeManagerConfiguration {
-            inherit pkgs;
-            modules = [ ./ai-dev.nix ];
-            extraSpecialArgs = {
-              inherit homeDirectoryBase username;
-              hmLib = home-manager.lib;
-              draculaYaziPath = dracula-yazi;
-              playwrightCliSrc = playwright-cli-src;
-            };
-          };
-        };
-
-      homeEntries = builtins.concatMap (
-        systemData:
-        let
-          inherit (systemData) system slug homeDirectoryBase;
-        in
-        [
-          (mkHomeEntry {
-            username = "oftaylor";
-            importPath = ./personal;
-            inherit system slug homeDirectoryBase;
-          })
-          (mkHomeEntry {
-            username = "taylor";
-            importPath = ./work;
-            inherit system slug homeDirectoryBase;
-            needsOtelTui = true;
-          })
-        ]
-      ) systems;
-
-      # For servers with no display, so the GUI apps in home.nix would only bloat the closure.
-      headlessEntries = [
-        (mkHomeEntry {
-          username = "oftaylor";
-          importPath = ./personal;
-          system = "x86_64-linux";
-          slug = "linux-headless";
-          homeDirectoryBase = "/home";
-          enableGui = false;
-        })
-      ];
-
-      aiDevEntries = map (
-        systemData:
-        mkAiDevEntry {
-          username = "taylor";
-          inherit (systemData) system slug homeDirectoryBase;
-        }
-      ) aiDevSystems;
-
-      homes = builtins.listToAttrs (homeEntries ++ headlessEntries);
-      aiDevHomes = builtins.listToAttrs aiDevEntries;
     in
     {
-      homeConfigurations =
-        homes
-        // aiDevHomes
-        // {
-          oftaylor = homes."oftaylor-darwin";
-          taylor = homes."taylor-darwin";
+      # Selected with `home-manager switch --flake .#<name>`. A name is only a label: the profile
+      # module decides the username, and the home directory follows from that and the system.
+      homeConfigurations = builtins.mapAttrs (_: mkHome) {
+        personal-darwin = {
+          system = "aarch64-darwin";
+          modules = [
+            ./profiles/personal.nix
+            ./modules/gui.nix
+          ];
         };
+        personal-linux = {
+          system = "x86_64-linux";
+          modules = [
+            ./profiles/personal.nix
+            ./modules/gui.nix
+          ];
+        };
+        personal-linux-headless = {
+          system = "x86_64-linux";
+          modules = [ ./profiles/personal.nix ];
+        };
+        work-darwin = {
+          system = "aarch64-darwin";
+          modules = [
+            ./profiles/work.nix
+            ./modules/gui.nix
+          ];
+        };
+      };
     };
 }
