@@ -6,11 +6,15 @@ local config_dir = (os.getenv("REX_CONFIG") or ""):match("^(.*)/[^/]*$")
 
 -- The terminal reports its directory as a file:// URL that includes the
 -- hostname (file://host/path), so drop the scheme and host to get the path.
-local function focused_dir(ctx)
-  if ctx.block_id == nil then return nil end
-  local r = rex.block.call(terminal, "pwd", { block_id = ctx.block_id })
+local function block_dir(block_id)
+  if block_id == nil then return nil end
+  local r = rex.block.call(terminal, "pwd", { block_id = block_id })
   if r == nil or r.pwd == nil then return nil end
   return r.pwd:match("^file://[^/]*(/.*)$")
+end
+
+local function focused_dir(ctx)
+  return block_dir(ctx.block_id)
 end
 
 -- Queued client actions are all sent after an action returns, and the app
@@ -155,14 +159,14 @@ local function rebuild(node)
   rebuild(s.after)
 end
 
-local function tiled_layer(ctx)
+local function tiled_layer(block_id)
   local view, err = rex.session.view{}
   if err ~= nil then error(err, 0) end
   for _, w in ipairs(view.windows) do
     for _, l in ipairs(w.layers) do
       if l.kind == "tiled" then
-        local here = ctx.block_id == nil and w.window_id == view.active_window_id
-        each_leaf(l.layout, function(id) here = here or id == ctx.block_id end)
+        local here = block_id == nil and w.window_id == view.active_window_id
+        each_leaf(l.layout, function(id) here = here or id == block_id end)
         if here then return l end
       end
     end
@@ -170,49 +174,266 @@ local function tiled_layer(ctx)
   error("no tiled layout holds the focused pane", 0)
 end
 
+-- Puts claude in a full-height sidebar on the right of the tab holding
+-- block_id (the active tab when nil), or focuses the one already there. claude
+-- starts in cwd, or in block_id's directory when cwd is nil.
+local function claude_sidebar(block_id, cwd)
+  local layer = tiled_layer(block_id)
+  for _, b in ipairs(layer.blocks) do
+    if b.label == claude_label then
+      local _, err = rex.session.focus_block{ block_id = b.block_id }
+      if err ~= nil then error(err, 0) end
+      return { block_id = b.block_id }
+    end
+  end
+
+  cwd = cwd or block_dir(block_id)
+  -- new_split can only split one block, and the sidebar has to sit beside
+  -- the whole layout. So split the first block and move every other block
+  -- from where it is now into place around it. Each move collapses the
+  -- split it leaves, so once the last block moves, the old layout is gone
+  -- and the new one fills the window.
+  --
+  -- The app's automatic split balancing equalizes every split in a window
+  -- it shows whenever a pane opens there, a moment after this returns, so
+  -- the ratios only survive with that setting turned off.
+  local root = layer.layout
+  local keep = first_leaf(root)
+  local r, err = rex.session.new_split{
+    anchor_id       = keep,
+    direction       = "horizontal",
+    side            = "after",
+    ratio           = sidebar_ratio,
+    layout          = term(cwd, "claude\n"),
+    focus           = true,
+  }
+  if err ~= nil then error(err, 0) end
+  label_claude(r.block_ids[1])
+  rebuild(root)
+  return { block_id = r.block_ids[1] }
+end
+
 rex.action{
   name        = "claude_sidebar",
   title       = "Open Claude Sidebar",
   description = "claude in a full-height sidebar on the right of the current tab, or focus the one already there.",
   keywords    = "claude sidebar",
-  run         = function(ctx)
-    local layer = tiled_layer(ctx)
-    for _, b in ipairs(layer.blocks) do
-      if b.label == claude_label then
-        local _, err = rex.session.focus_block{ block_id = b.block_id }
-        if err ~= nil then error(err, 0) end
-        return { block_id = b.block_id }
-      end
-    end
-
-    local cwd = focused_dir(ctx)
-    -- new_split can only split one block, and the sidebar has to sit beside
-    -- the whole layout. So split the first block and move every other block
-    -- from where it is now into place around it. Each move collapses the
-    -- split it leaves, so once the last block moves, the old layout is gone
-    -- and the new one fills the window.
-    --
-    -- The app's automatic split balancing equalizes every split in a window
-    -- it shows whenever a pane opens there, a moment after this returns, so
-    -- the ratios only survive with that setting turned off.
-    local root = layer.layout
-    local keep = first_leaf(root)
-    local r, err = rex.session.new_split{
-      anchor_id       = keep,
-      direction       = "horizontal",
-      side            = "after",
-      ratio           = sidebar_ratio,
-      layout          = term(cwd, "claude\n"),
-      focus           = true,
-    }
-    if err ~= nil then error(err, 0) end
-    label_claude(r.block_ids[1])
-    rebuild(root)
-    return { block_id = r.block_ids[1] }
-  end,
+  run         = function(ctx) return claude_sidebar(ctx.block_id) end,
 }
 
 rex.bind("cmd+l", "claude_sidebar")
+
+local home = os.getenv("HOME")
+
+-- home-manager installs jj, but the server starts commands with only the
+-- system PATH.
+local jj_env = { PATH = home .. "/.nix-profile/bin:" .. (os.getenv("PATH") or "/usr/bin:/bin") }
+
+local function jj(cwd, argv, timeout)
+  local cmd = { "jj", "--no-pager", "--color=never" }
+  for _, a in ipairs(argv) do table.insert(cmd, a) end
+  local r, err = rex.exec(cmd, { cwd = cwd, env = jj_env, timeout = timeout or 10 })
+  if r == nil then error("jj: " .. err, 0) end
+  if not r.ok then error((r.stderr:gsub("%s+$", "")), 0) end
+  return r.stdout
+end
+
+local function trim(s)
+  return (s:gsub("^%s+", ""):gsub("%s+$", ""))
+end
+
+-- One tab-separated line per change. Long brackets keep the escapes for jj's
+-- template language rather than Lua.
+local change_template = [[change_id ++ "\t" ++ change_id.short(8) ++ "\t"
+  ++ local_bookmarks.map(|b| b.name()).join(", ") ++ "\t"
+  ++ description.first_line() ++ "\n"]]
+
+-- The tip of each of my unmerged lines of work. jj leaves an empty,
+-- undescribed working-copy commit on top of whatever was last edited, so drop
+-- those first; otherwise a bookmarked branch's tip would be that blank commit
+-- instead of the commit carrying the bookmark.
+local tips_revset = [[heads((mutable() & mine()) ~ (empty() & description(exact:"")))]]
+
+local function changes(root, revset)
+  local out = jj(root, { "log", "--no-graph", "-r", revset, "-T", change_template })
+  local list = {}
+  for line in out:gmatch("[^\n]+") do
+    local id, short, bookmarks, desc = line:match("^([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)$")
+    if id ~= nil then
+      table.insert(list, { change_id = id, short = short, bookmarks = bookmarks, desc = desc })
+    end
+  end
+  return list
+end
+
+local function resolve_change(root, rev)
+  local list = changes(root, rev)
+  if #list ~= 1 then
+    error(("%q names %d changes, not one"):format(rev, #list), 0)
+  end
+  return list[1]
+end
+
+-- Cancelling a prompt ends the action quietly; anything else is an error.
+local function check_prompt(why, detail)
+  if why == "cancelled" then return end
+  error("couldn't ask: " .. why .. (detail and (" (" .. detail .. ")") or ""), 0)
+end
+
+-- args let the action run from the CLI without prompts, e.g.
+--   rex do jj_workspace rev=@- name=scratch
+rex.action{
+  name        = "jj_workspace",
+  title       = "New jj Workspace…",
+  description = "Create a jj workspace in ~/tmp from a branch tip or a pasted change, and open it in a new tab with claude beside it.",
+  keywords    = "jj jujutsu workspace worktree branch bookmark change claude",
+  args        = { rev = "string?", name = "string?", cwd = "string?" },
+  run         = function(ctx, args)
+    local cwd = args.cwd or focused_dir(ctx)
+    if cwd == nil then error("can't tell which directory the focused pane is in", 0) end
+    local root = trim(jj(cwd, { "root" }))
+
+    local change
+    if args.rev ~= nil then
+      change = resolve_change(root, trim(args.rev))
+    else
+      -- Change IDs repeat when a change is divergent, so key the list by
+      -- position instead.
+      local tips = changes(root, tips_revset)
+      local items = {}
+      for i, t in ipairs(tips) do
+        local desc = t.desc ~= "" and t.desc or "(no description)"
+        items[i] = {
+          id    = tostring(i),
+          title = (t.bookmarks ~= "" and t.bookmarks or t.short) .. " " .. desc,
+          icon  = t.bookmarks ~= "" and "branch" or "code",
+        }
+      end
+      local picked, why, detail = rex.ui.pick{
+        title       = "New jj workspace from",
+        placeholder = "Filter branches, or paste a change ID",
+        items       = items,
+        allow_other = true,
+      }
+      if picked == nil then return check_prompt(why, detail) end
+      if type(picked) == "table" then
+        change = resolve_change(root, trim(picked.text))
+      else
+        change = tips[tonumber(picked)]
+      end
+    end
+
+    local default = root:match("([^/]+)$") .. "-" .. change.short
+    local name = args.name
+    if name == nil then
+      local why, detail
+      name, why, detail = rex.ui.input{
+        title       = "Directory in ~/tmp",
+        placeholder = default,
+        confirm     = "Create workspace",
+      }
+      if name == nil then return check_prompt(why, detail) end
+    end
+    name = trim(name)
+    if name == "" then name = default end
+
+    local dest = home .. "/tmp/" .. name
+    local mk = rex.exec({ "mkdir", "-p", home .. "/tmp" })
+    if mk == nil or not mk.ok then error("couldn't create ~/tmp", 0) end
+    jj(root, { "workspace", "add", "-r", change.change_id, dest }, 25)
+
+    local w, err = rex.session.new_window{ layout = term(dest, nil) }
+    if err ~= nil then error(err, 0) end
+    local sidebar = claude_sidebar(w.block_ids[1], dest)
+
+    -- new_window makes the tab the server's active one, but each app keeps its
+    -- own selection, so also ask the app that ran the action to show it. Run
+    -- from the CLI there may be no app to ask, which isn't worth failing over.
+    if ctx.session_id ~= nil then
+      pcall(rex.client.queue, "session.select", { session_id = ctx.session_id, window_id = w.window_id })
+    end
+    return { window_id = w.window_id, path = dest, claude_block_id = sidebar.block_id }
+  end,
+}
+
+-- A secondary workspace's .jj/repo is a file holding the path of the main
+-- workspace's .jj/repo directory, relative to its own .jj directory. Returns
+-- nil for a main workspace, where .jj/repo is the directory itself.
+local function main_workspace_root(ws_root)
+  local t = rex.exec({ "test", "-f", ws_root .. "/.jj/repo" })
+  if t == nil or not t.ok then return nil end
+  local f = io.open(ws_root .. "/.jj/repo")
+  if f == nil then return nil end
+  local repo = trim(f:read("*a"))
+  f:close()
+  if repo:sub(1, 1) ~= "/" then repo = ws_root .. "/.jj/" .. repo end
+  return (repo:gsub("/%.jj/repo/?$", ""))
+end
+
+local function tilde(path)
+  if path:sub(1, #home + 1) == home .. "/" then return "~" .. path:sub(#home + 1) end
+  return path
+end
+
+-- args let the action run from the CLI, e.g.
+--   rex do jj_workspace_remove cwd=~/tmp/scratch confirm=false
+-- Given cwd, it leaves tabs alone, since the workspace needn't be in one.
+rex.action{
+  name        = "jj_workspace_remove",
+  title       = "Remove jj Workspace…",
+  description = "Remove the jj workspace the focused pane is in, delete its directory, and close its tab.",
+  keywords    = "jj jujutsu workspace worktree remove delete forget cleanup",
+  args        = { cwd = "string?", confirm = "boolean?" },
+  run         = function(ctx, args)
+    local cwd = args.cwd or focused_dir(ctx)
+    if cwd == nil then error("can't tell which directory the focused pane is in", 0) end
+    local ws_root = trim(jj(cwd, { "workspace", "root" }))
+    local main = main_workspace_root(ws_root)
+    if main == nil then
+      error(tilde(ws_root) .. " is the repo's main workspace, not one added with jj workspace add", 0)
+    end
+
+    local name
+    local list = jj(main, { "--ignore-working-copy", "workspace", "list",
+      "-T", [[name ++ "\t" ++ root ++ "\n"]] })
+    for line in list:gmatch("[^\n]+") do
+      local n, root = line:match("^([^\t]*)\t(.*)$")
+      if root == ws_root then name = n end
+    end
+    if name == nil then error("jj doesn't list a workspace at " .. tilde(ws_root), 0) end
+
+    local window_id
+    if args.cwd == nil and ctx.block_id ~= nil then
+      local d = rex.session.describe_block{ block_id = ctx.block_id }
+      window_id = d and d.block and d.block.window_id
+    end
+
+    if args.confirm ~= false then
+      local ok, why, detail = rex.ui.pick{
+        title = "Remove jj workspace " .. name .. "?",
+        items = { {
+          id    = "remove",
+          title = "Delete " .. tilde(ws_root) .. (window_id and " and close this tab" or ""),
+          icon  = "folder",
+        } },
+      }
+      if ok == nil then return check_prompt(why, detail) end
+    end
+
+    -- Run from the main workspace rather than the one going away. jj first
+    -- snapshots the removed workspace's files, including edits no jj command
+    -- has seen yet, into a "SNAPSHOT OF REMOVED WORKSPACE" commit, so nothing
+    -- tracked is lost; from inside, it would also warn that its own workspace
+    -- no longer exists.
+    jj(main, { "workspace", "remove", name }, 25)
+
+    if window_id ~= nil then
+      local _, err = rex.session.close_window{ window_id = window_id }
+      if err ~= nil then error(err, 0) end
+    end
+    return { workspace = name, removed = ws_root }
+  end,
+}
 
 -- term() types its input into a shell, so quote each argument for it.
 local function shell_line(argv)
