@@ -36,6 +36,22 @@
       url = "github:can1357/oh-my-pi";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Prebuilt releases rather than the source repo: building means fetching a patched Electron and
+    # compiling a Rust engine and a Swift helper. Update by bumping the version in both URLs (the
+    # current one is listed at https://terminal-browser.sh/install/latest.json); the package reads
+    # its version from here.
+    #
+    # Fetched as plain files, not tarballs: Nix's unpacker turns the macOS archive's metadata into
+    # stray `._*` files inside the signed app bundle, and macOS then refuses to launch it as
+    # damaged. pkgs/terminal-browser.nix unpacks them without those.
+    terminal-browser-darwin-arm64 = {
+      url = "file+https://terminal-browser.sh/install/dl/stable/v0.16.3/terminal-browser-darwin-arm64.tar.gz";
+      flake = false;
+    };
+    terminal-browser-linux-x64 = {
+      url = "file+https://terminal-browser.sh/install/dl/stable/v0.16.3/terminal-browser-linux-x64.tar.gz";
+      flake = false;
+    };
   };
 
   outputs =

@@ -8,10 +8,10 @@
 }:
 let
   # Each agent reads the same skill format from its own directory.
-  skillDirs = [
-    ".claude/skills"
-    ".codex/skills"
-  ];
+  skillDirs = {
+    claude = ".claude/skills";
+    codex = ".codex/skills";
+  };
 
   obsidianSkills = "${inputs.obsidian-skills}/plugins/obsidian/skills";
 
@@ -32,6 +32,17 @@ in
     description = ''
       Skill directories, keyed by skill name. Each one is linked into the skills directory of every
       coding agent, so any module can contribute skills without knowing which agents exist.
+    '';
+  };
+
+  options.agentSkillVariants = lib.mkOption {
+    type = lib.types.attrsOf (lib.types.attrsOf lib.types.path);
+    default = { };
+    example = lib.literalExpression "{ codex.my-skill = ./files/skills/my-skill-codex; }";
+    description = ''
+      Per-agent replacements for entries in `agentSkills`, keyed by agent and then skill name, for
+      skills that ship a copy tailored to one agent. Agents without an entry get the `agentSkills`
+      copy.
     '';
   };
 
@@ -73,7 +84,13 @@ in
       };
     }
     // lib.concatMapAttrs (
-      name: source: lib.genAttrs' skillDirs (dir: lib.nameValuePair "${dir}/${name}" { inherit source; })
+      name: source:
+      lib.mapAttrs' (
+        agent: dir:
+        lib.nameValuePair "${dir}/${name}" {
+          source = config.agentSkillVariants.${agent}.${name} or source;
+        }
+      ) skillDirs
     ) config.agentSkills;
 
     programs.omp.enable = true;

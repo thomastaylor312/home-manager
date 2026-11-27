@@ -11,6 +11,7 @@
     ./agents.nix
     ./helix.nix
     ./shell.nix
+    ./terminal-browser.nix
     ./vcs.nix
   ];
 

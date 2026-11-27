@@ -349,7 +349,9 @@
         "nixpkgs": "nixpkgs",
         "obsidian-skills": "obsidian-skills",
         "omp": "omp",
-        "playwright-cli-src": "playwright-cli-src"
+        "playwright-cli-src": "playwright-cli-src",
+        "terminal-browser-darwin-arm64": "terminal-browser-darwin-arm64",
+        "terminal-browser-linux-x64": "terminal-browser-linux-x64"
       }
     },
     "rust-overlay": {
@@ -437,6 +439,30 @@
         "owner": "nix-systems",
         "repo": "x86_64-darwin",
         "type": "github"
+      }
+    },
+    "terminal-browser-darwin-arm64": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-5zrd+p86KJvcbzQXWkESMmyhWlfK0lNuYDb5GunjULY=",
+        "type": "file",
+        "url": "https://terminal-browser.sh/install/dl/stable/v0.16.3/terminal-browser-darwin-arm64.tar.gz"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://terminal-browser.sh/install/dl/stable/v0.16.3/terminal-browser-darwin-arm64.tar.gz"
+      }
+    },
+    "terminal-browser-linux-x64": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-fvVM5nlAOaHXAt5XlrbPDxSEU85UzNc+dlYoDOFlDZ0=",
+        "type": "file",
+        "url": "https://terminal-browser.sh/install/dl/stable/v0.16.3/terminal-browser-linux-x64.tar.gz"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://terminal-browser.sh/install/dl/stable/v0.16.3/terminal-browser-linux-x64.tar.gz"
       }
     },
     "treefmt-nix": {
